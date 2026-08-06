@@ -9,7 +9,10 @@ export default function Home() {
           <span className="brand-co">CO.</span>
         </div>
         <p className="tagline">
-          Qualidade da anamnese — coeficiente de completude clínica (H1).
+          Arte antiga da medicina — leitura da anamnese sob o escore PANDA93.
+        </p>
+        <p className="acronym-note">
+          PANDA93 — Plataforma de Análise e Normalização de Dados em Anamnese
         </p>
       </header>
 
@@ -18,7 +21,7 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        BITTR CO. · modo H1 · v0.2
+        BITTR CO. · PANDA93
       </footer>
     </div>
   );

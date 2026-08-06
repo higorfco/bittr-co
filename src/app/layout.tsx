@@ -1,34 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import { Cinzel, Literata } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-syne",
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const literata = Literata({
+  variable: "--font-literata",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "BITTR CO. — Qualidade da anamnese (H1)",
+  title: "BITTR CO. — PANDA93",
   description:
-    "Avaliação do Coeficiente de Completude Clínica da anamnese: CIQ por tópico e CGQA global.",
+    "Avaliação PANDA93 da anamnese: escores e lacunas clínicas, com anonimização LGPD.",
   applicationName: "BITTR CO.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     title: "BITTR CO.",
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f7a5f",
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`${syne.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${cinzel.variable} ${literata.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

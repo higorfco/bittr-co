@@ -1,6 +1,7 @@
 import type { CiqBand, GlobalPenalty, H1Result, ItemAssessment, TopicScore } from "./types";
+import { blurPersonalData } from "./privacy/blur";
+import { classifyPanda93, toPanda93 } from "./panda93";
 import {
-  classifyScore,
   conceptsById,
   conditionalRedRequirements,
   DOC_BY_DOMAIN,
@@ -15,6 +16,9 @@ import {
   termMatches,
   weights,
 } from "./terminologia";
+
+/** Domínios avaliados: sem identificação pessoal (LGPD). */
+const EXCLUDED_DOMAINS = new Set(["id"]);
 
 function toCiqBand(band: string): CiqBand {
   switch (band) {
@@ -269,14 +273,15 @@ function scoreDomain(raw: string, haystack: string, domain: string): TopicScore 
       Math.round(completeness + clarity.score + relevance.score + safety.score),
     ),
   );
-  const { band } = classifyScore(ciq);
+  const panda = toPanda93(ciq);
+  const { band } = classifyPanda93(panda);
 
   return {
     topicId: domain,
     label,
     weight,
     applicable: true,
-    ciq,
+    ciq: panda,
     completeness: Math.round(completeness * 10) / 10,
     clarity: clarity.score,
     relevance: relevance.score,
@@ -365,77 +370,50 @@ function computePenalties(haystack: string, topics: TopicScore[]): GlobalPenalty
 }
 
 export function evaluateAnamnesisH1(content: string): H1Result {
-  const raw = content.trim();
+  const { sanitized, changes } = blurPersonalData(content.trim());
+  const raw = sanitized;
   const haystack = normalize(raw);
 
-  const domains = Object.keys(weights.domains);
+  const domains = Object.keys(weights.domains).filter((d) => !EXCLUDED_DOMAINS.has(d));
   const topics = domains.map((domain) => scoreDomain(raw, haystack, domain));
   const applicable = topics.filter((t) => t.applicable);
 
   const weightSum = applicable.reduce((acc, t) => acc + t.weight, 0) || 1;
+  // topics já estão em escala PANDA93
   const weighted = applicable.reduce((acc, t) => acc + t.ciq * t.weight, 0);
-  const cgqaBeforePenalties = weighted / weightSum;
+  const beforePenalties = weighted / weightSum;
 
   const penalties = computePenalties(haystack, topics);
-  const penaltyTotal = penalties
-    .filter((p) => p.applied)
-    .reduce((acc, p) => acc + p.points, 0);
-  const cgqa = Math.max(0, Math.min(100, Math.round(cgqaBeforePenalties - penaltyTotal)));
-  const classified = classifyScore(cgqa);
+  // Penalidades definidas em base 100 → escalar para 93
+  const penaltyTotal = toPanda93(
+    penalties.filter((p) => p.applied).reduce((acc, p) => acc + p.points, 0),
+  );
+  const panda93 = Math.max(
+    0,
+    Math.min(93, Math.round(beforePenalties - penaltyTotal)),
+  );
+  const classified = classifyPanda93(panda93);
 
   const missing: string[] = [];
-  const confusing: string[] = [];
-  const irrelevant: string[] = [];
-
   for (const topic of applicable) {
     for (const item of topic.items) {
       if (item.status === "missing") {
-        missing.push(`${item.label} (${topic.label}).`);
+        missing.push(`${item.label} (${topic.label})`);
       }
     }
   }
 
-  const clarityGlobal = scoreClarityFromFlags(haystack, new Set());
-  confusing.push(...clarityGlobal.notes);
-  const relevanceGlobal = scoreRelevance(raw, haystack);
-  irrelevant.push(...relevanceGlobal.notes);
-
-  for (const flag of qualityFlags) {
-    if (flag.t?.some((t) => termMatches(haystack, t))) {
-      if (flag.b) confusing.push(flag.c.split("_").join(" "));
-      if (flag.z) irrelevant.push(flag.c.split("_").join(" "));
-      if (flag.f) missing.push(flag.c.split("_").join(" "));
-    }
-  }
-
-  const priorities: string[] = [];
-  if (penalties.find((p) => p.id === "red_flag_nao_pesquisado")?.applied) {
-    priorities.push("Completar sinais de alerta.");
-  }
-  if (penalties.find((p) => p.id === "cronologia_hma_ausente")?.applied) {
-    priorities.push("Esclarecer a cronologia.");
-  }
-  if (
-    penalties.find((p) => p.id === "alergias_ausentes")?.applied ||
-    penalties.find((p) => p.id === "muc_ausente_quando_aplicavel")?.applied
-  ) {
-    priorities.push("Confirmar medicações e alergias.");
-  }
-  if (irrelevant.length) priorities.push("Remover redundâncias.");
-  if (!priorities.length) {
-    priorities.push("Revisar tópicos com menor CIQ e consolidar dados essenciais.");
-  }
-
   return {
-    cgqa,
-    cgqaBeforePenalties: Math.round(cgqaBeforePenalties),
+    cgqa: panda93,
+    cgqaBeforePenalties: Math.round(beforePenalties),
     band: toCiqBand(classified.band),
     bandLabel: classified.label,
     topics: applicable.sort((a, b) => b.weight - a.weight || b.ciq - a.ciq),
     penalties,
-    missing: [...new Set(missing)].slice(0, 14),
-    confusing: [...new Set(confusing)].slice(0, 10),
-    irrelevant: [...new Set(irrelevant)].slice(0, 8),
-    priorities: priorities.slice(0, 6),
+    missing: [...new Set(missing)].slice(0, 20),
+    confusing: [],
+    irrelevant: [],
+    priorities: [],
+    privacyRedactions: changes,
   };
 }

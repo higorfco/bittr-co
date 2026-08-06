@@ -63,4 +63,6 @@ export type H1Result = {
   confusing: string[];
   irrelevant: string[];
   priorities: string[];
+  /** Quantidade de trechos pessoais anonimizados (LGPD) */
+  privacyRedactions: number;
 };

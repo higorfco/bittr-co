@@ -2,13 +2,14 @@
 
 import { useState, useTransition } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
+import { PANDA93_MAX } from "@/lib/panda93";
 import type { H1Result, TopicScore } from "@/lib/types";
 
-function bandClass(ciq: number): string {
-  if (ciq >= 90) return "band-excellent";
-  if (ciq >= 75) return "band-good";
-  if (ciq >= 60) return "band-partial";
-  if (ciq >= 40) return "band-poor";
+function bandClass(score: number): string {
+  if (score >= 84) return "band-excellent";
+  if (score >= 70) return "band-good";
+  if (score >= 56) return "band-partial";
+  if (score >= 37) return "band-poor";
   return "band-critical";
 }
 
@@ -18,29 +19,24 @@ function TopicRow({ topic }: { topic: TopicScore }) {
       <div className="topic-head">
         <strong>{topic.label}</strong>
         <span className={`ciq-pill ${bandClass(topic.ciq)}`}>
-          {topic.ciq}/100
+          {topic.ciq}/{PANDA93_MAX}
         </span>
-      </div>
-      <div className="dim-row" aria-label="Dimensões do CIQ">
-        <span>C {topic.completeness}</span>
-        <span>L {topic.clarity}</span>
-        <span>R {topic.relevance}</span>
-        <span>S {topic.safety}</span>
       </div>
     </li>
   );
 }
 
 function ResultView({ result }: { result: H1Result }) {
-  const appliedPenalties = result.penalties.filter((p) => p.applied);
-
   return (
     <section className="panel result-panel" aria-live="polite">
       <div className="score-row">
         <div>
-          <p className="eyebrow">Coeficiente global</p>
+          <p className="eyebrow">Escore global</p>
           <p className="score">
-            CGQA: {result.cgqa}/100
+            PANDA93: {result.cgqa}/{PANDA93_MAX}
+          </p>
+          <p className="acronym-note">
+            Plataforma de Análise e Normalização de Dados em Anamnese
           </p>
           <p className={`band-label ${bandClass(result.cgqa)}`}>
             {result.bandLabel}
@@ -48,20 +44,19 @@ function ResultView({ result }: { result: H1Result }) {
         </div>
       </div>
 
-      {appliedPenalties.length > 0 ? (
-        <div className="penalty-box">
-          <p className="eyebrow">Penalidades de segurança</p>
-          <ul>
-            {appliedPenalties.map((p) => (
-              <li key={p.id}>
-                −{p.points}: {p.label}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+      {result.privacyRedactions > 0 ? (
+        <p className="privacy-note">
+          {result.privacyRedactions} trecho(s) pessoal(is) anonimizado(s) antes
+          da análise (LGPD).
+        </p>
+      ) : (
+        <p className="privacy-note">
+          Análise sem identificação pessoal; idade convertida em faixa etária
+          quando presente (LGPD).
+        </p>
+      )}
 
-      <h3>Coeficientes individuais</h3>
+      <h3>Escores</h3>
       <ul className="topic-list">
         {result.topics.map((topic) => (
           <TopicRow key={topic.topicId} topic={topic} />
@@ -78,37 +73,6 @@ function ResultView({ result }: { result: H1Result }) {
       ) : (
         <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
       )}
-
-      <h3>Informações confusas</h3>
-      {result.confusing.length ? (
-        <ul className="finding-list">
-          {result.confusing.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="empty-note">Sem ambiguidades relevantes detectadas.</p>
-      )}
-
-      <h3>Informações irrelevantes ou excessivas</h3>
-      {result.irrelevant.length ? (
-        <ul className="finding-list">
-          {result.irrelevant.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="empty-note">Sem excesso relevante detectado.</p>
-      )}
-
-      <h3>Prioridades para correção</h3>
-      <ol className="priority-list">
-        {result.priorities.map((item, index) => (
-          <li key={item}>
-            <span className="priority-index">{index + 1}.</span> {item}
-          </li>
-        ))}
-      </ol>
     </section>
   );
 }
@@ -132,12 +96,12 @@ export function ReviewWorkspace() {
   return (
     <div className="workspace">
       <section className="panel intro-panel">
-        <p className="eyebrow">Modo H1 · Anamnese</p>
-        <h2>Coeficiente de Completude Clínica</h2>
+        <p className="eyebrow">Modo H1 · PANDA93</p>
+        <h2>Leitura da anamnese</h2>
         <p className="lede">
-          Cole a anamnese. A análise consulta a terminologia clínica BR v1
-          (conceitos, negações, requisitos e red flags) para calcular CIQ por
-          tópico e o CGQA global.
+          Inspirado na arte antiga da medicina. A análise anonimiza dados
+          pessoais (LGPD) e devolve apenas o <strong>PANDA93</strong> e as
+          lacunas.
         </p>
       </section>
 
@@ -149,7 +113,7 @@ export function ReviewWorkspace() {
           id="content"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="Cole aqui a anamnese completa (identificação, QP/QD, HMA, IS, AP, MUC, alergias, exame físico…)."
+          placeholder="Cole a anamnese (QP/QD, HMA, IS, AP, MUC, alergias, exame físico…). Nome, endereço e documentos serão omitidos."
           rows={14}
         />
         <div className="actions">
@@ -159,7 +123,7 @@ export function ReviewWorkspace() {
             onClick={runReview}
             disabled={!content.trim() || isPending}
           >
-            {isPending ? "Avaliando…" : "Avaliar anamnese"}
+            {isPending ? "Lendo o texto…" : "Calcular PANDA93"}
           </button>
           <button type="button" className="btn-ghost" onClick={clearReview}>
             Limpar
@@ -171,26 +135,12 @@ export function ReviewWorkspace() {
         <ResultView result={result} />
       ) : (
         <section className="panel checklist-panel">
-          <h3>O que será avaliado</h3>
+          <h3>Foco da análise</h3>
           <p className="lede">
-            Identificação, QP/QD, HMA/HPMA, IS, AP, antecedentes cirúrgicos,
-            MUC, alergias, AF, hábitos, ocupacional, gineco-obstétrica (se
-            aplicável), sexual, epidemiológica e exame físico.
+            QP/QD, HMA/HPMA, IS, AP, antecedentes cirúrgicos, MUC, alergias, AF,
+            hábitos, ocupacional, gineco-obstétrica (se aplicável), sexual,
+            epidemiológica e exame físico — sem identificação pessoal.
           </p>
-          <ul className="dim-legend">
-            <li>
-              <strong>C 50</strong> Completude
-            </li>
-            <li>
-              <strong>L 20</strong> Clareza
-            </li>
-            <li>
-              <strong>R 20</strong> Relevância clínica
-            </li>
-            <li>
-              <strong>S 10</strong> Segurança / alertas
-            </li>
-          </ul>
         </section>
       )}
     </div>

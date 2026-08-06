@@ -1,11 +1,11 @@
 {
-  "name": "BITTR CO.",
-  "short_name": "BITTR",
-  "description": "Revisão de informações e lacunas para montagem lógica.",
+  "name": "BITTR CO. — PANDA93",
+  "short_name": "PANDA93",
+  "description": "Plataforma de Análise e Normalização de Dados em Anamnese.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#eef3f1",
-  "theme_color": "#0f7a5f",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
   "lang": "pt-BR",
   "icons": [
     {

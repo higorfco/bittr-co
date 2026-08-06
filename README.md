@@ -17,14 +17,11 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
-## Modo H1
+## Modo H1 · PANDA93
 
 Único modo ativo. Para o texto da anamnese:
 
-1. Consulta o pacote **anamnese_terminologia_br_v1** (`src/data/terminologia/`)
-2. Calcula **CIQ** por tópico (Completude 50 + Clareza 20 + Relevância 20 + Segurança 10)
-3. Calcula **CGQA** por média ponderada
-4. Aplica penalidades globais de segurança
-5. Lista faltantes, confusos, irrelevantes e prioridades de correção
-
-Tópicos não aplicáveis saem do denominador.
+1. Anonimiza dados pessoais (LGPD): nome, documentos, contatos, endereço; idade vira faixa etária
+2. Consulta o pacote **anamnese_terminologia_br_v1** (sem domínio de identificação)
+3. Calcula o escore global **PANDA93** (0–93) e escores por tópico na mesma escala
+4. Exibe apenas **escores** e **informações faltantes**
