@@ -1,0 +1,18 @@
+{
+  "name": "BITTR CO.",
+  "short_name": "BITTR",
+  "description": "Revisão de informações e lacunas para montagem lógica.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef3f1",
+  "theme_color": "#0f7a5f",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
