@@ -1,0 +1,526 @@
+{
+  "v": "1.0.0",
+  "mode": "H2",
+  "title": "Initial assessment and management of acute stroke",
+  "source": {
+    "original_filename": "Initial assessment and management of acute stroke - UpToDate.pdf",
+    "file_type": "application/pdf",
+    "page_count": 37,
+    "sha256": "8d821afbb86235376a44bc262796382b1f69526d6f83c141e57e9bce1e39be1c",
+    "extracted_at_utc": "2026-08-06T04:58:51.066270+00:00"
+  },
+  "sections": [
+    {
+      "title": "INTRODUCTION",
+      "start_page": 1,
+      "end_page": 0
+    },
+    {
+      "title": "INITIAL ASSESSMENT",
+      "start_page": 1,
+      "end_page": 3
+    },
+    {
+      "title": "STROKE MANAGEMENT ISSUES",
+      "start_page": 4,
+      "end_page": 5
+    },
+    {
+      "title": "BLOOD PRESSURE MANAGEMENT",
+      "start_page": 6,
+      "end_page": 7
+    },
+    {
+      "title": "ACUTE THERAPY",
+      "start_page": 8,
+      "end_page": 9
+    },
+    {
+      "title": "PREVENTION OF COMPLICATIONS",
+      "start_page": 10,
+      "end_page": 10
+    },
+    {
+      "title": "SOCIETY GUIDELINE LINKS",
+      "start_page": 11,
+      "end_page": 10
+    },
+    {
+      "title": "INFORMATION FOR PATIENTS",
+      "start_page": 11,
+      "end_page": 10
+    },
+    {
+      "title": "SUMMARY AND RECOMMENDATIONS",
+      "start_page": 11,
+      "end_page": 11
+    },
+    {
+      "title": "ACKNOWLEDGMENT",
+      "start_page": 12,
+      "end_page": 12
+    },
+    {
+      "title": "REFERENCES",
+      "start_page": 13,
+      "end_page": 17
+    },
+    {
+      "title": "GRAPHICS",
+      "start_page": 18,
+      "end_page": 37
+    }
+  ],
+  "checklist": [
+    {
+      "id": "goals_reperfusion",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Candidato a trombólise IV / trombectomia endovascular",
+      "essential": true,
+      "patterns": [
+        "thrombolytic",
+        "thrombectomy",
+        "reperfusion",
+        "alteplase",
+        "tenecteplase",
+        "endovascular",
+        "trombol",
+        "trombectomia",
+        "reperfus"
+      ]
+    },
+    {
+      "id": "goals_abc",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Estabilidade médica (via aérea, respiração, circulação)",
+      "essential": true,
+      "patterns": [
+        "airway",
+        "breathing",
+        "circulation",
+        "vital signs",
+        "via aerea",
+        "via aérea",
+        "sinais vitais",
+        "abc"
+      ]
+    },
+    {
+      "id": "goals_reverse",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Reversão de condições contribuintes",
+      "essential": true,
+      "patterns": [
+        "reversing any conditions",
+        "hypoglycemia",
+        "hipoglicemia",
+        "contributing"
+      ]
+    },
+    {
+      "id": "goals_pathophys",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Base fisiopatológica dos sintomas neurológicos",
+      "essential": true,
+      "patterns": [
+        "pathophysiologic",
+        "neurologic symptoms",
+        "fisiopat"
+      ]
+    },
+    {
+      "id": "core_history",
+      "section": "INITIAL ASSESSMENT",
+      "label": "História clínica dirigida",
+      "essential": true,
+      "patterns": [
+        "history",
+        "história",
+        "historia"
+      ]
+    },
+    {
+      "id": "core_exam",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Exame físico",
+      "essential": true,
+      "patterns": [
+        "physical examination",
+        "exame fisico",
+        "exame físico"
+      ]
+    },
+    {
+      "id": "core_glucose",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Glicemia (finger stick / blood glucose)",
+      "essential": true,
+      "patterns": [
+        "serum glucose",
+        "blood glucose",
+        "finger stick",
+        "glicemia",
+        "hgt",
+        "dextro"
+      ]
+    },
+    {
+      "id": "core_o2",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Saturação de oxigênio",
+      "essential": true,
+      "patterns": [
+        "oxygen saturation",
+        "spo2",
+        "saturacao",
+        "saturação",
+        ">94",
+        "94 percent"
+      ]
+    },
+    {
+      "id": "core_ct",
+      "section": "INITIAL ASSESSMENT",
+      "label": "TC sem contraste (ou RM)",
+      "essential": true,
+      "patterns": [
+        "noncontrast",
+        "computed tomography",
+        "ct scan",
+        "brain imaging",
+        "tomografia",
+        "tc de",
+        "mri"
+      ]
+    },
+    {
+      "id": "pre_scale",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Escala diagnóstica pré-hospitalar (FAST/CPSS/LAPSS)",
+      "essential": false,
+      "patterns": [
+        "face arm speech",
+        "fast",
+        "cincinnati prehospital",
+        "cpss",
+        "los angeles prehospital",
+        "lapss"
+      ]
+    },
+    {
+      "id": "pre_lvo",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Escala de oclusão de grande vaso (RACE/LAMS/C-STAT)",
+      "essential": false,
+      "patterns": [
+        "race",
+        "lams",
+        "c-stat",
+        "large vessel occlusion",
+        "grande vaso"
+      ]
+    },
+    {
+      "id": "pre_transport",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Transporte para hospital capacitado em AVC",
+      "essential": true,
+      "patterns": [
+        "stroke-capable",
+        "nearest stroke",
+        "hospital capacitado",
+        "stroke center",
+        "codigo avc",
+        "código avc"
+      ]
+    },
+    {
+      "id": "time_lkw",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Tempo de início / last known well",
+      "essential": true,
+      "patterns": [
+        "last known",
+        "symptom onset",
+        "time of",
+        "onset time",
+        "ultima vez visto bem",
+        "última vez visto bem",
+        "inicio dos sintomas",
+        "início dos sintomas"
+      ]
+    },
+    {
+      "id": "time_witness",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Contato de familiar/testemunha",
+      "essential": false,
+      "patterns": [
+        "family members",
+        "eyewitness",
+        "witness",
+        "familiar",
+        "testemunha",
+        "acompanhante"
+      ]
+    },
+    {
+      "id": "abc_intubation",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Proteção de via aérea / intubação se necessário",
+      "essential": true,
+      "patterns": [
+        "intubation",
+        "airway",
+        "aspiration",
+        "intubacao",
+        "intubação",
+        "aspiracao",
+        "aspiração"
+      ]
+    },
+    {
+      "id": "hx_contraindications",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Contraindicações à trombólise",
+      "essential": true,
+      "patterns": [
+        "contraindications to thrombolytic",
+        "contraindic",
+        "anticoagulant",
+        "anticoagula"
+      ]
+    },
+    {
+      "id": "hx_differential",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Diagnóstico diferencial / mímicos de AVC",
+      "essential": true,
+      "patterns": [
+        "differential diagnosis",
+        "seizure",
+        "migraine",
+        "syncope",
+        "hypoglycemia",
+        "mimic",
+        "diferencial",
+        "convulsa",
+        "enxaqueca"
+      ]
+    },
+    {
+      "id": "hx_ich_sah",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Sinais de ICH/SAH (cefaleia, vômitos)",
+      "essential": true,
+      "patterns": [
+        "intracerebral hemorrhage",
+        "subarachnoid",
+        "headache",
+        "vomiting",
+        "cefaleia",
+        "vomito",
+        "vômito",
+        "hsa",
+        "ich"
+      ]
+    },
+    {
+      "id": "hx_anticoag",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Uso de anticoagulantes",
+      "essential": true,
+      "patterns": [
+        "anticoagulant drugs",
+        "anticoagulant",
+        "anticoagula",
+        "varfarina",
+        "inr",
+        "doac"
+      ]
+    },
+    {
+      "id": "exam_vascular",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Exame vascular/cardíaco/pulmonar",
+      "essential": false,
+      "patterns": [
+        "bruits",
+        "pulses",
+        "murmurs",
+        "auscultat",
+        "sopro",
+        "pulsos"
+      ]
+    },
+    {
+      "id": "neuro_nihss",
+      "section": "INITIAL ASSESSMENT",
+      "label": "NIHSS",
+      "essential": true,
+      "patterns": [
+        "nihss",
+        "national institutes of health stroke scale"
+      ]
+    },
+    {
+      "id": "neuro_focal",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Sinais focais (face, braço, fala)",
+      "essential": true,
+      "patterns": [
+        "facial paresis",
+        "arm drift",
+        "abnormal speech",
+        "hemiparesia",
+        "disartria",
+        "afasia",
+        "paresia facial"
+      ]
+    },
+    {
+      "id": "lab_ecg",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Eletrocardiograma",
+      "essential": true,
+      "patterns": [
+        "electrocardiogram",
+        "ecg",
+        "ekg",
+        "eletrocardiograma"
+      ]
+    },
+    {
+      "id": "lab_cbc",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Hemograma com plaquetas",
+      "essential": true,
+      "patterns": [
+        "complete blood count",
+        "platelets",
+        "hemograma",
+        "plaquetas"
+      ]
+    },
+    {
+      "id": "lab_coag",
+      "section": "INITIAL ASSESSMENT",
+      "label": "TP/INR e TTPa",
+      "essential": true,
+      "patterns": [
+        "prothrombin",
+        "inr",
+        "partial thromboplastin",
+        "ttpa",
+        "coagul"
+      ]
+    },
+    {
+      "id": "lab_troponin",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Troponina",
+      "essential": true,
+      "patterns": [
+        "troponin",
+        "troponina"
+      ]
+    },
+    {
+      "id": "lab_cta",
+      "section": "INITIAL ASSESSMENT",
+      "label": "AngioTC/perfusão ou angioRM (trombectomia)",
+      "essential": false,
+      "patterns": [
+        "ct angiography",
+        "ct perfusion",
+        "mr angiography",
+        "diffusion-weighted",
+        "angiotc",
+        "perfusao",
+        "perfusão",
+        "dwi"
+      ]
+    },
+    {
+      "id": "lab_weight",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Peso corporal para dose de trombólise",
+      "essential": false,
+      "patterns": [
+        "body weight",
+        "peso",
+        "kg"
+      ]
+    },
+    {
+      "id": "img_urgent",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Neuroimagem urgente (<25 min)",
+      "essential": true,
+      "patterns": [
+        "within 25 minutes",
+        "urgent",
+        "neuroimaging",
+        "neuroimagem",
+        "tomografia"
+      ]
+    },
+    {
+      "id": "card_monitor",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Monitorização cardíaca / FA",
+      "essential": true,
+      "patterns": [
+        "cardiac monitoring",
+        "atrial fibrillation",
+        "telemetry",
+        "fibrilacao atrial",
+        "fibrilação atrial",
+        "monitorizacao",
+        "monitorização"
+      ]
+    },
+    {
+      "id": "card_echo",
+      "section": "INITIAL ASSESSMENT",
+      "label": "Ecocardiograma quando indicado",
+      "essential": false,
+      "patterns": [
+        "echocardiography",
+        "transthoracic",
+        "transesophageal",
+        "ecocardiograma",
+        "endocarditis",
+        "endocardite"
+      ]
+    },
+    {
+      "id": "bp_management",
+      "section": "BLOOD PRESSURE MANAGEMENT",
+      "label": "Manejo da pressão arterial",
+      "essential": false,
+      "patterns": [
+        "blood pressure",
+        "pressao arterial",
+        "pressão arterial",
+        "hipertens"
+      ]
+    },
+    {
+      "id": "acute_therapy",
+      "section": "ACUTE THERAPY",
+      "label": "Terapia aguda / reperfusão",
+      "essential": false,
+      "patterns": [
+        "acute therapy",
+        "thrombolysis",
+        "thrombectomy",
+        "trombol",
+        "trombectomia",
+        "reperfus"
+      ]
+    }
+  ],
+  "page_count": 10,
+  "ia_chars": 14239
+}

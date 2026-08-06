@@ -92,6 +92,7 @@ function H2ResultView({ result }: { result: H2Result }) {
             {result.presentCount}/{result.totalEssential} itens essenciais
             presentes
           </p>
+          <p className="acronym-note">Fonte: {result.sourceTitle}</p>
           <p className={`band-label ${bandClass(result.panda93)}`}>
             {result.bandLabel}
           </p>
