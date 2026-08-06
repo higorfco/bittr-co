@@ -8,9 +8,10 @@ export default function Home() {
           <span className="brand-mark">BITTR</span>
           <span className="brand-co">CO.</span>
         </div>
-        <p className="tagline">
-          Arte antiga da medicina — leitura da anamnese sob o escore PANDA93.
-        </p>
+        <p className="tagline">Prezando pela melhor assistência</p>
+        <div className="ornament" aria-hidden="true">
+          ✦
+        </div>
         <p className="acronym-note">
           PANDA93 — Plataforma de Análise e Normalização de Dados em Anamnese
         </p>
@@ -20,9 +21,7 @@ export default function Home() {
         <ReviewWorkspace />
       </main>
 
-      <footer className="site-footer">
-        BITTR CO. · PANDA93
-      </footer>
+      <footer className="site-footer">BITTR CO. · PANDA93</footer>
     </div>
   );
 }

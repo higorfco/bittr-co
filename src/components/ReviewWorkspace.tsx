@@ -49,12 +49,7 @@ function ResultView({ result }: { result: H1Result }) {
           {result.privacyRedactions} trecho(s) pessoal(is) anonimizado(s) antes
           da análise (LGPD).
         </p>
-      ) : (
-        <p className="privacy-note">
-          Análise sem identificação pessoal; idade convertida em faixa etária
-          quando presente (LGPD).
-        </p>
-      )}
+      ) : null}
 
       <h3>Escores</h3>
       <ul className="topic-list">
@@ -95,25 +90,15 @@ export function ReviewWorkspace() {
 
   return (
     <div className="workspace">
-      <section className="panel intro-panel">
-        <p className="eyebrow">Modo H1 · PANDA93</p>
-        <h2>Leitura da anamnese</h2>
-        <p className="lede">
-          Inspirado na arte antiga da medicina. A análise anonimiza dados
-          pessoais (LGPD) e devolve apenas o <strong>PANDA93</strong> e as
-          lacunas.
-        </p>
-      </section>
-
       <section className="panel">
         <label className="field-label" htmlFor="content">
-          Texto da anamnese
+          Anamnese
         </label>
         <textarea
           id="content"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="Cole a anamnese (QP/QD, HMA, IS, AP, MUC, alergias, exame físico…). Nome, endereço e documentos serão omitidos."
+          placeholder="Cole o texto da anamnese…"
           rows={14}
         />
         <div className="actions">
@@ -123,7 +108,7 @@ export function ReviewWorkspace() {
             onClick={runReview}
             disabled={!content.trim() || isPending}
           >
-            {isPending ? "Lendo o texto…" : "Calcular PANDA93"}
+            {isPending ? "Avaliando…" : "Calcular PANDA93"}
           </button>
           <button type="button" className="btn-ghost" onClick={clearReview}>
             Limpar
@@ -131,18 +116,7 @@ export function ReviewWorkspace() {
         </div>
       </section>
 
-      {result ? (
-        <ResultView result={result} />
-      ) : (
-        <section className="panel checklist-panel">
-          <h3>Foco da análise</h3>
-          <p className="lede">
-            QP/QD, HMA/HPMA, IS, AP, antecedentes cirúrgicos, MUC, alergias, AF,
-            hábitos, ocupacional, gineco-obstétrica (se aplicável), sexual,
-            epidemiológica e exame físico — sem identificação pessoal.
-          </p>
-        </section>
-      )}
+      {result ? <ResultView result={result} /> : null}
     </div>
   );
 }

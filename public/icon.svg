@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="BITTR CO. PANDA93">
-  <rect width="128" height="128" rx="18" fill="#0a0a0a"/>
-  <rect x="10" y="10" width="108" height="108" rx="10" fill="none" stroke="#c45a12" stroke-width="2"/>
-  <path d="M34 86V40h18c11 0 18 5.8 18 14.8 0 5.7-3.1 10.4-8.3 12.7L74 86H62.2L52 74.2H46V86H34zm12-30.2v11.2h9.2c5.1 0 8.1-2.5 8.1-5.7s-3-5.5-8.1-5.5H46z" fill="#f2e6d8"/>
-  <circle cx="94" cy="42" r="9" fill="#c45a12"/>
-  <circle cx="94" cy="42" r="4" fill="#e8832a"/>
+  <rect width="128" height="128" fill="#050505"/>
+  <rect x="8" y="8" width="112" height="112" fill="none" stroke="#b84a0a" stroke-width="2"/>
+  <path d="M14 14h16v2H16v14h-2V14zm98 0v16h-2V16H94v-2h18zM14 114v-16h2v14h14v2H14zm98 0H94v-2h14V98h2v16z" fill="#e07018"/>
+  <path d="M36 88V42h18c11 0 18 5.8 18 14.8 0 5.7-3.1 10.4-8.3 12.7L76 88H64.2L54 76.2H48V88H36zm12-30.2v11.2h9.2c5.1 0 8.1-2.5 8.1-5.7s-3-5.5-8.1-5.5H48z" fill="#f4e4d0"/>
+  <circle cx="92" cy="44" r="10" fill="#b84a0a"/>
+  <circle cx="92" cy="44" r="4" fill="#e07018"/>
 </svg>
