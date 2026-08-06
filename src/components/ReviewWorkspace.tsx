@@ -139,7 +139,7 @@ export function ModeSwitch({
   onChange: (mode: AppMode) => void;
 }) {
   return (
-    <div className="mode-switch" role="tablist" aria-label="Modo de avaliação">
+    <div className="mode-switch" role="tablist" aria-label="Modo de análise">
       <button
         type="button"
         role="tab"

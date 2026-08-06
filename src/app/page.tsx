@@ -13,12 +13,7 @@ export default function Home() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <ModeSwitch
-          mode={mode}
-          onChange={(next) => {
-            setMode(next);
-          }}
-        />
+        <ModeSwitch mode={mode} onChange={setMode} />
         <div className="brand">
           <span className="brand-mark">BITTR</span>
           <span className="brand-co">CO.</span>
@@ -36,7 +31,7 @@ export default function Home() {
         <ReviewWorkspace key={mode} mode={mode} />
       </main>
 
-      <footer className="site-footer">BITTR CO. · PANDA93</footer>
+      <footer className="site-footer">BITTR CO. · PANDA93 · {mode}</footer>
     </div>
   );
 }
