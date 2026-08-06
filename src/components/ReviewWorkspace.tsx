@@ -147,20 +147,19 @@ export function ModeSwitch({
 }) {
   const modes: AppMode[] = ["H1", "H2", "H3"];
   return (
-    <div className="mode-switch" role="tablist" aria-label="Modo de análise">
+    <nav className="mode-switch" aria-label="Modo de análise">
       {modes.map((item) => (
         <button
           key={item}
           type="button"
-          role="tab"
-          aria-selected={mode === item}
+          aria-pressed={mode === item}
           className={`mode-btn ${mode === item ? "active" : ""}`}
           onClick={() => onChange(item)}
         >
-          ({item})
+          {item}
         </button>
       ))}
-    </div>
+    </nav>
   );
 }
 
