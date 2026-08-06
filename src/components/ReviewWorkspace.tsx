@@ -4,10 +4,11 @@ import { useState, useTransition } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
 import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
 import { evaluateChestPainH3, type H3Result } from "@/lib/h3-evaluate";
+import { evaluatePainS1, type S1Result } from "@/lib/s1-evaluate";
 import { PANDA93_MAX } from "@/lib/panda93";
 import type { H1Result, TopicScore } from "@/lib/types";
 
-export type AppMode = "H1" | "H2" | "H3";
+export type AppMode = "S1" | "H1" | "H2" | "H3";
 
 function bandClass(score: number): string {
   if (score >= 84) return "band-excellent";
@@ -138,6 +139,83 @@ function ChecklistResultView({
   );
 }
 
+function S1ResultView({ result }: { result: S1Result }) {
+  return (
+    <section className="panel result-panel" aria-live="polite">
+      <div className="score-row">
+        <div>
+          <p className="eyebrow">S1 · Dor na QP + HPMA</p>
+          <p className="score">
+            PANDA93: {result.panda93}/{PANDA93_MAX}
+          </p>
+          <p className="acronym-note">{result.law}</p>
+          <p className="acronym-note">Terminologia: {result.sourcePack}</p>
+          <p className={`band-label ${bandClass(result.panda93)}`}>
+            {result.bandLabel}
+          </p>
+        </div>
+      </div>
+
+      {result.privacyRedactions > 0 ? (
+        <p className="privacy-note">
+          {result.privacyRedactions} trecho(s) pessoal(is) anonimizado(s) antes
+          da análise (LGPD).
+        </p>
+      ) : null}
+
+      <p className="scope-note">{result.scopeNote}</p>
+
+      <h3>Etapa 1 — Existe dor?</h3>
+      <p className="s1-presence">{result.painPresence}</p>
+
+      <h3>Etapa 2 — Atributos da dor</h3>
+      <ul className="topic-list">
+        {result.attributes.map((item) => (
+          <li key={item.key} className="topic-row">
+            <div className="topic-head">
+              <strong>{item.key}</strong>
+              <span
+                className={`ciq-pill ${item.found || item.key === "Dor" ? "band-good" : "band-poor"}`}
+              >
+                {item.value ?? "—"}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Etapa 3 — Completude</h3>
+      <ul className="topic-list">
+        {result.completeness.map((item) => (
+          <li key={item.key} className="topic-row">
+            <div className="topic-head">
+              <strong>{item.key}</strong>
+              <span
+                className={`ciq-pill ${item.found ? "band-good" : "band-poor"}`}
+              >
+                {item.found ? "presente" : "ausente"}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Etapa 4 — Informações faltantes</h3>
+      {result.missingBlocks.length ? (
+        <ul className="finding-list s1-missing">
+          {result.missingBlocks.map((block) => (
+            <li key={block}>
+              <pre className="s1-missing-block">{block}</pre>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
+      )}
+    </section>
+  );
+}
+
 export function ModeSwitch({
   mode,
   onChange,
@@ -145,26 +223,44 @@ export function ModeSwitch({
   mode: AppMode;
   onChange: (mode: AppMode) => void;
 }) {
-  const modes: AppMode[] = ["H1", "H2", "H3"];
+  const sModes: AppMode[] = ["S1"];
+  const hModes: AppMode[] = ["H1", "H2", "H3"];
+
   return (
-    <nav className="mode-switch" aria-label="Modo de análise">
-      {modes.map((item) => (
-        <button
-          key={item}
-          type="button"
-          aria-pressed={mode === item}
-          className={`mode-btn ${mode === item ? "active" : ""}`}
-          onClick={() => onChange(item)}
-        >
-          {item}
-        </button>
-      ))}
-    </nav>
+    <div className="mode-switch-stack">
+      <nav className="mode-switch mode-switch-s" aria-label="Modelos S">
+        {sModes.map((item) => (
+          <button
+            key={item}
+            type="button"
+            aria-pressed={mode === item}
+            className={`mode-btn ${mode === item ? "active" : ""}`}
+            onClick={() => onChange(item)}
+          >
+            {item}
+          </button>
+        ))}
+      </nav>
+      <nav className="mode-switch mode-switch-h" aria-label="Modelos H">
+        {hModes.map((item) => (
+          <button
+            key={item}
+            type="button"
+            aria-pressed={mode === item}
+            className={`mode-btn ${mode === item ? "active" : ""}`}
+            onClick={() => onChange(item)}
+          >
+            {item}
+          </button>
+        ))}
+      </nav>
+    </div>
   );
 }
 
 export function ReviewWorkspace({ mode }: { mode: AppMode }) {
   const [content, setContent] = useState("");
+  const [s1Result, setS1Result] = useState<S1Result | null>(null);
   const [h1Result, setH1Result] = useState<H1Result | null>(null);
   const [h2Result, setH2Result] = useState<H2Result | null>(null);
   const [h3Result, setH3Result] = useState<H3Result | null>(null);
@@ -172,9 +268,11 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
 
   function runReview() {
     startTransition(() => {
+      setS1Result(null);
       setH1Result(null);
       setH2Result(null);
       setH3Result(null);
+      if (mode === "S1") setS1Result(evaluatePainS1(content));
       if (mode === "H1") setH1Result(evaluateAnamnesisH1(content));
       if (mode === "H2") setH2Result(evaluateStrokeH2(content));
       if (mode === "H3") setH3Result(evaluateChestPainH3(content));
@@ -183,12 +281,18 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
 
   function clearReview() {
     setContent("");
+    setS1Result(null);
     setH1Result(null);
     setH2Result(null);
     setH3Result(null);
   }
 
   const labels: Record<AppMode, { field: string; placeholder: string }> = {
+    S1: {
+      field: "QP + HPMA (dor)",
+      placeholder:
+        "Cole a Queixa Principal e a História da Moléstia Atual…",
+    },
     H1: {
       field: "Anamnese",
       placeholder: "Cole o texto da anamnese…",
@@ -231,6 +335,7 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
         </div>
       </section>
 
+      {mode === "S1" && s1Result ? <S1ResultView result={s1Result} /> : null}
       {mode === "H1" && h1Result ? <H1ResultView result={h1Result} /> : null}
       {mode === "H2" && h2Result ? (
         <ChecklistResultView

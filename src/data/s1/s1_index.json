@@ -1,0 +1,9 @@
+{
+  "v": "1.0.0",
+  "mode": "S1",
+  "law": "Interpretação Lógica da Dor na Queixa Principal (QP + HPMA)",
+  "database": "s1pain_history_qp_hpma_database.json",
+  "module": "pain_history",
+  "version": 1,
+  "exclusive": true
+}
