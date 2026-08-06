@@ -1,4 +1,9 @@
 import type { CiqBand, GlobalPenalty, H1Result, ItemAssessment, TopicScore } from "./types";
+import {
+  ACTIVE_DOMAIN_ORDER,
+  ACTIVE_DOMAIN_WEIGHTS,
+  type ActiveDomain,
+} from "./domains";
 import { blurPersonalData } from "./privacy/blur";
 import { classifyPanda93, toPanda93 } from "./panda93";
 import {
@@ -16,9 +21,6 @@ import {
   termMatches,
   weights,
 } from "./terminologia";
-
-/** Domínios avaliados: sem identificação pessoal (LGPD). */
-const EXCLUDED_DOMAINS = new Set(["id"]);
 
 function toCiqBand(band: string): CiqBand {
   switch (band) {
@@ -47,34 +49,8 @@ function domainMentioned(haystack: string, domain: string): boolean {
   );
 }
 
-function isDomainApplicable(haystack: string, domain: string): boolean {
-  if (domain === "go") {
-    return (
-      termMatches(haystack, "feminino") ||
-      termMatches(haystack, "mulher") ||
-      termMatches(haystack, "gestante") ||
-      termMatches(haystack, "menstru") ||
-      termMatches(haystack, "dum") ||
-      termMatches(haystack, "ginec") ||
-      termMatches(haystack, "obstetr") ||
-      domainMentioned(haystack, "go")
-    );
-  }
-
-  if (domain === "sx") {
-    return (
-      domainMentioned(haystack, "sx") ||
-      termMatches(haystack, "sexual") ||
-      termMatches(haystack, "ist") ||
-      termMatches(haystack, "dst")
-    );
-  }
-
-  if (domain === "is") {
-    // IS permanece no denominador; ausência pesa na completude
-    return true;
-  }
-
+function isDomainApplicable(_haystack: string, _domain: string): boolean {
+  // Todos os aspectos ativos entram no denominador do PANDA93
   return true;
 }
 
@@ -195,9 +171,9 @@ function scoreSafety(
   return { score: 0, notes };
 }
 
-function scoreDomain(raw: string, haystack: string, domain: string): TopicScore {
+function scoreDomain(raw: string, haystack: string, domain: ActiveDomain): TopicScore {
   const label = DOMAIN_LABELS[domain] ?? domain;
-  const weight = weights.domains[domain] ?? 1;
+  const weight = ACTIVE_DOMAIN_WEIGHTS[domain] ?? 1;
   const applicable = isDomainApplicable(haystack, domain);
 
   if (!applicable) {
@@ -217,10 +193,7 @@ function scoreDomain(raw: string, haystack: string, domain: string): TopicScore 
   }
 
   const mentioned = domainMentioned(haystack, domain);
-  const reqIds = resolveDomainRequirements(haystack, domain);
-  // Domínio IS: usa DOC004 como requisito mínimo se não houver lista
-  const effectiveReqs =
-    reqIds.length > 0 ? reqIds : domain === "is" ? ["DOC004"] : [];
+  const effectiveReqs = resolveDomainRequirements(haystack, domain);
 
   const items: ItemAssessment[] = [];
   const presentIds = new Set<string>();
@@ -374,17 +347,16 @@ export function evaluateAnamnesisH1(content: string): H1Result {
   const raw = sanitized;
   const haystack = normalize(raw);
 
-  const domains = Object.keys(weights.domains).filter((d) => !EXCLUDED_DOMAINS.has(d));
-  const topics = domains.map((domain) => scoreDomain(raw, haystack, domain));
+  const topics = ACTIVE_DOMAIN_ORDER.map((domain) =>
+    scoreDomain(raw, haystack, domain),
+  );
   const applicable = topics.filter((t) => t.applicable);
 
   const weightSum = applicable.reduce((acc, t) => acc + t.weight, 0) || 1;
-  // topics já estão em escala PANDA93
   const weighted = applicable.reduce((acc, t) => acc + t.ciq * t.weight, 0);
   const beforePenalties = weighted / weightSum;
 
   const penalties = computePenalties(haystack, topics);
-  // Penalidades definidas em base 100 → escalar para 93
   const penaltyTotal = toPanda93(
     penalties.filter((p) => p.applied).reduce((acc, p) => acc + p.points, 0),
   );
@@ -408,7 +380,7 @@ export function evaluateAnamnesisH1(content: string): H1Result {
     cgqaBeforePenalties: Math.round(beforePenalties),
     band: toCiqBand(classified.band),
     bandLabel: classified.label,
-    topics: applicable.sort((a, b) => b.weight - a.weight || b.ciq - a.ciq),
+    topics: applicable,
     penalties,
     missing: [...new Set(missing)].slice(0, 20),
     confusing: [],

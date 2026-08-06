@@ -4,6 +4,12 @@ import qualityFlagsJson from "@/data/terminologia/quality_flags.json";
 import relationsJson from "@/data/terminologia/relations.json";
 import requirementsJson from "@/data/terminologia/requirements.json";
 import weightsJson from "@/data/terminologia/weights.json";
+import {
+  ACTIVE_DOMAIN_LABELS,
+  ACTIVE_DOMAIN_REQUIREMENTS,
+  EXTRA_CONCEPTS,
+  EXTRA_DOC_BY_DOMAIN,
+} from "@/lib/domains";
 import type {
   Concept,
   ConceptHit,
@@ -15,11 +21,14 @@ import type {
   WeightsPack,
 } from "./types";
 
-export const concepts = conceptsJson as Concept[];
+export const concepts = [...(conceptsJson as Concept[]), ...EXTRA_CONCEPTS];
 export const negationLexemes = negationJson as NegationLexeme[];
 export const qualityFlags = qualityFlagsJson as QualityFlag[];
 export const relations = relationsJson as Relation[];
-export const requirements = requirementsJson as DomainRequirement[];
+export const requirements = [
+  ...(requirementsJson as DomainRequirement[]).filter((r) => Boolean(r.if)),
+  ...ACTIVE_DOMAIN_REQUIREMENTS,
+] as DomainRequirement[];
 export const weights = weightsJson as unknown as WeightsPack;
 
 export const conceptsById: Record<string, Concept> = Object.fromEntries(
@@ -27,39 +36,18 @@ export const conceptsById: Record<string, Concept> = Object.fromEntries(
 );
 
 export const DOMAIN_LABELS: Record<string, string> = {
-  id: "Identificação",
-  qp: "QP/QD",
-  hma: "HMA/HPMA",
-  is: "IS",
-  ap: "AP",
-  ac: "Antecedentes cirúrgicos",
-  muc: "MUC",
-  alg: "Alergias",
-  af: "AF",
-  hv: "Hábitos de vida",
-  oc: "História ocupacional",
-  go: "História ginecológica e obstétrica",
-  sx: "História sexual",
-  ep: "História epidemiológica",
-  ef: "Exame físico",
+  ...ACTIVE_DOMAIN_LABELS,
 };
 
 export const DOC_BY_DOMAIN: Record<string, string> = {
-  id: "DOC001",
   qp: "DOC002",
   hma: "DOC003",
-  is: "DOC004",
   ap: "DOC005",
-  ac: "DOC006",
   muc: "DOC007",
   alg: "DOC008",
   af: "DOC009",
-  hv: "DOC010",
-  oc: "DOC011",
-  go: "DOC012",
-  sx: "DOC013",
-  ep: "DOC014",
   ef: "DOC015",
+  ...EXTRA_DOC_BY_DOMAIN,
 };
 
 export function normalize(text: string): string {
