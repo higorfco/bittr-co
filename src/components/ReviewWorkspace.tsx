@@ -2,12 +2,12 @@
 
 import { useState, useTransition } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
-import { evaluateStrokeH2 } from "@/lib/h2-evaluate";
+import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
+import { evaluateChestPainH3, type H3Result } from "@/lib/h3-evaluate";
 import { PANDA93_MAX } from "@/lib/panda93";
 import type { H1Result, TopicScore } from "@/lib/types";
-import type { H2Result } from "@/lib/h2-evaluate";
 
-export type AppMode = "H1" | "H2";
+export type AppMode = "H1" | "H2" | "H3";
 
 function bandClass(score: number): string {
   if (score >= 84) return "band-excellent";
@@ -76,7 +76,13 @@ function H1ResultView({ result }: { result: H1Result }) {
   );
 }
 
-function H2ResultView({ result }: { result: H2Result }) {
+function ChecklistResultView({
+  eyebrow,
+  result,
+}: {
+  eyebrow: string;
+  result: H2Result | H3Result;
+}) {
   const presentOptional = result.items.filter((i) => i.present && !i.essential);
   const presentEssential = result.items.filter((i) => i.present && i.essential);
 
@@ -84,7 +90,7 @@ function H2ResultView({ result }: { result: H2Result }) {
     <section className="panel result-panel" aria-live="polite">
       <div className="score-row">
         <div>
-          <p className="eyebrow">Initial assessment · AVC</p>
+          <p className="eyebrow">{eyebrow}</p>
           <p className="score">
             PANDA93: {result.panda93}/{PANDA93_MAX}
           </p>
@@ -139,26 +145,21 @@ export function ModeSwitch({
   mode: AppMode;
   onChange: (mode: AppMode) => void;
 }) {
+  const modes: AppMode[] = ["H1", "H2", "H3"];
   return (
     <div className="mode-switch" role="tablist" aria-label="Modo de análise">
-      <button
-        type="button"
-        role="tab"
-        aria-selected={mode === "H1"}
-        className={`mode-btn ${mode === "H1" ? "active" : ""}`}
-        onClick={() => onChange("H1")}
-      >
-        (H1)
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={mode === "H2"}
-        className={`mode-btn ${mode === "H2" ? "active" : ""}`}
-        onClick={() => onChange("H2")}
-      >
-        (H2)
-      </button>
+      {modes.map((item) => (
+        <button
+          key={item}
+          type="button"
+          role="tab"
+          aria-selected={mode === item}
+          className={`mode-btn ${mode === item ? "active" : ""}`}
+          onClick={() => onChange(item)}
+        >
+          ({item})
+        </button>
+      ))}
     </div>
   );
 }
@@ -167,17 +168,17 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
   const [content, setContent] = useState("");
   const [h1Result, setH1Result] = useState<H1Result | null>(null);
   const [h2Result, setH2Result] = useState<H2Result | null>(null);
+  const [h3Result, setH3Result] = useState<H3Result | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function runReview() {
     startTransition(() => {
-      if (mode === "H1") {
-        setH2Result(null);
-        setH1Result(evaluateAnamnesisH1(content));
-      } else {
-        setH1Result(null);
-        setH2Result(evaluateStrokeH2(content));
-      }
+      setH1Result(null);
+      setH2Result(null);
+      setH3Result(null);
+      if (mode === "H1") setH1Result(evaluateAnamnesisH1(content));
+      if (mode === "H2") setH2Result(evaluateStrokeH2(content));
+      if (mode === "H3") setH3Result(evaluateChestPainH3(content));
     });
   }
 
@@ -185,24 +186,35 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
     setContent("");
     setH1Result(null);
     setH2Result(null);
+    setH3Result(null);
   }
 
-  const placeholder =
-    mode === "H1"
-      ? "Cole o texto da anamnese…"
-      : "Cole a avaliação inicial de AVC / initial assessment…";
+  const labels: Record<AppMode, { field: string; placeholder: string }> = {
+    H1: {
+      field: "Anamnese",
+      placeholder: "Cole o texto da anamnese…",
+    },
+    H2: {
+      field: "Initial assessment · AVC",
+      placeholder: "Cole a avaliação inicial de AVC…",
+    },
+    H3: {
+      field: "Chest pain / chest wall trauma",
+      placeholder: "Cole o texto de dor torácica ou trauma de parede torácica…",
+    },
+  };
 
   return (
     <div className="workspace">
       <section className="panel">
         <label className="field-label" htmlFor="content">
-          {mode === "H1" ? "Anamnese" : "Initial assessment"}
+          {labels[mode].field}
         </label>
         <textarea
           id="content"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder={placeholder}
+          placeholder={labels[mode].placeholder}
           rows={14}
         />
         <div className="actions">
@@ -221,7 +233,18 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
       </section>
 
       {mode === "H1" && h1Result ? <H1ResultView result={h1Result} /> : null}
-      {mode === "H2" && h2Result ? <H2ResultView result={h2Result} /> : null}
+      {mode === "H2" && h2Result ? (
+        <ChecklistResultView
+          eyebrow="Initial assessment · AVC"
+          result={h2Result}
+        />
+      ) : null}
+      {mode === "H3" && h3Result ? (
+        <ChecklistResultView
+          eyebrow="Chest pain · chest wall trauma"
+          result={h3Result}
+        />
+      ) : null}
     </div>
   );
 }

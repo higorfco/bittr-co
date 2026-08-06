@@ -1,0 +1,22 @@
+{
+  "v": "1.0.0",
+  "mode": "H3",
+  "collection": {
+    "name": "Chest pain and chest wall trauma",
+    "document_count": 2,
+    "generated_at_utc": "2026-08-06T05:12:07.220502+00:00"
+  },
+  "documents": [
+    {
+      "title": "Approach to the adult with nontraumatic chest pain in the emergency department - UpToDate.pdf",
+      "filename": "Approach to the adult with nontraumatic chest pain in the emergency department - UpToDate.pdf",
+      "pages": 15
+    },
+    {
+      "title": "Initial evaluation and management of chest wall trauma in adults - UpToDate.pdf",
+      "filename": "Initial evaluation and management of chest wall trauma in adults - UpToDate.pdf",
+      "pages": 12
+    }
+  ],
+  "checklist_count": 20
+}
