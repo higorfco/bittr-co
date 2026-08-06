@@ -1,34 +1,126 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { evaluateReview } from "@/lib/evaluate";
-import { getTemplate, templates } from "@/lib/templates";
-import type { FieldStatus, ReviewResult } from "@/lib/types";
+import { useState, useTransition } from "react";
+import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
+import type { H1Result, TopicScore } from "@/lib/types";
 
-const statusLabel: Record<FieldStatus, string> = {
-  present: "Presente",
-  partial: "Parcial",
-  missing: "Ausente",
-};
+function bandClass(ciq: number): string {
+  if (ciq >= 90) return "band-excellent";
+  if (ciq >= 75) return "band-good";
+  if (ciq >= 60) return "band-partial";
+  if (ciq >= 40) return "band-poor";
+  return "band-critical";
+}
 
-const statusClass: Record<FieldStatus, string> = {
-  present: "status-present",
-  partial: "status-partial",
-  missing: "status-missing",
-};
+function TopicRow({ topic }: { topic: TopicScore }) {
+  return (
+    <li className="topic-row">
+      <div className="topic-head">
+        <strong>{topic.label}</strong>
+        <span className={`ciq-pill ${bandClass(topic.ciq)}`}>
+          {topic.ciq}/100
+        </span>
+      </div>
+      <div className="dim-row" aria-label="Dimensões do CIQ">
+        <span>C {topic.completeness}</span>
+        <span>L {topic.clarity}</span>
+        <span>R {topic.relevance}</span>
+        <span>S {topic.safety}</span>
+      </div>
+    </li>
+  );
+}
+
+function ResultView({ result }: { result: H1Result }) {
+  const appliedPenalties = result.penalties.filter((p) => p.applied);
+
+  return (
+    <section className="panel result-panel" aria-live="polite">
+      <div className="score-row">
+        <div>
+          <p className="eyebrow">Coeficiente global</p>
+          <p className="score">
+            CGQA: {result.cgqa}/100
+          </p>
+          <p className={`band-label ${bandClass(result.cgqa)}`}>
+            {result.bandLabel}
+          </p>
+        </div>
+      </div>
+
+      {appliedPenalties.length > 0 ? (
+        <div className="penalty-box">
+          <p className="eyebrow">Penalidades de segurança</p>
+          <ul>
+            {appliedPenalties.map((p) => (
+              <li key={p.id}>
+                −{p.points}: {p.label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <h3>Coeficientes individuais</h3>
+      <ul className="topic-list">
+        {result.topics.map((topic) => (
+          <TopicRow key={topic.topicId} topic={topic} />
+        ))}
+      </ul>
+
+      <h3>Informações faltantes</h3>
+      {result.missing.length ? (
+        <ul className="finding-list">
+          {result.missing.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
+      )}
+
+      <h3>Informações confusas</h3>
+      {result.confusing.length ? (
+        <ul className="finding-list">
+          {result.confusing.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-note">Sem ambiguidades relevantes detectadas.</p>
+      )}
+
+      <h3>Informações irrelevantes ou excessivas</h3>
+      {result.irrelevant.length ? (
+        <ul className="finding-list">
+          {result.irrelevant.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-note">Sem excesso relevante detectado.</p>
+      )}
+
+      <h3>Prioridades para correção</h3>
+      <ol className="priority-list">
+        {result.priorities.map((item, index) => (
+          <li key={item}>
+            <span className="priority-index">{index + 1}.</span> {item}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
 
 export function ReviewWorkspace() {
-  const [templateId, setTemplateId] = useState(templates[0].id);
   const [content, setContent] = useState("");
-  const [result, setResult] = useState<ReviewResult | null>(null);
+  const [result, setResult] = useState<H1Result | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const template = useMemo(() => getTemplate(templateId), [templateId]);
 
   function runReview() {
     startTransition(() => {
-      const next = evaluateReview(content, template);
-      setResult(next);
+      setResult(evaluateAnamnesisH1(content));
     });
   }
 
@@ -40,47 +132,25 @@ export function ReviewWorkspace() {
   return (
     <div className="workspace">
       <section className="panel intro-panel">
-        <p className="eyebrow">Ferramenta de revisão</p>
-        <h2>Identifique lacunas antes de fechar a lógica</h2>
+        <p className="eyebrow">Modo H1 · Anamnese</p>
+        <h2>Coeficiente de Completude Clínica</h2>
         <p className="lede">
-          Cole o texto, escolha o modo de avaliação e veja quais dados cruciais
-          faltam para a montagem lógica se sustentar.
+          Cole a anamnese. O algoritmo atribui CIQ por tópico (completude,
+          clareza, relevância e segurança) e calcula o CGQA global com
+          penalidades de segurança.
         </p>
       </section>
 
       <section className="panel">
-        <label className="field-label" htmlFor="template">
-          Modo de avaliação
-        </label>
-        <div className="template-grid" role="list">
-          {templates.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              role="listitem"
-              className={`template-card ${templateId === item.id ? "active" : ""}`}
-              onClick={() => {
-                setTemplateId(item.id);
-                setResult(null);
-              }}
-            >
-              <span className="template-name">{item.name}</span>
-              <span className="template-summary">{item.summary}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="panel">
         <label className="field-label" htmlFor="content">
-          Informações para revisar
+          Texto da anamnese
         </label>
         <textarea
           id="content"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="Cole aqui o briefing, a nota de pesquisa, a narrativa ou o conjunto de fatos..."
-          rows={10}
+          placeholder="Cole aqui a anamnese completa (identificação, QP/QD, HMA, IS, AP, MUC, alergias, exame físico…)."
+          rows={14}
         />
         <div className="actions">
           <button
@@ -89,7 +159,7 @@ export function ReviewWorkspace() {
             onClick={runReview}
             disabled={!content.trim() || isPending}
           >
-            {isPending ? "Avaliando…" : "Avaliar lacunas"}
+            {isPending ? "Avaliando…" : "Avaliar anamnese"}
           </button>
           <button type="button" className="btn-ghost" onClick={clearReview}>
             Limpar
@@ -98,69 +168,28 @@ export function ReviewWorkspace() {
       </section>
 
       {result ? (
-        <section className="panel result-panel" aria-live="polite">
-          <div className="score-row">
-            <div>
-              <p className="eyebrow">Completude</p>
-              <p className="score">{result.completeness}%</p>
-            </div>
-            <div className="counters">
-              <span>{result.presentCount} presentes</span>
-              <span>{result.partialCount} parciais</span>
-              <span>{result.missingCount} ausentes</span>
-            </div>
-          </div>
-
-          <p className="verdict">{result.verdict}</p>
-
-          <h3>Campos cruciais</h3>
-          <ul className="field-list">
-            {result.fields.map((item) => (
-              <li key={item.field.id} className="field-item">
-                <div className="field-head">
-                  <strong>{item.field.label}</strong>
-                  <span className={`status-pill ${statusClass[item.status]}`}>
-                    {statusLabel[item.status]}
-                  </span>
-                </div>
-                <p>{item.note}</p>
-              </li>
-            ))}
-          </ul>
-
-          <h3>Montagem lógica</h3>
-          <ol className="logic-list">
-            {result.logic.map((item) => (
-              <li key={item.step} className={item.supported ? "ok" : "gap"}>
-                <span className="logic-flag">
-                  {item.supported ? "Elo ok" : "Elo frágil"}
-                </span>
-                <strong>{item.step}</strong>
-                <p>{item.note}</p>
-              </li>
-            ))}
-          </ol>
-
-          <h3>Próximos reforços</h3>
-          <ul className="reco-list">
-            {result.recommendations.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
+        <ResultView result={result} />
       ) : (
         <section className="panel checklist-panel">
-          <h3>Checklist deste modo</h3>
-          <ul className="checklist">
-            {template.fields.map((field) => (
-              <li key={field.id}>
-                <strong>
-                  {field.label}
-                  {field.required ? "" : " (opcional)"}
-                </strong>
-                <span>{field.description}</span>
-              </li>
-            ))}
+          <h3>O que será avaliado</h3>
+          <p className="lede">
+            Identificação, QP/QD, HMA/HPMA, IS, AP, antecedentes cirúrgicos,
+            MUC, alergias, AF, hábitos, ocupacional, gineco-obstétrica (se
+            aplicável), sexual, epidemiológica e exame físico.
+          </p>
+          <ul className="dim-legend">
+            <li>
+              <strong>C 50</strong> Completude
+            </li>
+            <li>
+              <strong>L 20</strong> Clareza
+            </li>
+            <li>
+              <strong>R 20</strong> Relevância clínica
+            </li>
+            <li>
+              <strong>S 10</strong> Segurança / alertas
+            </li>
           </ul>
         </section>
       )}

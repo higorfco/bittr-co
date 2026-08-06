@@ -1,41 +1,66 @@
-export type FieldStatus = "present" | "partial" | "missing";
+export type CiqBand =
+  | "excelente"
+  | "adequado"
+  | "parcialmente_adequado"
+  | "insuficiente"
+  | "criticamente_incompleto";
 
-export type CrucialField = {
+export type EssentialItem = {
   id: string;
   label: string;
-  description: string;
-  keywords: string[];
-  required: boolean;
+  patterns: string[];
+  /** Patterns that mark the item as explicitly not applicable */
+  notApplicablePatterns?: string[];
 };
 
-export type ReviewTemplate = {
+export type AnamnesisTopic = {
   id: string;
-  name: string;
-  summary: string;
-  fields: CrucialField[];
-  logicSteps: string[];
+  label: string;
+  weight: number;
+  patterns: string[];
+  essentialItems: EssentialItem[];
+  redFlagPatterns: string[];
+  /** If true, topic can be omitted when context suggests N/A */
+  optionallyApplicable?: boolean;
+  contextRequiredPatterns?: string[];
 };
 
-export type FieldAssessment = {
-  field: CrucialField;
-  status: FieldStatus;
-  note: string;
-  matchedTerms: string[];
+export type ItemAssessment = {
+  id: string;
+  label: string;
+  status: "informed" | "missing" | "not_applicable";
 };
 
-export type LogicStepAssessment = {
-  step: string;
-  supported: boolean;
-  note: string;
-};
-
-export type ReviewResult = {
+export type TopicScore = {
+  topicId: string;
+  label: string;
+  weight: number;
+  applicable: boolean;
+  ciq: number;
   completeness: number;
-  missingCount: number;
-  partialCount: number;
-  presentCount: number;
-  fields: FieldAssessment[];
-  logic: LogicStepAssessment[];
-  verdict: string;
-  recommendations: string[];
+  clarity: number;
+  relevance: number;
+  safety: number;
+  band: CiqBand;
+  items: ItemAssessment[];
+};
+
+export type GlobalPenalty = {
+  id: string;
+  label: string;
+  points: number;
+  applied: boolean;
+};
+
+export type H1Result = {
+  cgqa: number;
+  cgqaBeforePenalties: number;
+  band: CiqBand;
+  bandLabel: string;
+  topics: TopicScore[];
+  penalties: GlobalPenalty[];
+  missing: string[];
+  confusing: string[];
+  irrelevant: string[];
+  priorities: string[];
 };

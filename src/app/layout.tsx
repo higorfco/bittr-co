@@ -15,9 +15,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "BITTR CO. — Revisão de lacunas",
+  title: "BITTR CO. — Qualidade da anamnese (H1)",
   description:
-    "Ferramenta mobile para avaliar informações, identificar dados cruciais ausentes e validar a montagem lógica.",
+    "Avaliação do Coeficiente de Completude Clínica da anamnese: CIQ por tópico e CGQA global.",
   applicationName: "BITTR CO.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {

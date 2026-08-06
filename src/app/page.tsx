@@ -9,8 +9,7 @@ export default function Home() {
           <span className="brand-co">CO.</span>
         </div>
         <p className="tagline">
-          Revisão de informações para expor lacunas e fortalecer a montagem
-          lógica.
+          Qualidade da anamnese — coeficiente de completude clínica (H1).
         </p>
       </header>
 
@@ -19,7 +18,7 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        BITTR CO. · ferramenta de revisão · v0.1
+        BITTR CO. · modo H1 · v0.2
       </footer>
     </div>
   );

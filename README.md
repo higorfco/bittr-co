@@ -1,12 +1,12 @@
 # BITTR CO.
 
-Ferramenta mobile-first para **revisar informações**, **identificar dados cruciais ausentes** e **avaliar a montagem lógica**.
+Ferramenta mobile-first para avaliar a **qualidade da anamnese** pelo algoritmo **H1** (Coeficiente de Completude Clínica).
 
 ## Stack
 
 - Next.js (App Router) + TypeScript + Tailwind
-- Deploy previsto: [Vercel](https://vercel.com)
-- Código: GitHub
+- Deploy: [Vercel](https://bittr-co.vercel.app)
+- Código: [GitHub](https://github.com/higorfco/bittr-co)
 
 ## Desenvolvimento local
 
@@ -17,21 +17,13 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
-## O que a v0.1 faz
+## Modo H1
 
-1. Escolhe um modo: pesquisa, brief de decisão ou montagem narrativa
-2. Cola o texto a revisar
-3. Recebe completude, campos ausentes/parciais, elos lógicos fracos e próximos reforços
+Único modo ativo. Para o texto da anamnese:
 
-## Deploy (GitHub + Vercel)
+1. Calcula **CIQ** por tópico (Completude 50 + Clareza 20 + Relevância 20 + Segurança 10)
+2. Calcula **CGQA** por média ponderada
+3. Aplica penalidades globais de segurança
+4. Lista faltantes, confusos, irrelevantes e prioridades de correção
 
-1. Publique o repositório no GitHub
-2. Importe o projeto em [vercel.com/new](https://vercel.com/new)
-3. Framework: Next.js (detectado automaticamente)
-4. Cada push em `main` gera um novo deploy
-
-Ou via CLI:
-
-```bash
-npx vercel
-```
+Tópicos não aplicáveis saem do denominador.
