@@ -21,9 +21,10 @@ Abra [http://localhost:3000](http://localhost:3000).
 
 Único modo ativo. Para o texto da anamnese:
 
-1. Calcula **CIQ** por tópico (Completude 50 + Clareza 20 + Relevância 20 + Segurança 10)
-2. Calcula **CGQA** por média ponderada
-3. Aplica penalidades globais de segurança
-4. Lista faltantes, confusos, irrelevantes e prioridades de correção
+1. Consulta o pacote **anamnese_terminologia_br_v1** (`src/data/terminologia/`)
+2. Calcula **CIQ** por tópico (Completude 50 + Clareza 20 + Relevância 20 + Segurança 10)
+3. Calcula **CGQA** por média ponderada
+4. Aplica penalidades globais de segurança
+5. Lista faltantes, confusos, irrelevantes e prioridades de correção
 
 Tópicos não aplicáveis saem do denominador.

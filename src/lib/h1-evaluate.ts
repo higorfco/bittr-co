@@ -1,255 +1,206 @@
-import { classifyCiq, H1_TOPICS } from "./h1-topics";
-import type {
-  AnamnesisTopic,
-  EssentialItem,
-  GlobalPenalty,
-  H1Result,
-  ItemAssessment,
-  TopicScore,
-} from "./types";
+import type { CiqBand, GlobalPenalty, H1Result, ItemAssessment, TopicScore } from "./types";
+import {
+  classifyScore,
+  conceptsById,
+  conditionalRedRequirements,
+  DOC_BY_DOMAIN,
+  DOMAIN_LABELS,
+  evaluateRequirement,
+  isInformed,
+  matchConcept,
+  normalize,
+  qualityFlags,
+  relations,
+  resolveDomainRequirements,
+  termMatches,
+  weights,
+} from "./terminologia";
 
-function normalize(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{M}/gu, "")
-    .replace(/\s+/g, " ");
+function toCiqBand(band: string): CiqBand {
+  switch (band) {
+    case "excelente":
+      return "excelente";
+    case "adequado":
+      return "adequado";
+    case "parcial":
+      return "parcialmente_adequado";
+    case "insuficiente":
+      return "insuficiente";
+    default:
+      return "criticamente_incompleto";
+  }
 }
 
-function hasAny(haystack: string, patterns: string[]): boolean {
-  return patterns.some((p) => haystack.includes(normalize(p)));
+function domainMentioned(haystack: string, domain: string): boolean {
+  const docId = DOC_BY_DOMAIN[domain];
+  if (docId) {
+    const docHit = matchConcept(haystack, docId);
+    if (docHit && docHit.status !== "ABSENT") return true;
+  }
+
+  return Object.values(conceptsById).some(
+    (c) => c.d === domain && matchConcept(haystack, c.i)?.status !== "ABSENT",
+  );
 }
 
-function countMatches(haystack: string, patterns: string[]): number {
-  return patterns.filter((p) => haystack.includes(normalize(p))).length;
-}
+function isDomainApplicable(haystack: string, domain: string): boolean {
+  if (domain === "go") {
+    return (
+      termMatches(haystack, "feminino") ||
+      termMatches(haystack, "mulher") ||
+      termMatches(haystack, "gestante") ||
+      termMatches(haystack, "menstru") ||
+      termMatches(haystack, "dum") ||
+      termMatches(haystack, "ginec") ||
+      termMatches(haystack, "obstetr") ||
+      domainMentioned(haystack, "go")
+    );
+  }
 
-function isExplicitDenial(haystack: string, around: string[]): boolean {
-  const denial = [
-    "nega",
-    "sem ",
-    "nao possui",
-    "não possui",
-    "nao usa",
-    "não usa",
-    "ausente",
-    "nao refere",
-    "não refere",
-    "nada digno",
-  ];
-  return around.some((term) => {
-    const n = normalize(term);
-    if (!haystack.includes(n)) return false;
-    const idx = haystack.indexOf(n);
-    const window = haystack.slice(Math.max(0, idx - 40), idx + n.length + 40);
-    return denial.some((d) => window.includes(normalize(d)));
-  });
-}
+  if (domain === "sx") {
+    return (
+      domainMentioned(haystack, "sx") ||
+      termMatches(haystack, "sexual") ||
+      termMatches(haystack, "ist") ||
+      termMatches(haystack, "dst")
+    );
+  }
 
-function topicMentioned(haystack: string, topic: AnamnesisTopic): boolean {
-  return hasAny(haystack, topic.patterns) || topic.essentialItems.some((item) => hasAny(haystack, item.patterns));
-}
-
-function isTopicApplicable(haystack: string, topic: AnamnesisTopic): boolean {
-  if (!topic.optionallyApplicable) {
-    // Core clinical topics remain in denominator if anamnesis-like content exists
+  if (domain === "is") {
+    // IS permanece no denominador; ausência pesa na completude
     return true;
   }
 
-  if (topic.contextRequiredPatterns && hasAny(haystack, topic.contextRequiredPatterns)) {
-    return true;
-  }
-
-  // If explicitly present, include; otherwise exclude from denominator
-  return hasAny(haystack, topic.patterns);
+  return true;
 }
 
-function assessItem(haystack: string, item: EssentialItem): ItemAssessment {
-  if (item.notApplicablePatterns && hasAny(haystack, item.notApplicablePatterns)) {
-    return { id: item.id, label: item.label, status: "not_applicable" };
-  }
-
-  const matched = hasAny(haystack, item.patterns);
-  const denied = isExplicitDenial(haystack, item.patterns);
-
-  if (matched || denied) {
-    return { id: item.id, label: item.label, status: "informed" };
-  }
-
-  return { id: item.id, label: item.label, status: "missing" };
-}
-
-function scoreCompleteness(items: ItemAssessment[]): number {
-  const applicable = items.filter((i) => i.status !== "not_applicable");
-  if (applicable.length === 0) return 50;
-  const informed = applicable.filter((i) => i.status === "informed").length;
-  return (informed / applicable.length) * 50;
-}
-
-function scoreClarity(raw: string, haystack: string, topic: AnamnesisTopic): {
-  score: number;
-  notes: string[];
-} {
-  let score = 20;
+function scoreClarityFromFlags(
+  haystack: string,
+  presentIds: Set<string>,
+): { score: number; notes: string[] } {
+  let score = weights.dim.clareza;
   const notes: string[] = [];
 
-  const vaguePatterns: Array<{ pattern: string; note: string; penalty: number }> = [
-    { pattern: "ha algum tempo", note: "Tempo vago (“há algum tempo”).", penalty: 2 },
-    { pattern: "há algum tempo", note: "Tempo vago (“há algum tempo”).", penalty: 2 },
-    { pattern: "alguns remedios", note: "Medicações vagas (“alguns remédios”).", penalty: 5 },
-    { pattern: "alguns remédios", note: "Medicações vagas (“alguns remédios”).", penalty: 5 },
-    { pattern: "alguns medicamentos", note: "Medicações sem nome/dose/frequência.", penalty: 5 },
-    { pattern: "febre alta", note: "“Febre alta” sem temperatura ou duração.", penalty: 5 },
-    { pattern: "dor frequente", note: "“Dor frequente” sem periodicidade.", penalty: 2 },
-    { pattern: "dores", note: "Dor sem especificação suficiente.", penalty: 2 },
-    { pattern: "antibiotico", note: "Antibiótico sem nome, dose ou duração.", penalty: 5 },
-    { pattern: "antibiótico", note: "Antibiótico sem nome, dose ou duração.", penalty: 5 },
-  ];
+  for (const flag of qualityFlags) {
+    if (flag.t?.some((t) => termMatches(haystack, t))) {
+      const penalty = Math.min(5, flag.p ?? 2);
+      score -= flag.b ? Math.min(4, penalty) : Math.min(3, penalty);
+      notes.push(flag.c.split("_").join(" "));
+      continue;
+    }
 
-  for (const item of vaguePatterns) {
-    if (raw.toLowerCase().includes(item.pattern) || haystack.includes(normalize(item.pattern))) {
-      // Only apply if topic is related or text is general HMA/MUC
-      if (
-        topic.id === "hma" ||
-        topic.id === "muc" ||
-        topic.id === "qp_qd" ||
-        topic.id === "alergias" ||
-        topicMentioned(haystack, topic)
-      ) {
-        score -= item.penalty;
-        notes.push(item.note);
+    if (flag.k?.length) {
+      const positive = flag.k.filter((k) => !k.startsWith("!"));
+      const negative = flag.k.filter((k) => k.startsWith("!")).map((k) => k.slice(1));
+      const posOk = positive.every((id) => presentIds.has(id));
+      const negMissing = negative.some((id) => !presentIds.has(id));
+      if (posOk && negMissing && flag.f) {
+        score -= Math.min(5, flag.p ?? 4);
+        notes.push(flag.c.split("_").join(" "));
       }
-    }
-  }
-
-  // Ambiguity: allergy denial + allergic reaction description
-  if (
-    topic.id === "alergias" &&
-    hasAny(haystack, ["nega alerg", "sem alerg"]) &&
-    hasAny(haystack, ["reacao alerg", "reação alerg", "urticaria", "urticária", "anafilax"])
-  ) {
-    score -= 4;
-    notes.push("Contradição: nega alergias e descreve reação alérgica.");
-  }
-
-  // Chronology issues for HMA
-  if (topic.id === "hma") {
-    const hasStart = hasAny(haystack, ["inicio", "início", "desde", "há ", "ha "]);
-    const hasEvolution = hasAny(haystack, ["evolu", "piorou", "melhorou", "depois"]);
-    if (hasStart && !hasEvolution && haystack.length > 200) {
-      score -= 3;
-      notes.push("Cronologia incompleta na HMA.");
-    }
-    if (!hasStart && topicMentioned(haystack, topic)) {
-      score -= 5;
-      notes.push("Cronologia incompreensível ou ausente.");
-    }
-  }
-
-  // Dose/frequency missing when medications mentioned vaguely
-  if (topic.id === "muc" && hasAny(haystack, ["medic", "em uso", "faz uso"])) {
-    if (!hasAny(haystack, ["mg", "mcg", "ml", "ui"])) {
-      score -= 5;
-      notes.push("Ausência de unidade/dose quando necessária.");
-    }
-    if (!hasAny(haystack, ["vez", "ao dia", "1x", "2x", "12/12", "8/8"])) {
-      score -= 5;
-      notes.push("Ausência de frequência quando necessária.");
     }
   }
 
   return { score: Math.max(0, score), notes: [...new Set(notes)] };
 }
 
-function scoreRelevance(raw: string, haystack: string): {
-  score: number;
-  notes: string[];
-} {
-  let score = 20;
+function scoreRelevance(raw: string, haystack: string): { score: number; notes: string[] } {
+  let score = weights.dim.relevancia;
   const notes: string[] = [];
-
   const words = raw.trim().split(/\s+/).filter(Boolean).length;
+
   if (words > 700) {
     score -= 5;
-    notes.push("Excesso de texto dificulta localizar dados essenciais.");
+    notes.push("Excesso de texto que dificulta localizar dados essenciais.");
   } else if (words > 450) {
     score -= 2;
     notes.push("Texto longo com risco de diluir informação importante.");
   }
 
-  // Crude repetition detection: repeated 4+ gram chunks
+  for (const flag of qualityFlags.filter((f) => f.z)) {
+    if (flag.t?.some((t) => termMatches(haystack, t))) {
+      score -= Math.min(5, flag.p ?? 2);
+      notes.push(flag.c.split("_").join(" "));
+    }
+  }
+
   const sentences = raw
     .split(/[.!?\n]+/)
-    .map((s) => normalize(s).trim())
+    .map((s) => normalize(s))
     .filter((s) => s.length > 25);
   const seen = new Map<string, number>();
   for (const s of sentences) {
     const key = s.slice(0, 60);
     seen.set(key, (seen.get(key) ?? 0) + 1);
   }
-  const repeats = [...seen.values()].filter((n) => n >= 2).length;
-  if (repeats >= 3) {
+  if ([...seen.values()].filter((n) => n >= 2).length >= 2) {
     score -= 4;
-    notes.push("Repetição extensa de trechos semelhantes.");
-  } else if (repeats >= 1) {
-    score -= 2;
-    notes.push("Detalhe redundante detectado.");
+    notes.push("repeticao sem ganho");
   }
 
-  // Admin fluff
-  if (hasAny(haystack, ["numero do prontuario", "número do prontuário", "senha do wifi", "protocolo administrativo"])) {
-    score -= 3;
-    notes.push("Detalhe administrativo sem impacto clínico aparente.");
-  }
-
-  return { score: Math.max(0, score), notes };
+  return { score: Math.max(0, score), notes: [...new Set(notes)] };
 }
 
-function scoreSafety(haystack: string, topic: AnamnesisTopic, mentioned: boolean): {
-  score: number;
-  notes: string[];
-} {
+function scoreSafety(
+  haystack: string,
+  domain: string,
+  mentioned: boolean,
+): { score: number; notes: string[] } {
   const notes: string[] = [];
-  if (!topic.redFlagPatterns.length) {
-    return { score: 10, notes };
+  const redReqs = conditionalRedRequirements(haystack).filter((req) =>
+    req.split("|").some((id) => {
+      const concept = conceptsById[id];
+      return concept?.d === "red" && (!concept.a || concept.a.length === 0 || domain === "hma" || domain === "ef" || domain === "qp");
+    }),
+  );
+
+  // Domínios sem red flags aplicáveis: segurança plena se coerente
+  if (!redReqs.length && !["hma", "qp", "ef", "alg"].includes(domain)) {
+    return { score: weights.dim.seguranca, notes };
   }
 
-  if (!mentioned) {
+  if (!mentioned && ["hma", "qp", "ef", "alg"].includes(domain)) {
     return {
       score: 0,
-      notes: [`Sinais de alerta de “${topic.label}” não pesquisados (tópico ausente).`],
+      notes: [`Sinais de alerta / segurança não pesquisados em ${DOMAIN_LABELS[domain]}.`],
     };
   }
 
-  const hits = countMatches(haystack, topic.redFlagPatterns);
-  const denialNearFlags =
-    hasAny(haystack, ["nega", "sem sinais", "sem alerta", "sem red flag"]) && hits === 0
-      ? true
-      : isExplicitDenial(haystack, topic.redFlagPatterns);
-
-  if (hits >= 2 || (hits >= 1 && denialNearFlags)) {
-    return { score: 10, notes };
-  }
-  if (hits === 1 || denialNearFlags) {
-    return { score: 7, notes: [`Avaliação parcial de sinais de alerta em “${topic.label}”.`] };
-  }
-  if (hasAny(haystack, ["alerta", "red flag", "sinais de gravidade"])) {
-    return { score: 4, notes: [`Avaliação superficial de alertas em “${topic.label}”.`] };
+  if (!redReqs.length) {
+    // Sem contexto de alerta específico: parcial se domínio crítico presente
+    const generic = ["RED019", "RED004", "RED008", "RED007"].filter((id) =>
+      matchConcept(haystack, id)?.status !== "ABSENT",
+    );
+    if (generic.length || termMatches(haystack, "nega") || termMatches(haystack, "sem sinais")) {
+      return { score: 7, notes: ["Avaliação parcialmente adequada de alertas."] };
+    }
+    return { score: 4, notes: ["Avaliação superficial de sinais de alerta."] };
   }
 
-  return {
-    score: 0,
-    notes: [`Sinais de alerta relevantes não pesquisados em “${topic.label}”.`],
-  };
+  let covered = 0;
+  for (const req of redReqs) {
+    const result = evaluateRequirement(haystack, req);
+    if (result.ok) covered += 1;
+    else notes.push(`Alerta não pesquisado: ${result.label}`);
+  }
+
+  const ratio = covered / redReqs.length;
+  if (ratio >= 0.75) return { score: 10, notes: notes.slice(0, 2) };
+  if (ratio >= 0.4) return { score: 7, notes };
+  if (ratio > 0) return { score: 4, notes };
+  return { score: 0, notes };
 }
 
-function scoreTopic(raw: string, haystack: string, topic: AnamnesisTopic): TopicScore {
-  const applicable = isTopicApplicable(haystack, topic);
+function scoreDomain(raw: string, haystack: string, domain: string): TopicScore {
+  const label = DOMAIN_LABELS[domain] ?? domain;
+  const weight = weights.domains[domain] ?? 1;
+  const applicable = isDomainApplicable(haystack, domain);
+
   if (!applicable) {
     return {
-      topicId: topic.id,
-      label: topic.label,
-      weight: topic.weight,
+      topicId: domain,
+      label,
+      weight,
       applicable: false,
       ciq: 0,
       completeness: 0,
@@ -261,223 +212,230 @@ function scoreTopic(raw: string, haystack: string, topic: AnamnesisTopic): Topic
     };
   }
 
-  const mentioned = topicMentioned(haystack, topic);
-  const items = topic.essentialItems.map((item) => assessItem(haystack, item));
+  const mentioned = domainMentioned(haystack, domain);
+  const reqIds = resolveDomainRequirements(haystack, domain);
+  // Domínio IS: usa DOC004 como requisito mínimo se não houver lista
+  const effectiveReqs =
+    reqIds.length > 0 ? reqIds : domain === "is" ? ["DOC004"] : [];
 
-  // If topic never appears, essential items stay missing (except N/A)
-  const completeness = mentioned ? scoreCompleteness(items) : 0;
+  const items: ItemAssessment[] = [];
+  const presentIds = new Set<string>();
+  let informed = 0;
+  let applicableCount = 0;
+
+  for (const req of effectiveReqs) {
+    const result = evaluateRequirement(haystack, req);
+    if (result.status === "NA") {
+      items.push({ id: req, label: result.label, status: "not_applicable" });
+      continue;
+    }
+
+    applicableCount += 1;
+    if (result.ok) {
+      informed += 1;
+      result.ids.forEach((id) => presentIds.add(id));
+      items.push({ id: req, label: result.label, status: "informed" });
+    } else {
+      items.push({ id: req, label: result.label, status: "missing" });
+    }
+  }
+
+  // Indexar hits do domínio para flags
+  for (const concept of Object.values(conceptsById)) {
+    if (concept.d !== domain) continue;
+    const hit = matchConcept(haystack, concept.i);
+    if (hit && isInformed(hit.status)) presentIds.add(concept.i);
+  }
+
+  const completeness =
+    !mentioned && applicableCount > 0
+      ? 0
+      : applicableCount === 0
+        ? weights.dim.completude
+        : (informed / applicableCount) * weights.dim.completude;
+
   const clarity = mentioned
-    ? scoreClarity(raw, haystack, topic)
-    : { score: 0, notes: [`Tópico “${topic.label}” não identificado no texto.`] };
+    ? scoreClarityFromFlags(haystack, presentIds)
+    : { score: 0, notes: [`Tópico “${label}” não identificado.`] };
   const relevance = mentioned
     ? scoreRelevance(raw, haystack)
     : { score: 0, notes: [] as string[] };
-  // For absent optional-like core topics, relevance should not invent points
-  const relevanceScore = mentioned ? relevance.score : 0;
-  const safety = scoreSafety(haystack, topic, mentioned);
+  const safety = scoreSafety(haystack, domain, mentioned);
 
-  // When topic absent, CIQ reflects missing content but safety still counts
   const ciq = Math.max(
     0,
-    Math.min(100, Math.round(completeness + clarity.score + relevanceScore + safety.score)),
+    Math.min(
+      100,
+      Math.round(completeness + clarity.score + relevance.score + safety.score),
+    ),
   );
-  const { band } = classifyCiq(ciq);
+  const { band } = classifyScore(ciq);
 
   return {
-    topicId: topic.id,
-    label: topic.label,
-    weight: topic.weight,
+    topicId: domain,
+    label,
+    weight,
     applicable: true,
     ciq,
     completeness: Math.round(completeness * 10) / 10,
     clarity: clarity.score,
-    relevance: relevanceScore,
+    relevance: relevance.score,
     safety: safety.score,
-    band,
+    band: toCiqBand(band),
     items,
   };
 }
 
-function computePenalties(
-  haystack: string,
-  topics: TopicScore[],
-): GlobalPenalty[] {
+function computePenalties(haystack: string, topics: TopicScore[]): GlobalPenalty[] {
   const byId = Object.fromEntries(topics.map((t) => [t.topicId, t]));
-  const hasComorbidity = hasAny(haystack, [
-    "hipertens",
-    "diabetes",
-    "asma",
-    "dpoc",
-    "cardiopat",
-    "comorb",
-    "insuficiencia",
-    "insuficiência",
-  ]);
-  const likelyMeds =
-    hasComorbidity || hasAny(haystack, ["medic", "faz uso", "em uso", "comprimido"]);
+  const allergy = evaluateRequirement(haystack, "ALG001|ALG002");
+  const muc = evaluateRequirement(haystack, "MUC001");
+  const vitals = ["EF005", "EF006", "EF007", "EF008", "EF009"].map((id) =>
+    evaluateRequirement(haystack, id),
+  );
+  const hasComorbidity =
+    evaluateRequirement(haystack, "AP001").ok ||
+    evaluateRequirement(haystack, "AP006").ok ||
+    Object.keys(conceptsById).some(
+      (id) => id.startsWith("DX") && matchConcept(haystack, id)?.status === "POS",
+    );
 
-  const allergyTopic = byId.alergias;
-  const mucTopic = byId.muc;
-  const examTopic = byId.exame_fisico;
-  const hmaTopic = byId.hma;
-  const qpTopic = byId.qp_qd;
+  const redMissing = conditionalRedRequirements(haystack).some(
+    (req) => !evaluateRequirement(haystack, req).ok,
+  );
 
-  const allergyMissing =
-    !allergyTopic ||
-    allergyTopic.ciq < 40 ||
-    allergyTopic.items.some((i) => i.id === "status" && i.status === "missing");
-
-  const mucMissing =
-    likelyMeds &&
-    (!mucTopic ||
-      mucTopic.ciq < 40 ||
-      mucTopic.items.filter((i) => i.status === "missing").length >= 2);
-
-  const vitalsMissing =
-    !examTopic ||
-    examTopic.items.some((i) => i.id === "sinais_vitais" && i.status === "missing");
-
-  const alertMissing =
-    (hmaTopic && hmaTopic.safety <= 4) ||
-    (qpTopic && qpTopic.safety <= 4 && hasAny(haystack, ["dor torac", "dor torác", "dispneia", "sincope", "síncope"]));
-
-  const contradiction =
-    hasAny(haystack, ["nega alerg"]) &&
-    hasAny(haystack, ["reacao alerg", "reação alerg", "urticaria", "urticária"]);
+  const contradiction = relations.some((rel) => {
+    if (!rel.i.startsWith("CON")) return false;
+    // Heurística: se ambos os lados lexicais conflitantes aparecem
+    const sides = rel.k;
+    if (sides.length < 2) return false;
+    const left = sides[0].replace(/^NEG:/, "");
+    const right = sides[1].split("|")[0].replace(/^NEG:/, "");
+    const leftHit = matchConcept(haystack, left);
+    const rightHit = matchConcept(haystack, right);
+    if (!leftHit || !rightHit) return false;
+    if (sides[0].startsWith("NEG:")) {
+      return leftHit.status === "NEG" && rightHit.status === "POS";
+    }
+    return leftHit.status === "POS" && rightHit.status === "POS" && left !== right;
+  });
 
   const chronologyMissing =
-    hmaTopic &&
-    hmaTopic.items.some((i) => i.id === "cronologia" && i.status === "missing") &&
-    hmaTopic.items.some((i) => i.id === "inicio" && i.status === "missing");
+    !evaluateRequirement(haystack, "HMA001").ok ||
+    !evaluateRequirement(haystack, "HMA004").ok;
 
   return [
     {
-      id: "alergias",
+      id: "alergias_ausentes",
       label: "Ausência de alergias",
-      points: 10,
-      applied: Boolean(allergyMissing),
+      points: weights.penalties.alergias_ausentes,
+      applied: !allergy.ok,
     },
     {
-      id: "muc",
+      id: "muc_ausente_quando_aplicavel",
       label: "Ausência de MUC em paciente com comorbidades ou uso provável de medicamentos",
-      points: 10,
-      applied: Boolean(mucMissing),
+      points: weights.penalties.muc_ausente_quando_aplicavel,
+      applied: hasComorbidity && !muc.ok,
     },
     {
-      id: "sinais_vitais",
+      id: "sinais_vitais_ausentes",
       label: "Ausência de sinais vitais em atendimento presencial",
-      points: 10,
-      applied: Boolean(vitalsMissing),
+      points: weights.penalties.sinais_vitais_ausentes,
+      applied: vitals.filter((v) => v.ok).length < 3,
     },
     {
-      id: "alerta",
-      label: "Ausência de avaliação de sinal de alerta relacionado à queixa",
-      points: 15,
-      applied: Boolean(alertMissing),
+      id: "red_flag_nao_pesquisado",
+      label: "Ausência de avaliação de sinal de alerta diretamente relacionado à queixa",
+      points: weights.penalties.red_flag_nao_pesquisado,
+      applied: redMissing || (byId.hma?.safety ?? 0) <= 4,
     },
     {
-      id: "contradicao",
+      id: "contradicao_critica",
       label: "Contradição clinicamente relevante",
-      points: 10,
+      points: weights.penalties.contradicao_critica,
       applied: contradiction,
     },
     {
-      id: "cronologia",
+      id: "cronologia_hma_ausente",
       label: "Ausência de cronologia mínima na HMA",
-      points: 5,
-      applied: Boolean(chronologyMissing),
+      points: weights.penalties.cronologia_hma_ausente,
+      applied: chronologyMissing,
     },
   ];
-}
-
-function collectFindings(
-  raw: string,
-  haystack: string,
-  topics: TopicScore[],
-  clarityNotes: string[],
-  relevanceNotes: string[],
-): Pick<H1Result, "missing" | "confusing" | "irrelevant" | "priorities"> {
-  const missing: string[] = [];
-  for (const topic of topics.filter((t) => t.applicable)) {
-    for (const item of topic.items) {
-      if (item.status === "missing") {
-        missing.push(`${item.label} (${topic.label}).`);
-      }
-    }
-    if (!topicMentioned(haystack, H1_TOPICS.find((t) => t.id === topic.topicId)!)) {
-      missing.push(`Registro do tópico “${topic.label}”.`);
-    }
-  }
-
-  const confusing = [...new Set(clarityNotes)];
-  const irrelevant = [...new Set(relevanceNotes)];
-
-  const priorities: string[] = [];
-  const byId = Object.fromEntries(topics.map((t) => [t.topicId, t]));
-  if ((byId.hma?.safety ?? 10) < 7 || (byId.exame_fisico?.safety ?? 10) < 7) {
-    priorities.push("Completar sinais de alerta.");
-  }
-  if (
-    byId.hma?.items.some((i) => i.id === "cronologia" && i.status === "missing") ||
-    confusing.some((c) => c.toLowerCase().includes("cronolog"))
-  ) {
-    priorities.push("Esclarecer a cronologia.");
-  }
-  if ((byId.muc?.ciq ?? 100) < 75 || (byId.alergias?.ciq ?? 100) < 75) {
-    priorities.push("Confirmar medicações e alergias.");
-  }
-  if (irrelevant.length) {
-    priorities.push("Remover redundâncias.");
-  }
-  if (!priorities.length) {
-    priorities.push("Revisar tópicos com menor CIQ e consolidar dados essenciais.");
-  }
-
-  return {
-    missing: [...new Set(missing)].slice(0, 12),
-    confusing: confusing.slice(0, 8),
-    irrelevant: irrelevant.slice(0, 8),
-    priorities: priorities.slice(0, 6),
-  };
 }
 
 export function evaluateAnamnesisH1(content: string): H1Result {
   const raw = content.trim();
   const haystack = normalize(raw);
 
-  const clarityNotes: string[] = [];
-  const relevanceNotes: string[] = [];
-
-  const topics = H1_TOPICS.map((topic) => {
-    const scored = scoreTopic(raw, haystack, topic);
-    if (scored.applicable) {
-      const clarity = scoreClarity(raw, haystack, topic);
-      const relevance = scoreRelevance(raw, haystack);
-      clarityNotes.push(...clarity.notes);
-      relevanceNotes.push(...relevance.notes);
-    }
-    return scored;
-  });
-
+  const domains = Object.keys(weights.domains);
+  const topics = domains.map((domain) => scoreDomain(raw, haystack, domain));
   const applicable = topics.filter((t) => t.applicable);
+
   const weightSum = applicable.reduce((acc, t) => acc + t.weight, 0) || 1;
   const weighted = applicable.reduce((acc, t) => acc + t.ciq * t.weight, 0);
   const cgqaBeforePenalties = weighted / weightSum;
 
   const penalties = computePenalties(haystack, topics);
-  const penaltyTotal = penalties.filter((p) => p.applied).reduce((acc, p) => acc + p.points, 0);
+  const penaltyTotal = penalties
+    .filter((p) => p.applied)
+    .reduce((acc, p) => acc + p.points, 0);
   const cgqa = Math.max(0, Math.min(100, Math.round(cgqaBeforePenalties - penaltyTotal)));
-  const { band, label } = classifyCiq(cgqa);
+  const classified = classifyScore(cgqa);
 
-  const findings = collectFindings(raw, haystack, topics, clarityNotes, relevanceNotes);
+  const missing: string[] = [];
+  const confusing: string[] = [];
+  const irrelevant: string[] = [];
+
+  for (const topic of applicable) {
+    for (const item of topic.items) {
+      if (item.status === "missing") {
+        missing.push(`${item.label} (${topic.label}).`);
+      }
+    }
+  }
+
+  const clarityGlobal = scoreClarityFromFlags(haystack, new Set());
+  confusing.push(...clarityGlobal.notes);
+  const relevanceGlobal = scoreRelevance(raw, haystack);
+  irrelevant.push(...relevanceGlobal.notes);
+
+  for (const flag of qualityFlags) {
+    if (flag.t?.some((t) => termMatches(haystack, t))) {
+      if (flag.b) confusing.push(flag.c.split("_").join(" "));
+      if (flag.z) irrelevant.push(flag.c.split("_").join(" "));
+      if (flag.f) missing.push(flag.c.split("_").join(" "));
+    }
+  }
+
+  const priorities: string[] = [];
+  if (penalties.find((p) => p.id === "red_flag_nao_pesquisado")?.applied) {
+    priorities.push("Completar sinais de alerta.");
+  }
+  if (penalties.find((p) => p.id === "cronologia_hma_ausente")?.applied) {
+    priorities.push("Esclarecer a cronologia.");
+  }
+  if (
+    penalties.find((p) => p.id === "alergias_ausentes")?.applied ||
+    penalties.find((p) => p.id === "muc_ausente_quando_aplicavel")?.applied
+  ) {
+    priorities.push("Confirmar medicações e alergias.");
+  }
+  if (irrelevant.length) priorities.push("Remover redundâncias.");
+  if (!priorities.length) {
+    priorities.push("Revisar tópicos com menor CIQ e consolidar dados essenciais.");
+  }
 
   return {
     cgqa,
     cgqaBeforePenalties: Math.round(cgqaBeforePenalties),
-    band,
-    bandLabel: label,
+    band: toCiqBand(classified.band),
+    bandLabel: classified.label,
     topics: applicable.sort((a, b) => b.weight - a.weight || b.ciq - a.ciq),
     penalties,
-    ...findings,
+    missing: [...new Set(missing)].slice(0, 14),
+    confusing: [...new Set(confusing)].slice(0, 10),
+    irrelevant: [...new Set(irrelevant)].slice(0, 8),
+    priorities: priorities.slice(0, 6),
   };
 }

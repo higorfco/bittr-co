@@ -135,9 +135,9 @@ export function ReviewWorkspace() {
         <p className="eyebrow">Modo H1 · Anamnese</p>
         <h2>Coeficiente de Completude Clínica</h2>
         <p className="lede">
-          Cole a anamnese. O algoritmo atribui CIQ por tópico (completude,
-          clareza, relevância e segurança) e calcula o CGQA global com
-          penalidades de segurança.
+          Cole a anamnese. A análise consulta a terminologia clínica BR v1
+          (conceitos, negações, requisitos e red flags) para calcular CIQ por
+          tópico e o CGQA global.
         </p>
       </section>
 
