@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useState, useTransition, type ReactNode } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
 import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
 import { evaluateChestPainH3, type H3Result } from "@/lib/h3-evaluate";
@@ -29,6 +29,29 @@ function TopicRow({ topic }: { topic: TopicScore }) {
         </span>
       </div>
     </li>
+  );
+}
+
+function MissingPanel({
+  title = "Informações faltantes",
+  count,
+  children,
+}: {
+  title?: string;
+  count: number;
+  children: ReactNode;
+}) {
+  return (
+    <details className="missing-panel">
+      <summary className="missing-panel-toggle">
+        <span className="missing-panel-title">{title}</span>
+        <span className="ciq-pill band-poor">{count}</span>
+        <span className="missing-panel-hint" aria-hidden="true">
+          ▾
+        </span>
+      </summary>
+      <div className="missing-panel-body">{children}</div>
+    </details>
   );
 }
 
@@ -64,16 +87,17 @@ function H1ResultView({ result }: { result: H1Result }) {
         ))}
       </ul>
 
-      <h3>Informações faltantes</h3>
-      {result.missing.length ? (
-        <ul className="finding-list">
-          {result.missing.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
-      )}
+      <MissingPanel count={result.missing.length}>
+        {result.missing.length ? (
+          <ul className="finding-list">
+            {result.missing.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
+        )}
+      </MissingPanel>
     </section>
   );
 }
@@ -126,16 +150,17 @@ function ChecklistResultView({
         ))}
       </ul>
 
-      <h3>Informações faltantes</h3>
-      {result.missing.length ? (
-        <ul className="finding-list">
-          {result.missing.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
-      )}
+      <MissingPanel count={result.missing.length}>
+        {result.missing.length ? (
+          <ul className="finding-list">
+            {result.missing.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
+        )}
+      </MissingPanel>
     </section>
   );
 }
@@ -253,40 +278,53 @@ function S1ResultView({ result }: { result: S1Result }) {
       </ul>
 
       <ListBlock title="Informações presentes" items={result.informacoes_presentes} />
-      <ListBlock title="Informações parciais" items={result.informacoes_parciais} />
-      <ListBlock title="Informações vagas" items={result.informacoes_vagas} />
       <ListBlock title="Ambiguidades" items={result.ambiguidades} />
       <ListBlock title="Contradições" items={result.contradicoes} />
-      <ListBlock
-        title="Ausentes relevantes"
-        items={result.informacoes_ausentes_relevantes}
-        empty="Nenhuma lacuna relevante no contexto."
-      />
-      <ListBlock
-        title="Condicionais não ativados"
-        items={result.campos_condicionais_nao_ativados}
-      />
-      <ListBlock
-        title="Não aplicáveis"
-        items={result.campos_nao_aplicaveis}
-      />
       <ListBlock
         title="Negativas pertinentes"
         items={result.negativas_pertinentes_documentadas}
       />
 
-      <h3>Pontos de melhoria prioritários</h3>
-      {result.pontos_de_melhoria_prioritarios.length ? (
-        <ul className="finding-list">
-          {result.pontos_de_melhoria_prioritarios.map((item) => (
-            <li key={`${item.nivel}-${item.texto}`}>
-              [{item.nivel}] {item.texto}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="empty-note">Nenhuma lacuna de alto valor evidente.</p>
-      )}
+      <MissingPanel
+        count={
+          result.informacoes_ausentes_relevantes.length +
+          result.informacoes_parciais.length +
+          result.informacoes_vagas.length +
+          result.pontos_de_melhoria_prioritarios.length
+        }
+      >
+        <ListBlock
+          title="Ausentes relevantes"
+          items={result.informacoes_ausentes_relevantes}
+          empty="Nenhuma lacuna relevante no contexto."
+        />
+        <ListBlock
+          title="Informações parciais"
+          items={result.informacoes_parciais}
+        />
+        <ListBlock title="Informações vagas" items={result.informacoes_vagas} />
+        <ListBlock
+          title="Condicionais não ativados"
+          items={result.campos_condicionais_nao_ativados}
+        />
+        <h3>Pontos de melhoria prioritários</h3>
+        {result.pontos_de_melhoria_prioritarios.length ? (
+          <ul className="finding-list">
+            {result.pontos_de_melhoria_prioritarios.map((item) => (
+              <li key={`${item.nivel}-${item.texto}`}>
+                [{item.nivel}] {item.texto}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-note">Nenhuma lacuna de alto valor evidente.</p>
+        )}
+      </MissingPanel>
+
+      <ListBlock
+        title="Não aplicáveis"
+        items={result.campos_nao_aplicaveis}
+      />
 
       {r.arquivos_descartados_relevantes.length ? (
         <ListBlock

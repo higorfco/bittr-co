@@ -176,6 +176,59 @@ body::after {
   line-height: 1.45;
 }
 
+.missing-panel {
+  margin-top: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.2rem;
+  background: rgba(18, 8, 5, 0.85);
+  overflow: hidden;
+}
+
+.missing-panel-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  font-family: var(--font-display), serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.missing-panel-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.missing-panel-title {
+  flex: 1;
+  text-align: left;
+}
+
+.missing-panel-hint {
+  color: var(--gold);
+  transition: transform 0.15s ease;
+}
+
+.missing-panel:not([open]) .missing-panel-hint {
+  transform: rotate(-90deg);
+}
+
+.missing-panel-body {
+  padding: 0.15rem 0.85rem 0.9rem;
+  border-top: 1px solid rgba(107, 52, 16, 0.55);
+}
+
+.missing-panel-body > h3:first-child,
+.missing-panel-body > .empty-note:first-child,
+.missing-panel-body > .finding-list:first-child {
+  margin-top: 0.7rem;
+}
+
 .s1-presence {
   margin: 0.35rem 0 0;
   font-family: var(--font-display), serif;
