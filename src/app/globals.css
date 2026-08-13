@@ -42,10 +42,34 @@ body {
   color: var(--foreground);
   background-color: #000000;
   background-image:
+    linear-gradient(
+      105deg,
+      rgba(0, 0, 0, 0.42) 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      rgba(5, 3, 2, 0.92) 72%,
+      #000000 100%
+    ),
     radial-gradient(ellipse 1000px 520px at 8% -12%, var(--glow), transparent 58%),
     radial-gradient(ellipse 800px 480px at 100% 0%, var(--glow-gold), transparent 52%),
     radial-gradient(ellipse 700px 500px at 50% 110%, rgba(194, 78, 22, 0.14), transparent 58%),
+    url("/bg-symposium.png"),
     linear-gradient(168deg, #000000 0%, #0a0604 38%, #120805 100%);
+  background-repeat: no-repeat;
+  background-size:
+    auto,
+    auto,
+    auto,
+    auto,
+    cover,
+    auto;
+  background-position:
+    center,
+    center,
+    center,
+    center,
+    left center,
+    center;
+  background-attachment: fixed;
   font-family: var(--font-body), Georgia, serif;
 }
 
@@ -56,7 +80,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 0;
-  opacity: 0.11;
+  opacity: 0.1;
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -76,14 +100,15 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 0;
-  opacity: 0.09;
+  opacity: 0.55;
   background:
-    radial-gradient(ellipse 120% 40% at 50% 100%, transparent 40%, rgba(184, 74, 10, 0.2) 100%),
-    repeating-radial-gradient(
-      ellipse 180% 28% at 50% 100%,
-      transparent 0 18px,
-      rgba(224, 112, 24, 0.07) 19px 20px
-    );
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0.55) 48%,
+      rgba(0, 0, 0, 0.88) 100%
+    ),
+    radial-gradient(ellipse 120% 40% at 50% 100%, transparent 40%, rgba(184, 74, 10, 0.2) 100%);
 }
 
 .app-shell {
