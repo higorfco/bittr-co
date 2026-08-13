@@ -328,8 +328,8 @@ export function ModeSwitch({
               src="/s1-hipocrates.png"
               alt=""
               className="mode-s1-icon"
-              width={56}
-              height={56}
+              width={176}
+              height={176}
               priority
             />
           </button>

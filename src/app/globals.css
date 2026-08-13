@@ -136,11 +136,15 @@ body::after {
 }
 
 .mode-btn-s1 {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 4.2rem;
-  padding: 0.35rem;
+  justify-self: center;
+  width: auto;
+  min-height: 0;
+  padding: 0.2rem;
+  border-radius: 0.55rem;
+  line-height: 0;
 }
 
 .mode-btn-s1.active {
@@ -153,10 +157,11 @@ body::after {
 
 .mode-s1-icon {
   display: block;
-  width: 3.35rem;
-  height: 3.35rem;
+  width: min(11rem, 72vw);
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 0.45rem;
+  border-radius: 0.4rem;
   pointer-events: none;
 }
 
