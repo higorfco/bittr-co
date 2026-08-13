@@ -1,0 +1,482 @@
+{
+  "metadata": {
+    "name": "queixa_inespecifica_mal_estar_geral_termos",
+    "version": "1.0",
+    "language": "pt-BR",
+    "scope": "QD/HMA-HPMA",
+    "purpose": "Apoio à análise crítica, extração, normalização semântica, detecção de lacunas/ambiguidades/contradições e roteamento de manifestações específicas em queixa inespecífica/mal-estar geral.",
+    "constraints": [
+      "não diagnosticar",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir dados ausentes",
+      "não converter ausência de menção em negativa",
+      "preservar expressão original"
+    ]
+  },
+  "status_information": {
+    "present": "explicitamente documentado",
+    "negative": "ausência explicitamente documentada",
+    "missing": "não abordado no texto",
+    "ambiguous": "mencionado sem caracterização suficiente",
+    "incomplete": "parcialmente caracterizado",
+    "contradictory": "informações incompatíveis",
+    "not_applicable": "não pertinente ao contexto"
+  },
+  "core_complaint": {
+    "canonical": "queixa inespecífica / mal-estar geral",
+    "terms": [
+      "mal-estar",
+      "mal-estar geral",
+      "indisposição",
+      "não está se sentindo bem",
+      "estou me sentindo mal",
+      "não estou legal",
+      "estou estranho",
+      "fraqueza",
+      "fraqueza geral",
+      "moleza",
+      "corpo mole",
+      "cansaço",
+      "fadiga",
+      "astenia",
+      "prostração",
+      "falta de energia",
+      "desânimo físico",
+      "abatimento",
+      "sensação de doença",
+      "sensação de corpo pesado",
+      "queda do estado geral",
+      "inapetência associada a mal-estar",
+      "dificuldade inespecífica para realizar atividades habituais"
+    ],
+    "must_disambiguate": [
+      "fraqueza",
+      "moleza",
+      "cansaço",
+      "mal-estar",
+      "estou ruim"
+    ]
+  },
+  "semantic_distinctions": [
+    {
+      "a": "fraqueza generalizada",
+      "b": "déficit motor focal"
+    },
+    {
+      "a": "fadiga/astenia",
+      "b": "dispneia aos esforços"
+    },
+    {
+      "a": "sonolência",
+      "b": "alteração do nível de consciência"
+    },
+    {
+      "a": "tontura",
+      "b": "vertigem/pré-síncope"
+    },
+    {
+      "a": "prostração",
+      "b": "incapacidade funcional"
+    },
+    {
+      "a": "inapetência",
+      "b": "náusea"
+    },
+    {
+      "a": "desânimo físico",
+      "b": "alteração predominantemente emocional"
+    },
+    {
+      "a": "sensação de frio/calafrios",
+      "b": "febre documentada"
+    },
+    {
+      "a": "palidez percebida",
+      "b": "sensação inespecífica de fraqueza"
+    }
+  ],
+  "domains": {
+    "temporal": {
+      "fields": [
+        "início",
+        "duração",
+        "modo de início",
+        "evento temporal associado",
+        "estado basal prévio",
+        "sequência cronológica"
+      ],
+      "vague_terms": [
+        "há algum tempo",
+        "esses dias",
+        "desde esses dias",
+        "recentemente",
+        "faz um tempo",
+        "desde ontem"
+      ]
+    },
+    "pattern_evolution": {
+      "fields": [
+        "contínuo/intermitente",
+        "períodos de melhora",
+        "episódios",
+        "duração dos episódios",
+        "frequência",
+        "melhora/piora/estabilidade",
+        "progressão",
+        "novos sintomas",
+        "retorno ao basal"
+      ]
+    },
+    "functional_impact": {
+      "terms": [
+        "atividades normais",
+        "redução das atividades",
+        "dificuldade para trabalhar",
+        "dificuldade para caminhar",
+        "mais tempo sentado/deitado",
+        "dificuldade para levantar-se",
+        "necessita auxílio",
+        "restrito ao leito",
+        "incapacidade para alimentação/hidratação",
+        "redução da autonomia"
+      ]
+    },
+    "triggers_context": {
+      "terms": [
+        "esforço físico",
+        "calor",
+        "frio",
+        "jejum",
+        "redução da ingestão alimentar",
+        "redução da ingestão hídrica",
+        "privação de sono",
+        "viagem",
+        "doença recente",
+        "contato com doentes",
+        "procedimento médico",
+        "cirurgia",
+        "vacinação",
+        "trauma",
+        "exposição ambiental",
+        "alimento incomum",
+        "medicamento novo",
+        "alteração de dose",
+        "interrupção de medicamento",
+        "álcool",
+        "outras substâncias",
+        "exposição ocupacional",
+        "exposição tóxica"
+      ]
+    },
+    "modifiers": {
+      "terms": [
+        "repouso",
+        "esforço",
+        "ortostatismo",
+        "alimentação",
+        "jejum",
+        "hidratação",
+        "sono",
+        "horário do dia",
+        "calor",
+        "frio",
+        "medicamentos",
+        "outras medidas"
+      ]
+    },
+    "intake_general_state": {
+      "terms": [
+        "apetite",
+        "ingestão alimentar",
+        "ingestão de líquidos",
+        "capacidade de alimentar-se",
+        "capacidade de hidratar-se",
+        "redução da ingestão",
+        "intolerância alimentar",
+        "perda de peso",
+        "atividade habitual"
+      ]
+    },
+    "systemic": {
+      "terms": [
+        "febre",
+        "sensação febril",
+        "calafrios",
+        "sudorese",
+        "sudorese noturna",
+        "perda ponderal",
+        "anorexia",
+        "inapetência",
+        "fadiga",
+        "astenia",
+        "prostração",
+        "mialgia",
+        "artralgia",
+        "palidez",
+        "tremores"
+      ]
+    },
+    "neurologic_mental": {
+      "terms": [
+        "cefaleia",
+        "tontura",
+        "vertigem",
+        "desequilíbrio",
+        "dificuldade para caminhar",
+        "síncope",
+        "pré-síncope",
+        "alteração visual",
+        "dificuldade de fala",
+        "parestesias",
+        "fraqueza focal",
+        "assimetria motora",
+        "confusão",
+        "desorientação",
+        "sonolência incomum",
+        "alteração de comportamento",
+        "redução da responsividade",
+        "convulsão"
+      ]
+    },
+    "cardiorespiratory": {
+      "terms": [
+        "dor torácica",
+        "desconforto torácico",
+        "dispneia",
+        "dificuldade respiratória",
+        "intolerância aos esforços",
+        "palpitações",
+        "alteração percebida do ritmo cardíaco",
+        "síncope",
+        "pré-síncope",
+        "tosse",
+        "expectoração",
+        "hemoptise",
+        "edema",
+        "ortopneia",
+        "dispneia paroxística noturna"
+      ]
+    },
+    "gastrointestinal": {
+      "terms": [
+        "náuseas",
+        "vômitos",
+        "dor abdominal",
+        "distensão abdominal",
+        "diarreia",
+        "constipação",
+        "alteração do hábito intestinal",
+        "sangue nas fezes",
+        "fezes escurecidas",
+        "disfagia",
+        "odinofagia",
+        "redução da aceitação alimentar"
+      ]
+    },
+    "genitourinary": {
+      "terms": [
+        "disúria",
+        "polaciúria",
+        "urgência",
+        "alteração do volume urinário",
+        "retenção urinária",
+        "hematúria",
+        "alteração da urina",
+        "dor lombar",
+        "dor em flanco",
+        "sintomas genitais",
+        "corrimento",
+        "sangramento genital",
+        "dor pélvica",
+        "dor testicular",
+        "gestação/contexto gestacional"
+      ]
+    },
+    "cutaneous_allergic": {
+      "terms": [
+        "rash",
+        "prurido",
+        "urticária",
+        "lesões cutâneas",
+        "edema de face",
+        "edema de lábios",
+        "edema de língua",
+        "alteração de coloração da pele",
+        "icterícia",
+        "palidez",
+        "cianose",
+        "exposição/contato"
+      ]
+    },
+    "pain": {
+      "fields": [
+        "localização",
+        "início",
+        "duração",
+        "intensidade",
+        "qualidade",
+        "irradiação",
+        "padrão",
+        "evolução",
+        "fatores de piora",
+        "fatores de melhora"
+      ]
+    },
+    "medications_exposures": {
+      "terms": [
+        "medicamento novo",
+        "aumento de dose",
+        "redução de dose",
+        "suspensão recente",
+        "uso incorreto",
+        "duplicidade de doses",
+        "automedicação",
+        "ingestão acidental",
+        "possível overdose",
+        "álcool",
+        "drogas recreativas",
+        "produtos químicos",
+        "gases",
+        "pesticidas",
+        "alimentos potencialmente relacionados",
+        "outras exposições"
+      ]
+    },
+    "previous_baseline": {
+      "fields": [
+        "episódios prévios",
+        "número de episódios",
+        "semelhança",
+        "duração",
+        "investigação/atendimento prévio",
+        "recuperação completa",
+        "estado funcional basal"
+      ]
+    },
+    "prior_care": {
+      "terms": [
+        "atendimento anterior",
+        "orientações recebidas",
+        "medicamentos utilizados",
+        "medidas caseiras",
+        "resposta às intervenções",
+        "piora após intervenção",
+        "recorrência após melhora",
+        "motivo da nova procura"
+      ]
+    }
+  },
+  "high_priority_change_from_baseline": [
+    "redução abrupta/progressiva da capacidade funcional",
+    "incapacidade de permanecer em pé",
+    "dificuldade nova para caminhar",
+    "dificuldade para alimentação/hidratação",
+    "alteração nova da consciência/comportamento",
+    "piora rápida",
+    "sintoma focal",
+    "dor importante",
+    "dispneia",
+    "síncope",
+    "sangramento",
+    "vômitos persistentes",
+    "redução importante da diurese"
+  ],
+  "routing_rules": [
+    {
+      "pattern": "mal-estar + febre predominante",
+      "route": "febre / síndrome febril"
+    },
+    {
+      "pattern": "mal-estar + dispneia predominante",
+      "route": "dispneia / dificuldade respiratória"
+    },
+    {
+      "pattern": "mal-estar + tontura",
+      "route": "vertigem / tontura / desequilíbrio"
+    },
+    {
+      "pattern": "mal-estar + palpitações",
+      "route": "palpitações / alteração do ritmo cardíaco"
+    },
+    {
+      "pattern": "mal-estar + dor",
+      "route": "algoritmo específico da dor conforme localização"
+    },
+    {
+      "pattern": "fraqueza unilateral",
+      "route": "déficit neurológico focal"
+    },
+    {
+      "pattern": "fraqueza + sensação de desmaio",
+      "route": "diferenciar fraqueza / pré-síncope / síncope"
+    },
+    {
+      "pattern": "sonolência ou confusão",
+      "route": "alteração do nível de consciência / estado mental"
+    }
+  ],
+  "error_prevention_rules": [
+    "preservar termos originais",
+    "não assumir equivalência entre sintomas vagos",
+    "não corrigir contradições silenciosamente",
+    "não atribuir precisão temporal inexistente",
+    "não estabelecer causalidade apenas por coexistência temporal",
+    "não manter manifestação específica relevante agrupada apenas como mal-estar",
+    "não gerar perguntas sobre itens já adequadamente documentados",
+    "priorizar ganho informacional por pergunta"
+  ],
+  "gap_priority": {
+    "high": [
+      "significado de mal-estar/fraqueza",
+      "início e duração",
+      "evolução",
+      "repercussão funcional",
+      "alteração do estado mental",
+      "síncope/pré-síncope",
+      "déficit neurológico focal",
+      "dor torácica",
+      "dispneia",
+      "sangramento",
+      "febre/síndrome sistêmica relevante",
+      "vômitos/diarreia importantes",
+      "incapacidade de hidratação",
+      "exposição/intoxicação relevante",
+      "piora rápida"
+    ],
+    "intermediate": "informações importantes para caracterização sindrômica e cronológica",
+    "low": "detalhes complementares de menor impacto imediato"
+  },
+  "question_templates": [
+    "Quando você diz que está fraco, quer dizer falta de energia ou perda de força para movimentar alguma parte do corpo?",
+    "Isso começou quando?",
+    "Começou de repente ou foi aparecendo aos poucos?",
+    "Você consegue fazer normalmente suas atividades, caminhar, comer e beber?",
+    "Além desse mal-estar, qual é o sintoma que mais está incomodando?",
+    "Apareceu algum outro sintoma junto?"
+  ],
+  "output_schema": {
+    "complaint_identified": [
+      "original_description",
+      "possible_semantic_interpretation",
+      "specificity"
+    ],
+    "information_present": [],
+    "explicit_negatives": [],
+    "missing_or_incomplete": [
+      {
+        "information": "",
+        "status": "missing|ambiguous|incomplete|contradictory",
+        "priority": "high|intermediate|low",
+        "brief_reason": ""
+      }
+    ],
+    "specific_manifestations": [],
+    "ambiguities_or_contradictions": [],
+    "priority_followup_questions": [],
+    "completeness_summary": {
+      "classification": "adequately_characterized|partially_characterized|insufficiently_characterized",
+      "brief_reason": ""
+    }
+  }
+}

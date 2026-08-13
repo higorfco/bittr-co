@@ -1,0 +1,425 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Manifestações cutâneas",
+    "escopo": [
+      "rash/erupção cutânea",
+      "prurido",
+      "lesões elementares",
+      "alterações de cor",
+      "descamação",
+      "vesículas/bolhas/pústulas",
+      "úlceras/erosões/crostas",
+      "edema cutâneo",
+      "pele e mucosas"
+    ],
+    "finalidade": "Apoio à análise crítica de QD e HMA/HPMA, com foco em extração, completude, ambiguidade, segurança e prevenção de inferências indevidas.",
+    "restricoes": [
+      "não diagnosticar",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "não converter descrição leiga automaticamente em lesão elementar",
+      "não tratar 'não informado' como 'negado'"
+    ]
+  },
+  "fenomenos_e_sinonimos": {
+    "erupcao_cutanea": [
+      "rash",
+      "erupção",
+      "erupção cutânea",
+      "pele empolada",
+      "pele pipocada"
+    ],
+    "alteracao_cor": [
+      "mancha",
+      "manchas",
+      "vermelhidão",
+      "pele vermelha",
+      "pintas"
+    ],
+    "lesao_elevada": [
+      "caroço",
+      "caroços",
+      "bolinha",
+      "bolinhas",
+      "placa",
+      "placas",
+      "vergão",
+      "vergões"
+    ],
+    "solucao_continuidade": [
+      "ferida",
+      "feridas",
+      "feridinha",
+      "feridinhas"
+    ],
+    "descamacao": [
+      "descamação",
+      "pele soltando",
+      "pele descascando"
+    ],
+    "prurido": [
+      "prurido",
+      "coceira",
+      "coça",
+      "coça muito"
+    ],
+    "sensacoes": [
+      "ardência",
+      "arde",
+      "queimação",
+      "queima",
+      "dor",
+      "hipersensibilidade",
+      "parestesia"
+    ],
+    "outros": [
+      "edema",
+      "secreção",
+      "sangramento",
+      "odor",
+      "calor local"
+    ]
+  },
+  "lesoes_elementares": {
+    "primarias": [
+      "mácula",
+      "mancha",
+      "pápula",
+      "placa",
+      "nódulo",
+      "tumor/nodulação",
+      "vesícula",
+      "bolha",
+      "pústula",
+      "urtica/vergão"
+    ],
+    "secundarias": [
+      "escama/descamação",
+      "crosta",
+      "erosão",
+      "escoriação",
+      "fissura",
+      "úlcera",
+      "liquenificação",
+      "atrofia",
+      "cicatriz"
+    ]
+  },
+  "descritores_morfologicos": {
+    "dimensoes_forma": [
+      "tamanho",
+      "formato",
+      "limites",
+      "bordas"
+    ],
+    "superficie_relevo": [
+      "superfície",
+      "relevo",
+      "conteúdo",
+      "consistência",
+      "centro da lesão",
+      "halo",
+      "confluência"
+    ],
+    "alteracoes": [
+      "descamação",
+      "crostas",
+      "erosões",
+      "ulcerações",
+      "necrose",
+      "secreção",
+      "sangramento"
+    ],
+    "cores": [
+      "eritematosa/vermelha",
+      "violácea",
+      "acastanhada",
+      "enegrecida",
+      "esbranquiçada",
+      "hipocrômica",
+      "hipercrômica"
+    ]
+  },
+  "localizacao": [
+    "face",
+    "couro cabeludo",
+    "pescoço",
+    "tronco",
+    "dorso",
+    "abdome",
+    "membros superiores",
+    "membros inferiores",
+    "mãos",
+    "pés",
+    "palmas",
+    "plantas",
+    "região genital",
+    "região perianal",
+    "dobras/áreas intertriginosas",
+    "mucosa oral",
+    "olhos/conjuntivas",
+    "outras mucosas"
+  ],
+  "distribuicao": [
+    "única",
+    "múltiplas",
+    "localizada",
+    "multifocal",
+    "generalizada",
+    "agrupada",
+    "dispersa",
+    "simétrica",
+    "assimétrica",
+    "unilateral",
+    "bilateral",
+    "contínua",
+    "descontínua",
+    "áreas expostas",
+    "dobras",
+    "áreas de contato",
+    "faixa/linha/trajeto",
+    "disseminação progressiva"
+  ],
+  "tempo_e_evolucao": {
+    "inicio": [
+      "súbito",
+      "rápido",
+      "progressivo",
+      "insidioso",
+      "de uma vez",
+      "gradual"
+    ],
+    "padrao": [
+      "fixa",
+      "transitória",
+      "recorrente",
+      "desaparece e reaparece",
+      "melhorando",
+      "piorando",
+      "estável"
+    ],
+    "mudancas": [
+      "aumento do número",
+      "aumento do tamanho",
+      "mudança de aspecto",
+      "novas regiões",
+      "mancha residual",
+      "cicatriz residual"
+    ],
+    "alertas_vagueza_temporal": [
+      "há alguns dias",
+      "faz um tempo",
+      "recentemente",
+      "desde semana passada",
+      "começou esses dias"
+    ]
+  },
+  "prurido_descritores": [
+    "início",
+    "duração",
+    "intensidade",
+    "localização",
+    "localizado",
+    "generalizado",
+    "contínuo",
+    "intermitente",
+    "predomínio diurno",
+    "predomínio noturno",
+    "piora noturna",
+    "relação temporal com lesões",
+    "fatores desencadeantes",
+    "fatores de piora",
+    "fatores de melhora",
+    "interferência no sono",
+    "escoriações",
+    "contactantes com prurido"
+  ],
+  "exposicoes": [
+    "medicamento novo",
+    "mudança de dose",
+    "medicamento eventual",
+    "antibióticos",
+    "analgésicos/anti-inflamatórios",
+    "suplementos",
+    "fitoterápicos",
+    "cosméticos",
+    "perfumes",
+    "sabonetes",
+    "cremes",
+    "pomadas",
+    "produtos capilares",
+    "detergentes/produtos de limpeza",
+    "roupas/tecidos",
+    "metais/adornos",
+    "plantas",
+    "animais",
+    "insetos",
+    "alimentos",
+    "sol",
+    "calor",
+    "frio",
+    "suor",
+    "exercício",
+    "água",
+    "produtos químicos",
+    "ambiente ocupacional",
+    "viagem recente",
+    "contato com pessoas com manifestações semelhantes"
+  ],
+  "sintomas_sistemicos": [
+    "febre",
+    "calafrios",
+    "mal-estar",
+    "prostração",
+    "astenia",
+    "cefaleia",
+    "mialgia",
+    "artralgia",
+    "edema",
+    "linfonodomegalia percebida",
+    "sintomas respiratórios",
+    "gastrointestinais",
+    "urinários",
+    "genitais"
+  ],
+  "mucosas_regioes_especiais": {
+    "locais": [
+      "boca",
+      "lábios",
+      "língua",
+      "mucosa oral",
+      "olhos/conjuntivas",
+      "região genital",
+      "região perianal"
+    ],
+    "achados": [
+      "erosões",
+      "úlceras",
+      "bolhas",
+      "dor",
+      "ardência",
+      "crostas",
+      "sangramento",
+      "dificuldade para alimentação/deglutição",
+      "sintomas oculares"
+    ]
+  },
+  "elementos_gravidade": [
+    "início abrupto com progressão rápida",
+    "acometimento cutâneo extenso",
+    "bolhas extensas",
+    "desprendimento/descolamento da pele",
+    "necrose",
+    "púrpura/lesões violáceas agudas",
+    "sangramento cutâneo",
+    "dor cutânea intensa/desproporcional",
+    "edema importante",
+    "edema de face/lábios/língua",
+    "dificuldade respiratória",
+    "dificuldade para engolir",
+    "alteração de voz",
+    "comprometimento de mucosas",
+    "comprometimento ocular",
+    "febre/manifestações sistêmicas importantes",
+    "alteração do estado geral",
+    "progressão rápida",
+    "relação temporal com início de medicamento"
+  ],
+  "episodios_previos_contactantes": [
+    "quadro semelhante prévio",
+    "número de episódios",
+    "data/época",
+    "localização semelhante",
+    "aspecto semelhante",
+    "desencadeante semelhante",
+    "resolução completa",
+    "recorrência",
+    "sazonalidade",
+    "relação recorrente com exposição",
+    "lesões/prurido em conviventes",
+    "contato com pessoa com manifestação semelhante"
+  ],
+  "intervencoes": [
+    "medicamentos",
+    "cremes/pomadas",
+    "anti-histamínicos",
+    "analgésicos",
+    "medidas caseiras",
+    "suspensão de produtos",
+    "suspensão de medicamentos",
+    "dose/concentração",
+    "momento de uso",
+    "duração",
+    "resposta",
+    "melhora parcial/completa",
+    "ausência de melhora",
+    "piora",
+    "recorrência após suspensão"
+  ],
+  "impacto_funcional": [
+    "sono",
+    "alimentação",
+    "deglutição",
+    "marcha",
+    "atividades diárias",
+    "trabalho",
+    "higiene",
+    "roupas/calçados",
+    "mobilidade"
+  ],
+  "controle_qualidade": {
+    "estados": [
+      "presente_adequado",
+      "presente_incompleto",
+      "vago_inespecifico",
+      "ambiguo",
+      "contraditorio",
+      "nao_informado",
+      "negado_explicitamente"
+    ],
+    "regras": [
+      "preservar descrição original quando classificação morfológica não for segura",
+      "não presumir distribuição a partir de termos vagos como 'pelo corpo'",
+      "não inferir transmissibilidade",
+      "não atribuir causalidade a medicamento/exposição apenas por temporalidade",
+      "não usar resposta terapêutica isolada como confirmação diagnóstica",
+      "diferenciar duração global do quadro da duração de cada lesão",
+      "diferenciar 'não informado' de 'negado'"
+    ]
+  },
+  "prioridade_lacunas": [
+    "início/duração",
+    "localização inicial/atual",
+    "distribuição/extensão",
+    "morfologia",
+    "lesão elementar quando determinável",
+    "evolução",
+    "prurido/dor/sintomas locais",
+    "mucosas",
+    "sintomas sistêmicos",
+    "medicamentos/exposições",
+    "elementos de gravidade",
+    "episódios anteriores",
+    "contactantes quando pertinente",
+    "intervenções/resposta"
+  ],
+  "perguntas_sugeridas": {
+    "morfologia": "Como são as lesões: manchas planas, caroços, bolhas, feridas ou outro aspecto?",
+    "distribuicao": "Em quais partes do corpo apareceram e onde começaram?",
+    "evolucao": "As lesões estão aumentando, espalhando, mudando de aspecto ou permanecem iguais?",
+    "duracao_individual": "Cada lesão permanece no mesmo local ou desaparece e surge novamente?",
+    "medicamentos": "Começou algum medicamento ou mudou alguma dose antes do aparecimento das lesões?",
+    "mucosas": "Há feridas, bolhas ou dor na boca, olhos ou região genital?"
+  },
+  "pipeline_analise": [
+    "identificar fenômeno",
+    "caracterizar morfologia",
+    "estabelecer localização/distribuição",
+    "organizar cronologia/evolução",
+    "identificar sintomas associados",
+    "verificar exposições",
+    "reconhecer elementos de gravidade",
+    "apontar lacunas relevantes"
+  ]
+}

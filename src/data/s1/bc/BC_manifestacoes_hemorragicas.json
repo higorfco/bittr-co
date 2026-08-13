@@ -1,0 +1,432 @@
+{
+  "metadata": {
+    "name": "sangramento_manifestacoes_hemorragicas",
+    "language": "pt-BR",
+    "purpose": "Base terminológica para análise crítica e tempo-efetiva de QD/HMA relacionada a sangramento, hemorragia e manifestações hemorrágicas.",
+    "scope": [
+      "QD",
+      "HMA",
+      "HPMA"
+    ],
+    "constraints": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informações ausentes",
+      "ausente no texto não equivale a negado",
+      "preservar descrições ambíguas"
+    ]
+  },
+  "core_concepts": {
+    "generic_bleeding": [
+      "sangramento",
+      "hemorragia",
+      "perda de sangue",
+      "sangue",
+      "sangrou",
+      "sangrando"
+    ],
+    "cutaneous": [
+      "petéquias",
+      "petequias",
+      "púrpura",
+      "purpura",
+      "equimose",
+      "equimoses",
+      "hematoma",
+      "hematomas",
+      "mancha roxa",
+      "manchas roxas"
+    ],
+    "gastrointestinal": {
+      "upper": [
+        "hematêmese",
+        "hematemese",
+        "vômito com sangue",
+        "vomito com sangue",
+        "borra de café",
+        "borra de cafe"
+      ],
+      "lower": [
+        "melena",
+        "hematoquezia",
+        "enterorragia",
+        "sangue nas fezes",
+        "sangue vivo nas fezes",
+        "fezes com sangue",
+        "fezes pretas",
+        "fezes enegrecidas",
+        "sangue no papel higiênico",
+        "sangramento anal",
+        "sangramento retal"
+      ]
+    },
+    "respiratory": [
+      "hemoptise",
+      "expectoração sanguinolenta",
+      "expectoracao sanguinolenta",
+      "escarro hemoptoico",
+      "sangue ao tossir",
+      "tossiu sangue"
+    ],
+    "nasal_oral": [
+      "epistaxe",
+      "sangramento nasal",
+      "nariz sangrando",
+      "sangramento gengival",
+      "gengiva sangrando",
+      "sangramento oral",
+      "sangue pela boca"
+    ],
+    "genitourinary": [
+      "hematúria",
+      "hematuria",
+      "urina com sangue",
+      "sangue na urina",
+      "urina avermelhada",
+      "sangramento uretral"
+    ],
+    "gynecologic": [
+      "sangramento vaginal",
+      "sangramento uterino",
+      "menorragia",
+      "metrorragia",
+      "sangramento intermenstrual",
+      "sangramento pós-coital",
+      "sangramento pos-coital",
+      "sangramento pós-menopausa",
+      "sangramento pos-menopausa",
+      "fluxo menstrual aumentado",
+      "menstruação forte"
+    ],
+    "procedural_other": [
+      "ferida operatória",
+      "ferida operatoria",
+      "dreno",
+      "estoma",
+      "cateter",
+      "local de punção",
+      "local de puncao",
+      "sangramento após procedimento",
+      "sangramento apos procedimento",
+      "sangramento odontológico"
+    ]
+  },
+  "characterization": {
+    "timing": [
+      "início",
+      "inicio",
+      "começou",
+      "comecou",
+      "há quanto tempo",
+      "primeiro episódio",
+      "episódio anterior",
+      "recorrente",
+      "último episódio",
+      "ainda sangrando"
+    ],
+    "pattern": [
+      "contínuo",
+      "continuo",
+      "intermitente",
+      "episódico",
+      "episodico",
+      "recorrente",
+      "persistente",
+      "cessou",
+      "reapareceu"
+    ],
+    "evolution": [
+      "piorando",
+      "melhorando",
+      "estável",
+      "estavel",
+      "resolvido",
+      "aumentando",
+      "diminuindo"
+    ],
+    "magnitude": [
+      "pequena quantidade",
+      "moderada quantidade",
+      "grande quantidade",
+      "gotas",
+      "estrias",
+      "manchas",
+      "coágulos",
+      "coagulos",
+      "volume",
+      "encharcado",
+      "sangrou muito"
+    ],
+    "appearance": [
+      "vermelho vivo",
+      "vermelho escuro",
+      "vinho",
+      "enegrecido",
+      "sangue fresco",
+      "sangue coagulado",
+      "coágulos",
+      "coagulos",
+      "diluído",
+      "diluido",
+      "borra de café"
+    ],
+    "triggers_context": [
+      "trauma",
+      "queda",
+      "acidente",
+      "ferimento",
+      "cirurgia",
+      "procedimento",
+      "punção",
+      "puncao",
+      "relação sexual",
+      "relacao sexual",
+      "esforço",
+      "esforco",
+      "tosse",
+      "vômito",
+      "vomito",
+      "evacuação",
+      "evacuacao",
+      "constipação",
+      "constipacao",
+      "micção",
+      "miccao",
+      "exercício",
+      "exercicio",
+      "manipulação",
+      "menstruação",
+      "gestação",
+      "gravidez"
+    ]
+  },
+  "associated_symptoms": {
+    "systemic": [
+      "fraqueza",
+      "astenia",
+      "mal-estar",
+      "tontura",
+      "pré-síncope",
+      "pre-sincope",
+      "sensação de desmaio",
+      "sincope",
+      "síncope",
+      "palpitações",
+      "palpitacoes",
+      "sudorese",
+      "dispneia",
+      "intolerância aos esforços",
+      "palidez",
+      "confusão",
+      "confusao",
+      "sonolência"
+    ],
+    "pain": [
+      "dor abdominal",
+      "dor epigástrica",
+      "dor torácica",
+      "cefaleia",
+      "dor pélvica",
+      "dor lombar",
+      "dor anal"
+    ],
+    "gastrointestinal": [
+      "náusea",
+      "nausea",
+      "vômito",
+      "vomito",
+      "diarreia",
+      "constipação",
+      "alteração do hábito intestinal"
+    ],
+    "respiratory": [
+      "tosse",
+      "expectoração",
+      "expectoracao",
+      "dispneia",
+      "dor torácica"
+    ],
+    "genitourinary": [
+      "disúria",
+      "disuria",
+      "polaciúria",
+      "polaciuria",
+      "urgência urinária",
+      "dor lombar",
+      "dificuldade para urinar"
+    ],
+    "gynecologic": [
+      "dor pélvica",
+      "atraso menstrual",
+      "alteração do ciclo",
+      "sangramento fora do período menstrual",
+      "sangramento pós-coital"
+    ]
+  },
+  "ambiguity_rules": [
+    {
+      "term": "sangue pela boca",
+      "differentiate": [
+        "hematêmese",
+        "hemoptise",
+        "origem oral",
+        "origem nasal/orofaríngea"
+      ]
+    },
+    {
+      "term": "fezes pretas",
+      "differentiate": [
+        "melena",
+        "fezes escuras sem caracterização suficiente"
+      ]
+    },
+    {
+      "term": "urina com sangue",
+      "differentiate": [
+        "hematúria",
+        "sangramento genital/uretral"
+      ]
+    },
+    {
+      "term": "sangramento íntimo",
+      "differentiate": [
+        "vaginal",
+        "uretral",
+        "anal",
+        "origem indeterminada"
+      ]
+    },
+    {
+      "term": "vomitou vermelho",
+      "differentiate": [
+        "sangue",
+        "conteúdo avermelhado não confirmado"
+      ]
+    },
+    {
+      "term": "manchas roxas",
+      "differentiate": [
+        "equimose/hematoma",
+        "lesão não suficientemente caracterizada"
+      ]
+    },
+    {
+      "term": "sangrou muito",
+      "differentiate": [
+        "magnitude subjetiva",
+        "quantificação objetiva ausente"
+      ]
+    },
+    {
+      "term": "teve hemorragia",
+      "differentiate": [
+        "sítio",
+        "tempo",
+        "magnitude",
+        "atividade atual"
+      ]
+    }
+  ],
+  "medication_terms": {
+    "classes": [
+      "anticoagulante",
+      "antiagregante plaquetário",
+      "anti-inflamatório",
+      "AINE"
+    ],
+    "context_fields": [
+      "nome",
+      "início recente",
+      "mudança de dose",
+      "suspensão",
+      "uso irregular",
+      "relação temporal"
+    ]
+  },
+  "severity_history_markers": [
+    "sangramento volumoso",
+    "sangramento persistente",
+    "recorrência em curto intervalo",
+    "síncope",
+    "alteração da consciência",
+    "fraqueza intensa",
+    "dispneia importante",
+    "palpitações",
+    "incapacidade funcional",
+    "múltiplos sítios de sangramento",
+    "trauma relevante",
+    "piora progressiva"
+  ],
+  "critical_fields": [
+    "sítio_origem",
+    "inicio",
+    "duracao",
+    "atividade_atual",
+    "magnitude",
+    "numero_episodios",
+    "frequencia",
+    "aspecto",
+    "evolucao",
+    "desencadeantes",
+    "sintomas_associados",
+    "repercussao_sistemica",
+    "episodios_previos",
+    "outros_sitios"
+  ],
+  "status_model": [
+    "presente",
+    "negado_explicitamente",
+    "ausente",
+    "ambiguo",
+    "contraditorio"
+  ],
+  "priority_model": {
+    "CRITICA": "Necessária para compreender a natureza ou repercussão do sangramento.",
+    "IMPORTANTE": "Melhora substancialmente a caracterização.",
+    "COMPLEMENTAR": "Útil, porém de menor prioridade."
+  },
+  "high_yield_questions": {
+    "site": "De onde está saindo o sangue?",
+    "onset": "Quando começou?",
+    "active": "Ainda está sangrando?",
+    "magnitude": "Qual foi aproximadamente a quantidade?",
+    "recurrence": "Quantos episódios ocorreram?",
+    "appearance": "Qual era a aparência e a cor do sangue?",
+    "clots": "Havia coágulos?",
+    "evolution": "O sangramento está aumentando, diminuindo ou permanece igual?",
+    "systemic": "Durante ou após o sangramento houve tontura, desmaio ou fraqueza?",
+    "previous": "Já aconteceu algo semelhante antes?"
+  },
+  "validation_rules": [
+    "não converter ausência em negativa",
+    "não converter linguagem coloquial em diagnóstico",
+    "não inferir etiologia",
+    "não inferir origem anatômica não comprovada",
+    "distinguir sangramento ativo de sangramento prévio",
+    "distinguir evento único de recorrência",
+    "distinguir magnitude subjetiva de quantidade objetiva",
+    "não repetir perguntas sobre dados já suficientemente documentados",
+    "sinalizar contradições sem escolher arbitrariamente uma versão",
+    "priorizar perguntas de alto rendimento"
+  ],
+  "output_schema": {
+    "manifestacao_identificada": [
+      "tipo",
+      "origem_aparente",
+      "ativo_ou_previo",
+      "grau_certeza"
+    ],
+    "informacoes_presentes": [],
+    "negativas_explicitas": [],
+    "informacoes_faltantes": [
+      {
+        "campo": "",
+        "prioridade": ""
+      }
+    ],
+    "ambiguidades_contradicoes": [],
+    "perguntas_prioritarias": [],
+    "sugestao_melhoria_registro": []
+  }
+}

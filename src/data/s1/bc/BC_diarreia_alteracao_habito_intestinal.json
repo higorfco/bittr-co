@@ -1,0 +1,536 @@
+{
+  "meta": {
+    "nome": "diarreia_alteracao_habito_intestinal",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Base terminológica estruturada para consulta algorítmica durante análise crítica de QD/HMA.",
+    "escopo": [
+      "diarreia",
+      "alteração do hábito intestinal"
+    ],
+    "restricoes": [
+      "não diagnosticar",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir dados ausentes",
+      "não considerar ausência de informação como negativa"
+    ]
+  },
+  "regras_interpretacao": {
+    "estados": [
+      "presente_adequadamente_caracterizado",
+      "presente_incompleto",
+      "explicitamente_negado",
+      "nao_informado",
+      "ambiguo",
+      "contraditorio",
+      "potencialmente_irrelevante"
+    ],
+    "nao_equivalencias": [
+      [
+        "diarreia",
+        "evacuações frequentes"
+      ],
+      [
+        "diarreia",
+        "fezes amolecidas"
+      ],
+      [
+        "aumento de frequência",
+        "alteração de consistência"
+      ],
+      [
+        "fezes escuras",
+        "melena"
+      ],
+      [
+        "sangue vivo",
+        "hematochezia"
+      ]
+    ],
+    "principios": [
+      "diferenciar não informado de negado",
+      "diferenciar não caracterizado de ausente",
+      "preservar linguagem original quando houver risco de perda semântica",
+      "não transformar informação vaga em dado preciso",
+      "não assumir causalidade por associação temporal"
+    ]
+  },
+  "dominios": {
+    "queixa": {
+      "termos": [
+        "diarreia",
+        "fezes líquidas",
+        "fezes aquosas",
+        "fezes amolecidas",
+        "fezes pastosas",
+        "intestino solto",
+        "soltura intestinal",
+        "evacuações frequentes",
+        "evacuando várias vezes",
+        "indo muito ao banheiro",
+        "desarranjo intestinal",
+        "mudança do hábito intestinal",
+        "alteração do hábito intestinal",
+        "intestino diferente",
+        "urgência para evacuar",
+        "não consegue segurar as fezes"
+      ],
+      "campos": [
+        "mudanca_do_habito",
+        "frequencia",
+        "consistencia",
+        "volume",
+        "urgencia",
+        "incontinencia",
+        "comparacao_com_baseline"
+      ]
+    },
+    "baseline": {
+      "campos": [
+        "frequencia_habitual",
+        "consistencia_habitual",
+        "alternancia_previa",
+        "urgencia_previa",
+        "esforco_previo",
+        "evacuacao_incompleta_previa"
+      ]
+    },
+    "tempo_e_evolucao": {
+      "termos_vagos": [
+        "há alguns dias",
+        "há um tempo",
+        "recentemente",
+        "faz tempo",
+        "ultimamente"
+      ],
+      "campos": [
+        "inicio",
+        "duracao",
+        "modo_de_inicio",
+        "evento_precedente",
+        "continuo_ou_episodico",
+        "resolucao",
+        "recorrencia",
+        "cronologia"
+      ]
+    },
+    "frequencia": {
+      "termos": [
+        "3x/dia",
+        "5–6 episódios/dia",
+        "inúmeras evacuações",
+        "várias vezes",
+        "toda hora",
+        "após todas as refeições",
+        "muita diarreia",
+        "evacua bastante"
+      ],
+      "campos": [
+        "evacuacoes_por_dia",
+        "mudanca_vs_baseline",
+        "periodo_do_dia",
+        "noturna",
+        "desperta_para_evacuacao",
+        "intervalos_sem_evacuacao"
+      ]
+    },
+    "fezes": {
+      "consistencia": [
+        "formada",
+        "amolecida",
+        "pastosa",
+        "semilíquida",
+        "líquida",
+        "aquosa"
+      ],
+      "escala": [
+        "Bristol"
+      ],
+      "aspecto": [
+        "muco",
+        "sangue",
+        "pus",
+        "gordura",
+        "oleosidade",
+        "espumosa",
+        "alimentos não digeridos",
+        "fezes muito claras",
+        "fezes escurecidas",
+        "odor diferente",
+        "odor intenso"
+      ],
+      "campos": [
+        "consistencia",
+        "bristol",
+        "cor",
+        "odor",
+        "conteudo_anormal"
+      ]
+    },
+    "volume_padrao": {
+      "termos": [
+        "pequeno volume",
+        "médio volume",
+        "grande volume",
+        "grande quantidade de líquido",
+        "pequenas evacuações repetidas",
+        "urgência",
+        "tenesmo",
+        "evacuação incompleta",
+        "dificuldade de retenção",
+        "incontinência fecal"
+      ],
+      "campos": [
+        "volume",
+        "urgencia",
+        "tenesmo",
+        "evacuacao_incompleta",
+        "retencao",
+        "incontinencia"
+      ]
+    },
+    "sangramento_e_muco": {
+      "termos": [
+        "sangue vivo",
+        "sangue misturado às fezes",
+        "fezes negras",
+        "fezes escurecidas",
+        "muco",
+        "pus",
+        "secreção",
+        "gorduroso",
+        "oleoso",
+        "papel",
+        "pinga no vaso"
+      ],
+      "campos": [
+        "presenca",
+        "quantidade",
+        "cor",
+        "misturado_as_fezes",
+        "no_papel",
+        "no_vaso",
+        "relacao_com_evacuacao"
+      ]
+    },
+    "sintomas_abdominais": {
+      "termos": [
+        "dor abdominal",
+        "cólica",
+        "cólicas",
+        "distensão abdominal",
+        "desconforto abdominal",
+        "gases",
+        "flatulência",
+        "tenesmo",
+        "urgência evacuatória"
+      ],
+      "campos": [
+        "localizacao",
+        "intensidade",
+        "qualidade",
+        "inicio",
+        "duracao",
+        "relacao_com_evacuacao",
+        "relacao_com_alimentacao"
+      ]
+    },
+    "nauseas_vomitos": {
+      "termos": [
+        "náusea",
+        "náuseas",
+        "vômito",
+        "vômitos"
+      ],
+      "campos": [
+        "presenca",
+        "numero_episodios",
+        "relacao_temporal",
+        "tolerancia_liquidos",
+        "tolerancia_alimentos",
+        "persistencia"
+      ]
+    },
+    "sistemicos": {
+      "termos": [
+        "febre",
+        "febril",
+        "quente",
+        "sensação de febre",
+        "estado febril",
+        "calafrios",
+        "sudorese",
+        "mal-estar",
+        "astenia",
+        "prostração",
+        "fadiga",
+        "mialgia",
+        "cefaleia",
+        "perda de apetite"
+      ],
+      "campos": [
+        "febre_documentada",
+        "temperatura_maxima",
+        "calafrios",
+        "estado_geral"
+      ]
+    },
+    "repercussao_hidrica": {
+      "termos": [
+        "sede intensa",
+        "boca seca",
+        "redução da ingestão hídrica",
+        "incapacidade de ingerir líquidos",
+        "redução da diurese",
+        "ausência de diurese",
+        "urina concentrada",
+        "urina escura",
+        "tontura",
+        "sensação de desmaio",
+        "síncope",
+        "fraqueza intensa",
+        "prostração",
+        "alteração do nível de consciência"
+      ],
+      "alerta_inferencia": "Os termos podem sugerir repercussão clínica, mas não autorizam diagnosticar desidratação."
+    },
+    "alimentacao": {
+      "termos": [
+        "refeição específica",
+        "alimento suspeito",
+        "mal conservado",
+        "cru",
+        "mal cozido",
+        "carne",
+        "carnes",
+        "ovos",
+        "frutos do mar",
+        "leite",
+        "derivados",
+        "água de procedência duvidosa",
+        "restaurante",
+        "festa",
+        "evento",
+        "mesma refeição"
+      ],
+      "campos": [
+        "exposicao",
+        "relacao_temporal",
+        "outros_sintomaticos",
+        "piora_pos_prandial",
+        "melhora_jejum"
+      ]
+    },
+    "epidemiologia": {
+      "termos": [
+        "contato com diarreia",
+        "familiares sintomáticos",
+        "conviventes sintomáticos",
+        "surto",
+        "escola",
+        "creche",
+        "instituição",
+        "trabalho",
+        "viagem recente",
+        "água não tratada",
+        "rio",
+        "lago",
+        "piscina",
+        "acampamento",
+        "animais",
+        "exposição ocupacional",
+        "institucionalização",
+        "internação recente",
+        "pronto-socorro"
+      ],
+      "campos": [
+        "contatos",
+        "surto",
+        "viagem",
+        "agua",
+        "animais",
+        "ocupacional",
+        "assistencia_saude"
+      ]
+    },
+    "medicamentos_substancias": {
+      "termos": [
+        "antibiótico",
+        "antibióticos",
+        "laxativo",
+        "laxativos",
+        "magnésio",
+        "metformina",
+        "medicamento novo",
+        "suplementos",
+        "fitoterápicos",
+        "adoçantes",
+        "polióis",
+        "álcool"
+      ],
+      "campos": [
+        "substancia",
+        "inicio",
+        "suspensao",
+        "relacao_temporal"
+      ],
+      "regra": "Não atribuir causalidade automaticamente."
+    },
+    "nutricional": {
+      "termos": [
+        "perda de peso",
+        "emagreceu",
+        "emagreceu muito",
+        "redução do apetite",
+        "dificuldade para alimentação",
+        "piora do estado geral"
+      ],
+      "campos": [
+        "quantidade",
+        "periodo",
+        "voluntaria_ou_involuntaria",
+        "apetite",
+        "alimentacao"
+      ]
+    },
+    "padrao_temporal": {
+      "termos": [
+        "noturna",
+        "durante a noite",
+        "desperta para evacuar",
+        "jejum",
+        "após refeições"
+      ],
+      "campos": [
+        "noturno",
+        "despertar",
+        "persistencia_sem_alimentacao",
+        "melhora_jejum",
+        "pos_prandial"
+      ]
+    },
+    "constipacao_alternancia": {
+      "termos": [
+        "constipação",
+        "alternância",
+        "fezes endurecidas",
+        "esforço evacuatório",
+        "evacuação incompleta",
+        "mudança do calibre das fezes"
+      ],
+      "campos": [
+        "alternancia",
+        "periodos_normais",
+        "frequencia_reduzida",
+        "consistencia_dura",
+        "esforco",
+        "incompletude",
+        "calibre",
+        "progressao"
+      ]
+    },
+    "episodios_previos": {
+      "campos": [
+        "existencia",
+        "numero",
+        "ultimo_episodio",
+        "duracao_habitual",
+        "semelhanca",
+        "caracteristica_nova",
+        "resolucao_espontanea",
+        "recorrencia"
+      ]
+    },
+    "modificadores": {
+      "melhora": [
+        "evacuação",
+        "jejum",
+        "alimentação específica",
+        "hidratação",
+        "medicamentos",
+        "repouso"
+      ],
+      "piora": [
+        "alimentação",
+        "alimento específico",
+        "atividade física",
+        "estresse",
+        "medicamentos",
+        "horário do dia"
+      ]
+    },
+    "intervencoes": {
+      "termos": [
+        "automedicação",
+        "antidiarreicos",
+        "analgésicos",
+        "probióticos",
+        "hidratação oral",
+        "mudanças alimentares"
+      ],
+      "campos": [
+        "intervencao",
+        "dose",
+        "momento",
+        "resposta",
+        "duracao_da_resposta"
+      ]
+    },
+    "impacto_funcional": {
+      "termos": [
+        "impede alimentação",
+        "interfere na ingestão de líquidos",
+        "interrompe o sono",
+        "impede atividades habituais",
+        "impede trabalho",
+        "impede estudo",
+        "idas repetidas ao banheiro",
+        "incapacidade de sair de casa",
+        "fraqueza",
+        "prostração"
+      ]
+    }
+  },
+  "red_flags_documentais": [
+    "sangue nas fezes",
+    "fezes negras",
+    "dor abdominal intensa",
+    "distensão abdominal importante",
+    "vômitos persistentes",
+    "incapacidade de ingerir líquidos",
+    "redução importante da diurese",
+    "síncope",
+    "alteração do estado mental",
+    "febre importante ou persistente",
+    "prostração intensa",
+    "diarreia muito frequente ou volumosa",
+    "sintomas noturnos",
+    "perda ponderal involuntária",
+    "alteração persistente ou progressiva do hábito intestinal",
+    "antibioticoterapia recente",
+    "internação recente",
+    "extremos de idade ou vulnerabilidade mencionada"
+  ],
+  "priorizacao_lacunas": [
+    "seguranca_clinica",
+    "caracterizacao_da_queixa",
+    "evolucao_temporal",
+    "diferenciacao_do_padrao_intestinal",
+    "eficiencia_documental"
+  ],
+  "saida_recomendada": {
+    "secoes": [
+      "informacoes_adequadamente_documentadas",
+      "informacoes_incompletas_ou_ambiguas",
+      "informacoes_relevantes_nao_documentadas",
+      "contradicoes_ou_inconsistencias",
+      "top_5_prioridades_para_complementacao"
+    ],
+    "limite_prioridades": 5
+  },
+  "fonte_compilada": {
+    "linhas_origem": "1-651",
+    "observacao": "Estrutura compilada a partir do prompt fornecido pelo usuário."
+  }
+}

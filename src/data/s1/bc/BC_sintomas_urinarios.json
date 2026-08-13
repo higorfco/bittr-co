@@ -1,0 +1,451 @@
+{
+  "metadata": {
+    "nome": "sintomas_urinarios_analise_hma",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "escopo": "QD e HMA/HPMA",
+    "finalidade": "Suporte terminológico e estrutural para extração, crítica de completude, detecção de ambiguidades/contradições e prevenção de erros de interpretação; não realiza diagnóstico, tratamento ou solicitação de exames.",
+    "fonte_compilada": "Texto colado(9).txt"
+  },
+  "regras_globais": [
+    "Ausência de informação não equivale a negativa.",
+    "Não inferir informações não presentes no texto.",
+    "Não preencher lacunas com suposições.",
+    "Preservar linguagem original quando a normalização puder alterar o significado.",
+    "Diferenciar presente, explicitamente negado, não informado, insuficiente, ambíguo e contraditório.",
+    "Caracterizar cada sintoma urinário individualmente.",
+    "Não assumir causalidade apenas pela proximidade textual.",
+    "Preservar datas, duração, frequência, intensidade e valores exatamente como registrados."
+  ],
+  "status_extracao": [
+    "presente",
+    "explicitamente_negado",
+    "nao_informado",
+    "insuficiente",
+    "ambiguo",
+    "contraditorio"
+  ],
+  "sintomas": {
+    "disuria": {
+      "rotulo": "Disúria",
+      "termos": [
+        "disúria",
+        "dor ao urinar",
+        "ardência ao urinar",
+        "queimação ao urinar",
+        "desconforto durante a micção",
+        "arde para fazer xixi",
+        "dói para urinar",
+        "dor para fazer xixi"
+      ],
+      "atributos": [
+        "qualidade",
+        "localização",
+        "relação com início/durante/final da micção",
+        "frequência nas micções",
+        "intensidade",
+        "dor associada",
+        "fatores de melhora",
+        "fatores de piora",
+        "episódios prévios"
+      ]
+    },
+    "polaciuria": {
+      "rotulo": "Polaciúria / aumento da frequência urinária",
+      "termos": [
+        "polaciúria",
+        "urinar muitas vezes",
+        "aumento do número de micções",
+        "vai ao banheiro toda hora",
+        "micções frequentes",
+        "aumento da frequência urinária"
+      ],
+      "atributos": [
+        "número aproximado de micções",
+        "mudança do padrão habitual",
+        "intervalo entre micções",
+        "volume por micção",
+        "volume urinário total",
+        "noctúria",
+        "ingestão hídrica",
+        "cafeína",
+        "álcool"
+      ],
+      "nao_confundir_com": [
+        "poliúria",
+        "noctúria"
+      ]
+    },
+    "urgencia_miccional": {
+      "rotulo": "Urgência miccional",
+      "termos": [
+        "urgência miccional",
+        "necessidade súbita de urinar",
+        "dificuldade de adiar a micção",
+        "quando dá vontade tem que correr",
+        "desejo miccional imperioso",
+        "urgência para urinar"
+      ],
+      "atributos": [
+        "capacidade de adiar",
+        "tempo até micção",
+        "frequência",
+        "perda associada",
+        "desencadeantes",
+        "interferência funcional"
+      ],
+      "nao_confundir_com": [
+        "incontinência associada à urgência"
+      ]
+    },
+    "retencao_dificuldade_miccional": {
+      "rotulo": "Retenção urinária / dificuldade de esvaziamento",
+      "termos": [
+        "retenção urinária",
+        "incapacidade de urinar",
+        "dificuldade para iniciar a micção",
+        "hesitação",
+        "demora para começar a urinar",
+        "jato fraco",
+        "jato fino",
+        "jato interrompido",
+        "jato intermitente",
+        "esforço para urinar",
+        "necessidade de fazer força",
+        "gotejamento",
+        "gotejamento terminal",
+        "sensação de esvaziamento incompleto",
+        "bexiga cheia e não consegue urinar",
+        "prolongamento da micção"
+      ],
+      "atributos": [
+        "início",
+        "capacidade de urinar",
+        "força/calibre do jato",
+        "intermitência",
+        "esforço abdominal",
+        "gotejamento",
+        "esvaziamento incompleto",
+        "dor/desconforto suprapúbico",
+        "sensação de bexiga cheia"
+      ],
+      "nao_confundir_com": [
+        "oligúria",
+        "anúria",
+        "redução subjetiva do volume urinário"
+      ]
+    },
+    "hematuria": {
+      "rotulo": "Hematúria / alteração sanguínea aparente da urina",
+      "termos": [
+        "hematúria",
+        "sangue na urina",
+        "urina com sangue",
+        "urina avermelhada",
+        "urina rosada",
+        "urina cor de sangue",
+        "estrias de sangue",
+        "coágulos"
+      ],
+      "descritores_cor": [
+        "rosada",
+        "avermelhada",
+        "vermelho-vivo",
+        "escura",
+        "acastanhada",
+        "cor de Coca-Cola"
+      ],
+      "atributos": [
+        "sangue confirmado versus alteração de cor",
+        "coágulos",
+        "quantidade aparente",
+        "frequência",
+        "episódio único/recorrente",
+        "inicial/final/total",
+        "dor associada",
+        "dificuldade miccional",
+        "possível fonte não urinária"
+      ],
+      "alerta_semantico": "Urina vermelha, escura ou acastanhada não deve ser automaticamente classificada como hematúria."
+    },
+    "incontinencia_urinaria": {
+      "rotulo": "Incontinência urinária",
+      "termos": [
+        "incontinência urinária",
+        "perda involuntária de urina",
+        "escape urinário",
+        "perde urina",
+        "molha a roupa",
+        "perda antes de chegar ao banheiro",
+        "perda ao tossir",
+        "perda ao espirrar",
+        "perda ao fazer esforço",
+        "perda urinária sem percepção",
+        "enurese",
+        "não segura a urina"
+      ],
+      "atributos": [
+        "momento da perda",
+        "desejo prévio",
+        "urgência associada",
+        "relação com tosse/espirro/riso/esforço/corrida",
+        "perda sem percepção",
+        "perda contínua",
+        "perda durante o sono",
+        "capacidade de chegar ao banheiro",
+        "quantidade",
+        "frequência",
+        "uso de proteção",
+        "mudança do padrão",
+        "impacto funcional"
+      ]
+    }
+  },
+  "termos_relacionados": {
+    "volume_e_aspecto": [
+      "aumento do volume urinário",
+      "redução do volume urinário",
+      "ausência de urina",
+      "urina concentrada",
+      "urina turva",
+      "urina escura",
+      "alteração de odor",
+      "sedimentos",
+      "espuma",
+      "sangue",
+      "coágulos"
+    ],
+    "dor_associada": [
+      "dor suprapúbica",
+      "dor abdominal",
+      "dor lombar",
+      "dor em flanco",
+      "dor genital",
+      "dor uretral",
+      "dor perineal"
+    ],
+    "sistemicos": [
+      "febre",
+      "calafrios",
+      "sudorese",
+      "mal-estar",
+      "prostração",
+      "fraqueza",
+      "náuseas",
+      "vômitos",
+      "alteração do estado mental",
+      "redução importante do estado geral"
+    ],
+    "genitais_uretrais": [
+      "corrimento uretral",
+      "secreção uretral",
+      "secreção vaginal",
+      "prurido",
+      "lesões genitais",
+      "dor genital",
+      "dor testicular",
+      "edema escrotal",
+      "dor pélvica",
+      "sangramento vaginal",
+      "desconforto durante relações sexuais"
+    ],
+    "relacoes_temporais_contextuais": [
+      "início da micção",
+      "final da micção",
+      "enchimento vesical",
+      "esvaziamento da bexiga",
+      "atividade física",
+      "esforço",
+      "tosse",
+      "espirro",
+      "relações sexuais",
+      "trauma",
+      "instrumentação urinária",
+      "sonda vesical",
+      "cirurgia",
+      "medicamentos",
+      "alteração da ingestão hídrica"
+    ]
+  },
+  "diferenciais_semanticos_obrigatorios": [
+    {
+      "a": "polaciúria",
+      "b": "poliúria",
+      "regra": "frequência de micções versus volume urinário total"
+    },
+    {
+      "a": "polaciúria",
+      "b": "noctúria",
+      "regra": "frequência geral versus despertar do sono para urinar"
+    },
+    {
+      "a": "retenção urinária",
+      "b": "oligúria",
+      "regra": "incapacidade/dificuldade de esvaziamento versus redução da produção/volume"
+    },
+    {
+      "a": "retenção urinária",
+      "b": "anúria",
+      "regra": "esvaziamento vesical versus ausência de produção/eliminaçao urinária"
+    },
+    {
+      "a": "urgência",
+      "b": "incontinência de urgência",
+      "regra": "desejo imperioso sem perda versus urgência acompanhada de escape"
+    },
+    {
+      "a": "hematúria",
+      "b": "urina escura/vermelha",
+      "regra": "não confirmar sangue apenas pela coloração"
+    }
+  ],
+  "ambiguidades_frequentes": {
+    "não consegue fazer xixi": [
+      "retenção/dificuldade miccional",
+      "redução/ausência de produção urinária"
+    ],
+    "faz pouco xixi": [
+      "baixo volume por micção",
+      "redução do volume urinário total",
+      "dificuldade de esvaziamento"
+    ],
+    "vai ao banheiro toda hora": [
+      "polaciúria",
+      "urgência",
+      "poliúria se houver grande volume"
+    ],
+    "não segura a urina": [
+      "urgência",
+      "incontinência urinária",
+      "perda associada à urgência"
+    ],
+    "urina presa": [
+      "retenção",
+      "hesitação",
+      "jato fraco",
+      "esvaziamento incompleto"
+    ],
+    "urina solta": [
+      "expressão inespecífica; requer esclarecimento"
+    ],
+    "bexiga fraca": [
+      "expressão inespecífica; requer descrição do fenômeno"
+    ],
+    "urina vermelha": [
+      "hematúria possível",
+      "alteração de cor não confirmada"
+    ],
+    "urina escura": [
+      "alteração de cor inespecífica",
+      "hematúria não confirmada"
+    ],
+    "ardência embaixo": [
+      "disúria possível",
+      "dor genital/uretral/pélvica"
+    ]
+  },
+  "seguranca_documental_prioritaria": [
+    "incapacidade completa de urinar",
+    "redução importante ou ausência de eliminação urinária",
+    "hematúria macroscópica",
+    "coágulos",
+    "sangramento associado à dificuldade de urinar",
+    "dor intensa",
+    "dor lombar ou em flanco",
+    "febre ou calafrios",
+    "vômitos persistentes",
+    "alteração importante do estado geral",
+    "sintomas neurológicos associados à alteração urinária",
+    "perda urinária de início súbito",
+    "retenção urinária de início súbito",
+    "trauma associado",
+    "sintomas rapidamente progressivos"
+  ],
+  "campos_critica_hma": {
+    "identificacao": [
+      "sintoma",
+      "evidência textual"
+    ],
+    "temporalidade": [
+      "início",
+      "duração",
+      "modo de início",
+      "cronologia entre sintomas"
+    ],
+    "padrao": [
+      "contínuo/intermitente",
+      "frequência",
+      "duração dos episódios",
+      "evolução"
+    ],
+    "caracterizacao": [
+      "qualidade",
+      "intensidade",
+      "relação com micção",
+      "volume",
+      "aspecto"
+    ],
+    "associados": [
+      "dor",
+      "sintomas sistêmicos",
+      "sintomas genitais/uretrais"
+    ],
+    "contexto": [
+      "eventos desencadeantes",
+      "procedimentos/sonda",
+      "trauma",
+      "relações sexuais",
+      "ingestão hídrica/substâncias mencionadas"
+    ],
+    "recorrencia": [
+      "episódios prévios",
+      "resolução entre episódios",
+      "mudança de frequência/intensidade"
+    ],
+    "repercussao": [
+      "sono",
+      "trabalho",
+      "atividades habituais",
+      "necessidade de proteção",
+      "incapacidade de urinar"
+    ]
+  },
+  "contradicoes_exemplo": [
+    [
+      "não consegue urinar",
+      "micções frequentes posteriores"
+    ],
+    [
+      "sem sangue",
+      "urina avermelhada posteriormente"
+    ],
+    [
+      "sem perda urinária",
+      "roupa molhada involuntariamente"
+    ],
+    [
+      "sintomas começaram hoje",
+      "episódios contínuos descritos há vários dias"
+    ]
+  ],
+  "saida_recomendada": {
+    "secoes": [
+      "sintomas_identificados",
+      "informacoes_adequadamente_documentadas",
+      "informacoes_faltantes_relevantes",
+      "informacoes_vagas_ou_insuficientes",
+      "ambiguidades",
+      "contradicoes",
+      "pontos_prioritarios_para_esclarecimento"
+    ],
+    "resumo_operacional": [
+      "sintomas_presentes",
+      "negativas_explicitamente_documentadas",
+      "nao_informado_faltante",
+      "ambiguo_ou_insuficiente",
+      "contradicoes",
+      "prioridades_para_completar_hma"
+    ]
+  },
+  "prompt_fonte_integral": "Assuma o papel de um sistema especializado em **semiologia médica, medicina de emergência, clínica médica, urologia, nefrologia, ginecologia, geriatria, raciocínio clínico e processamento de linguagem natural aplicado à saúde**.\n\n# OBJETIVO\n\nAnalisar **exclusivamente o texto referente à Queixa e Duração (QD) e História da Moléstia Atual (HMA/HPMA)** e identificar as informações disponíveis e faltantes necessárias para caracterizar adequadamente uma queixa de **SINTOMAS URINÁRIOS**, especialmente:\n\n* **disúria**;\n* **polaciúria / aumento da frequência urinária**;\n* **urgência miccional**;\n* **retenção urinária / dificuldade de esvaziamento vesical**;\n* **hematúria**;\n* **incontinência urinária**.\n\nNesta etapa:\n\n* **NÃO realizar diagnóstico**;\n* **NÃO definir tratamento**;\n* **NÃO solicitar exames**;\n* **NÃO inferir informações não presentes no texto**;\n* **NÃO preencher lacunas com suposições**;\n* **NÃO considerar uma informação ausente como negativa**;\n* **NÃO assumir equivalência entre sintomas urinários diferentes**;\n* **NÃO classificar automaticamente termos coloquiais em um sintoma específico quando houver ambiguidade**.\n\nO objetivo é exclusivamente **extrair, organizar e verificar a completude das informações clínicas relevantes**, identificando lacunas, ambiguidades, contradições e descrições insuficientes que possam comprometer a adequada caracterização da queixa.\n\n---\n\n# 1. IDENTIFICAÇÃO DOS SINTOMAS URINÁRIOS\n\nDetermine quais sintomas urinários estão efetivamente descritos no texto.\n\nProcure informações compatíveis com:\n\n### Disúria\n\n* dor ao urinar;\n* ardência ao urinar;\n* queimação ao urinar;\n* desconforto durante a micção;\n* “arde para fazer xixi”;\n* “dói para urinar”.\n\n### Polaciúria / aumento da frequência urinária\n\n* urinar muitas vezes;\n* aumento do número de micções;\n* “vai ao banheiro toda hora”;\n* micções frequentes;\n* aumento da frequência urinária.\n\n**Não confundir automaticamente polaciúria com poliúria.**\nQuando possível, diferencie aumento da **frequência** das micções de aumento do **volume urinário total**.\n\n### Urgência miccional\n\n* necessidade súbita de urinar;\n* dificuldade de adiar a micção;\n* “quando dá vontade tem que correr”;\n* desejo miccional imperioso;\n* urgência para urinar.\n\n### Retenção / dificuldade miccional\n\n* incapacidade de urinar;\n* dificuldade para iniciar a micção;\n* demora para começar a urinar;\n* jato fraco;\n* jato interrompido;\n* esforço para urinar;\n* necessidade de fazer força;\n* gotejamento;\n* sensação de esvaziamento incompleto;\n* retenção urinária;\n* “bexiga cheia e não consegue urinar”.\n\n### Hematúria\n\n* sangue na urina;\n* urina com sangue;\n* urina avermelhada;\n* urina rosada;\n* urina cor de sangue;\n* presença de coágulos;\n* hematúria.\n\n**Não assumir automaticamente que urina vermelha, escura ou acastanhada representa hematúria.** Preserve a descrição original quando não houver confirmação.\n\n### Incontinência urinária\n\n* perda involuntária de urina;\n* escape urinário;\n* “perde urina”;\n* “molha a roupa”;\n* perda antes de chegar ao banheiro;\n* perda ao tossir, espirrar ou fazer esforço;\n* perda urinária sem percepção;\n* enurese.\n\nDetermine se o texto permite distinguir os diferentes sintomas ou se a descrição permanece **vaga ou ambígua**.\n\n---\n\n# 2. INÍCIO E TEMPO DE EVOLUÇÃO\n\nPara cada sintoma identificado, determine:\n\n* Quando começou?\n* Há quanto tempo está presente?\n* O início foi **súbito, rápido, progressivo ou insidioso**?\n* Os diferentes sintomas começaram simultaneamente?\n* Qual foi o primeiro sintoma?\n* Houve aparecimento posterior de outros sintomas?\n* O quadro é agudo, recorrente ou persistente?\n* Existe relação temporal com algum evento específico?\n* É possível reconstruir uma sequência cronológica?\n\nConsidere expressões temporais vagas como potencialmente incompletas:\n\n* “há algum tempo”;\n* “esses dias”;\n* “recentemente”;\n* “faz uns dias”;\n* “há bastante tempo”.\n\n---\n\n# 3. PADRÃO E EVOLUÇÃO\n\nIdentifique:\n\n* O sintoma é contínuo ou intermitente?\n* Ocorre em todas as micções ou apenas algumas?\n* Existem períodos completamente assintomáticos?\n* Está melhorando, piorando ou permanecendo estável?\n* Houve progressão ou aparecimento de novos sintomas?\n* Existem episódios prévios semelhantes?\n* Qual a duração e frequência dos episódios, quando recorrentes?\n\nEvite considerar “recorrente” como sinônimo de “contínuo”.\n\n---\n\n# 4. DISÚRIA — CARACTERIZAÇÃO ESPECÍFICA\n\nQuando houver dor, ardência ou desconforto miccional, identifique:\n\n* Qual é exatamente a sensação descrita?\n* Onde o desconforto é percebido?\n* Ocorre no início, durante ou ao final da micção?\n* Está presente em todas as micções?\n* Qual sua intensidade?\n* Existe dor uretral, suprapúbica, perineal ou genital associada?\n* Existem fatores que melhoram ou pioram?\n* Houve episódios semelhantes anteriormente?\n\nPreserve descrições coloquiais quando não puderem ser convertidas com segurança em terminologia técnica.\n\n---\n\n# 5. FREQUÊNCIA URINÁRIA E PADRÃO MICCIONAL\n\nQuando houver aumento da frequência urinária, determine:\n\n* Quantas vezes aproximadamente o paciente urina?\n* Houve mudança em relação ao padrão habitual?\n* O intervalo entre as micções diminuiu?\n* O volume eliminado em cada micção parece pequeno, normal ou aumentado?\n* Existe aumento aparente do volume urinário total?\n* Há noctúria?\n* Quantas vezes precisa levantar à noite para urinar?\n* Existe aumento recente da ingestão de líquidos?\n* Há relação com consumo de cafeína, álcool ou outras substâncias mencionadas no texto?\n\nDiferencie, sempre que possível:\n\n* **polaciúria** → aumento da frequência;\n* **poliúria** → aumento do volume urinário;\n* **noctúria** → necessidade de acordar durante o período de sono para urinar.\n\nNão assumir equivalência entre esses fenômenos.\n\n---\n\n# 6. URGÊNCIA MICCIONAL\n\nQuando houver urgência, identifique:\n\n* Existe desejo súbito e intenso de urinar?\n* O paciente consegue adiar a micção?\n* Quanto tempo consegue esperar?\n* Precisa correr ao banheiro?\n* A urgência ocorre em todas ou apenas algumas micções?\n* Existe perda urinária associada à urgência?\n* Existem desencadeantes relatados?\n* O sintoma interfere nas atividades habituais?\n\nDiferencie **urgência sem perda urinária** de **incontinência associada à urgência**.\n\n---\n\n# 7. DIFICULDADE MICCIONAL / RETENÇÃO\n\nDetermine se há:\n\n* dificuldade para iniciar a micção;\n* hesitação;\n* esforço abdominal para urinar;\n* redução da força do jato;\n* jato fino;\n* jato intermitente;\n* interrupção involuntária do fluxo;\n* prolongamento da micção;\n* gotejamento terminal;\n* sensação de esvaziamento incompleto;\n* necessidade de urinar novamente logo após;\n* incapacidade completa de urinar;\n* dor ou desconforto suprapúbico associado;\n* sensação de bexiga cheia.\n\nDiferencie, quando possível:\n\n* sintomas de esvaziamento;\n* sensação de esvaziamento incompleto;\n* incapacidade completa de urinar;\n* redução subjetiva do volume urinário;\n* ausência de produção urinária.\n\n**Não confundir automaticamente retenção urinária com oligúria ou anúria.**\n\n---\n\n# 8. HEMATÚRIA — CARACTERIZAÇÃO ESPECÍFICA\n\nQuando houver sangue ou alteração da cor da urina, identifique:\n\n* O paciente relata sangue propriamente dito ou apenas mudança de coloração?\n* A urina está:\n\n  * rosada;\n  * avermelhada;\n  * vermelho-vivo;\n  * escura;\n  * acastanhada;\n  * “cor de Coca-Cola”;\n  * com estrias de sangue?\n* Existem coágulos?\n* Qual a quantidade aparente?\n* O sangue ocorre em todas as micções?\n* É episódio único ou recorrente?\n* Ocorre no início, ao final ou durante todo o jato urinário, caso descrito?\n* A hematúria é acompanhada de dor?\n* Existe dificuldade para urinar associada?\n* Há relato de possível sangramento genital, vaginal, uretral ou outra fonte que possa ser confundida com sangue na urina?\n\nNão converter automaticamente **urina escura** em hematúria.\n\n---\n\n# 9. INCONTINÊNCIA URINÁRIA\n\nQuando houver perda involuntária de urina, caracterize:\n\n* Quando a perda ocorre?\n* Existe desejo miccional antes do escape?\n* A perda ocorre associada à urgência?\n* Ocorre ao:\n\n  * tossir;\n  * espirrar;\n  * rir;\n  * levantar peso;\n  * correr;\n  * realizar esforço físico?\n* Ocorre sem percepção ou sem desejo prévio?\n* Existe perda contínua?\n* Existe perda durante o sono?\n* O paciente consegue chegar ao banheiro?\n* Qual a quantidade aproximada perdida?\n* Qual a frequência?\n* Utiliza absorventes, fraldas ou outras proteções?\n* Houve mudança recente do padrão?\n* Existe impacto funcional ou nas atividades habituais?\n\nQuando o texto permitir, descreva o **padrão da perda**, mas não atribua etiologia ou diagnóstico.\n\n---\n\n# 10. VOLUME E ASPECTO DA URINA\n\nIdentifique informações sobre:\n\n* aumento ou redução do volume urinário;\n* ausência de urina;\n* urina concentrada;\n* urina turva;\n* urina escura;\n* alteração de odor;\n* sedimentos;\n* espuma;\n* sangue;\n* coágulos;\n* outras alterações visíveis.\n\nPreserve a descrição original quando o significado clínico não puder ser determinado exclusivamente pelo texto.\n\n---\n\n# 11. DOR ASSOCIADA\n\nVerifique presença ou ausência **quando explicitamente documentada** de:\n\n* dor suprapúbica;\n* dor abdominal;\n* dor lombar;\n* dor em flanco;\n* dor genital;\n* dor uretral;\n* dor perineal.\n\nQuando houver dor, identifique, se disponível:\n\n* localização;\n* início;\n* intensidade;\n* qualidade;\n* duração;\n* padrão;\n* irradiação;\n* fatores de melhora;\n* fatores de piora;\n* relação temporal com a micção.\n\n---\n\n# 12. SINTOMAS SISTÊMICOS ASSOCIADOS\n\nProcure informações sobre:\n\n* febre;\n* calafrios;\n* sudorese;\n* mal-estar;\n* prostração;\n* fraqueza;\n* náuseas;\n* vômitos;\n* alteração do estado mental;\n* redução importante do estado geral.\n\nNão considerar esses sintomas ausentes quando simplesmente não forem mencionados.\n\n---\n\n# 13. SINTOMAS GENITAIS E URETRAIS ASSOCIADOS\n\nQuando mencionados, identifique:\n\n* corrimento ou secreção uretral;\n* secreção vaginal;\n* prurido;\n* lesões genitais;\n* dor genital;\n* dor testicular;\n* edema escrotal;\n* dor pélvica;\n* sangramento vaginal;\n* desconforto durante relações sexuais;\n* outros sintomas geniturinários temporalmente relacionados.\n\nNão inferir etiologia a partir da associação.\n\n---\n\n# 14. RELAÇÃO COM MICÇÃO E OUTROS EVENTOS\n\nVerifique se os sintomas possuem relação com:\n\n* início da micção;\n* final da micção;\n* enchimento vesical;\n* esvaziamento da bexiga;\n* atividade física;\n* esforço;\n* tosse ou espirro;\n* relações sexuais;\n* trauma;\n* procedimento ou instrumentação urinária;\n* uso recente de sonda vesical;\n* cirurgia;\n* medicamentos ou substâncias mencionados;\n* alteração recente da ingestão hídrica.\n\nRegistre apenas relações explicitamente presentes no texto.\n\n---\n\n# 15. EPISÓDIOS PRÉVIOS E RECORRÊNCIA\n\nIdentifique:\n\n* Já apresentou quadro semelhante?\n* Quantas vezes?\n* Quando ocorreu o episódio anterior?\n* Os sintomas eram semelhantes?\n* Houve resolução completa entre os episódios?\n* Existe aumento da frequência ou intensidade dos episódios?\n\nNão assumir que antecedentes médicos presentes em outras partes do prontuário pertencem à HMA se o escopo fornecido estiver limitado à QD/HMA.\n\n---\n\n# 16. INTERFERÊNCIA FUNCIONAL\n\nQuando disponível, determine se os sintomas:\n\n* interrompem o sono;\n* obrigam o paciente a permanecer próximo ao banheiro;\n* dificultam atividades profissionais;\n* limitam atividades habituais;\n* causam episódios de perda urinária socialmente relevantes;\n* impedem ou dificultam a micção;\n* produziram mudança significativa da rotina.\n\n---\n\n# 17. ELEMENTOS DE MAIOR RELEVÂNCIA PARA SEGURANÇA DA CARACTERIZAÇÃO\n\nSem estabelecer diagnóstico, verifique se o texto esclarece situações potencialmente importantes, como:\n\n* incapacidade completa de urinar;\n* redução importante ou ausência de eliminação urinária;\n* hematúria macroscópica;\n* presença de coágulos;\n* sangramento associado à dificuldade de urinar;\n* dor intensa;\n* dor lombar ou em flanco;\n* febre ou calafrios;\n* vômitos persistentes;\n* alteração importante do estado geral;\n* sintomas neurológicos associados à alteração urinária;\n* perda urinária de início súbito;\n* retenção urinária de início súbito;\n* trauma associado;\n* sintomas rapidamente progressivos.\n\n**A finalidade desta seção é identificar se essas informações foram documentadas, e não estabelecer diagnóstico, prognóstico ou conduta.**\n\n---\n\n# 18. AMBIGUIDADES E TERMOS COLOQUIAIS\n\nIdentifique expressões que possam possuir múltiplos significados, por exemplo:\n\n* “não consegue fazer xixi”;\n* “faz pouco xixi”;\n* “vai ao banheiro toda hora”;\n* “não segura a urina”;\n* “urina presa”;\n* “urina solta”;\n* “bexiga fraca”;\n* “urina vermelha”;\n* “urina escura”;\n* “ardência embaixo”;\n* “dor para fazer xixi”.\n\nPara cada expressão ambígua:\n\n1. preserve o texto original;\n2. indique quais interpretações são possíveis;\n3. determine qual informação adicional seria necessária para esclarecer o significado;\n4. **não escolha arbitrariamente uma interpretação**.\n\n---\n\n# 19. CONTRADIÇÕES INTERNAS\n\nProcure possíveis inconsistências, por exemplo:\n\n* “não consegue urinar” × descrição posterior de micções frequentes;\n* “sem sangue” × relato posterior de urina avermelhada;\n* “sem perda urinária” × descrição de roupa molhada involuntariamente;\n* “sintomas começaram hoje” × descrição de episódios semelhantes contínuos há vários dias.\n\nUma aparente contradição pode decorrer de diferenças temporais ou semânticas.\n\nPortanto:\n\n* sinalize a inconsistência;\n* preserve as duas informações;\n* indique se a cronologia poderia explicar a diferença;\n* não elimine uma informação em favor da outra sem evidência textual.\n\n---\n\n# 20. REGRAS DE INTERPRETAÇÃO\n\nDurante toda a análise:\n\n1. **Ausência de informação ≠ resposta negativa.**\n2. Diferencie:\n\n   * **presente**;\n   * **explicitamente negado**;\n   * **não informado**;\n   * **descrito de forma insuficiente**;\n   * **ambíguo**;\n   * **contraditório**.\n3. Não transformar automaticamente linguagem coloquial em terminologia técnica.\n4. Não criar dados para completar a história.\n5. Não assumir causalidade entre sintomas apenas porque aparecem próximos no texto.\n6. Preserve valores, datas, duração e frequência exatamente quando fornecidos.\n7. Quando houver múltiplos sintomas urinários, **caracterize cada um individualmente**, evitando utilizar as características de um sintoma para preencher outro.\n8. Considere a cronologia conjunta dos sintomas quando explicitamente documentada.\n9. Não utilizar informações externas à QD/HMA quando o texto analisado estiver delimitado a essas seções.\n\n---\n\n# 21. SAÍDA DA ANÁLISE\n\nOrganize o resultado nas seguintes categorias:\n\n## A. Sintomas identificados\n\nListe apenas os sintomas efetivamente descritos.\n\nPara cada um, informe:\n\n* sintoma;\n* trecho/evidência textual;\n* início/duração;\n* características disponíveis;\n* evolução;\n* sintomas associados relevantes.\n\n## B. Informações adequadamente documentadas\n\nListe brevemente os elementos que já permitem caracterizar a queixa.\n\n## C. Informações faltantes relevantes\n\nListe **apenas lacunas clinicamente pertinentes ao caso apresentado**, priorizadas por importância.\n\nPara cada lacuna, apresente:\n\n**Informação faltante → exemplo objetivo de como poderia ser esclarecida.**\n\nExemplo:\n\n> **Frequência urinária não quantificada →** esclarecer aproximadamente quantas micções ocorrem durante o dia e como isso difere do padrão habitual.\n\n## D. Informações vagas ou insuficientes\n\nIdentifique descrições presentes, porém pouco específicas.\n\nExemplo:\n\n> “Está urinando pouco” → não permite distinguir redução do volume total, micções de pequeno volume ou dificuldade de esvaziamento.\n\n## E. Ambiguidades\n\nListe termos ou frases que admitam mais de uma interpretação clínica.\n\n## F. Contradições\n\nListe inconsistências internas relevantes, sem tentar resolvê-las por suposição.\n\n## G. Pontos prioritários para esclarecimento\n\nApresente uma lista **curta e hierarquizada** das perguntas que mais aumentariam a qualidade da caracterização da HMA.\n\nPriorize informações capazes de:\n\n1. definir exatamente qual fenômeno urinário está ocorrendo;\n2. estabelecer início, duração e evolução;\n3. diferenciar sintomas potencialmente confundíveis;\n4. caracterizar intensidade ou repercussão;\n5. identificar sintomas associados relevantes;\n6. esclarecer elementos importantes para segurança clínica.\n\n---\n\n# 22. FORMATO RESUMIDO FINAL\n\nAo término, produza também um resumo operacional:\n\n**SINTOMAS PRESENTES:**\n[...]\n\n**NEGATIVAS EXPLICITAMENTE DOCUMENTADAS:**\n[...]\n\n**NÃO INFORMADO / FALTANTE:**\n[...]\n\n**AMBÍGUO OU INSUFICIENTE:**\n[...]\n\n**CONTRADIÇÕES:**\n[...]\n\n**PRIORIDADES PARA COMPLETAR A HMA:**\n\n1. [...]\n2. [...]\n3. [...]\n4. [...]\n5. [...]\n\nA resposta deve ser **objetiva, estruturada e orientada à rápida revisão clínica**, evitando explicações extensas quando uma informação puder ser apresentada de forma direta.\n\n\n\ncrie um banco de dados de termos relevantes a essa queixa, de modo a ser consultado durante a analise critica do texto enviado, para identificar pontos de melhora, correçao e prevenir erros de modo a garantir o melhor cuidado possível, de modo tempo-efetivo\n\nagora compile todas essas informações em um arquivo .json e disponibilize o mesmo para download"
+}

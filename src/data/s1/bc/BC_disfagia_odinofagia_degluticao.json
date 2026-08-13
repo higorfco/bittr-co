@@ -1,0 +1,606 @@
+{
+  "meta": {
+    "nome": "Banco terminológico — Disfagia, Odinofagia e Sintomas de Deglutição",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "escopo": "QD/HMA/HPMA",
+    "finalidade": [
+      "normalização terminológica",
+      "extração de informações clínicas",
+      "detecção de lacunas",
+      "detecção de ambiguidades e contradições",
+      "checagem de segurança",
+      "apoio à análise crítica tempo-efetiva"
+    ],
+    "restricoes": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "não converter ausência de informação em negativa",
+      "preservar expressão original quando houver perda semântica possível"
+    ]
+  },
+  "status_informacao": {
+    "P": "presente/suficientemente caracterizada",
+    "PAR": "parcial",
+    "AMB": "ambígua",
+    "CON": "contraditória",
+    "NI": "não informada",
+    "NA": "não aplicável"
+  },
+  "fenomenos": {
+    "disfagia": {
+      "conceito": "dificuldade ou alteração na passagem de alimento ou líquido durante a deglutição",
+      "termos": [
+        "disfagia",
+        "dificuldade para engolir",
+        "dificuldade de deglutição",
+        "não consegue engolir",
+        "problema para engolir"
+      ],
+      "coloquiais": [
+        "comida não desce",
+        "comida fica presa",
+        "comida entala",
+        "tudo entala",
+        "demora para engolir",
+        "precisa engolir várias vezes"
+      ]
+    },
+    "odinofagia": {
+      "conceito": "dor desencadeada ou agravada pela deglutição",
+      "termos": [
+        "odinofagia",
+        "dor ao engolir",
+        "dor para engolir",
+        "dói quando engole"
+      ],
+      "variantes": [
+        "ardência ao engolir",
+        "queimação ao engolir",
+        "queima ao engolir",
+        "sensação de corte ao engolir"
+      ]
+    },
+    "globus": {
+      "termos": [
+        "globus",
+        "globus faríngeo",
+        "bolo na garganta",
+        "nó na garganta",
+        "sensação de corpo estranho na garganta",
+        "aperto na garganta"
+      ],
+      "regra": "não classificar automaticamente como disfagia"
+    },
+    "engasgo": {
+      "termos": [
+        "engasgo",
+        "engasga",
+        "engasga para comer",
+        "engasga para beber",
+        "se engasga",
+        "sufocamento durante alimentação"
+      ],
+      "regra": "descrever separadamente; não assumir equivalência automática com disfagia"
+    },
+    "impactacao_alimentar": {
+      "termos": [
+        "impactação alimentar",
+        "alimento impactado",
+        "comida presa",
+        "alimento preso",
+        "alimento entalado",
+        "comida entalada"
+      ],
+      "marcadores_fortes": [
+        "não consegue continuar comendo",
+        "não consegue ingerir líquidos",
+        "líquido volta imediatamente",
+        "não consegue engolir saliva",
+        "cuspindo saliva",
+        "sialorreia"
+      ],
+      "regra": "a palavra 'entalou' isoladamente não confirma impactação completa"
+    }
+  },
+  "fase_degluticao": {
+    "iniciacao": [
+      "dificuldade para iniciar a deglutição",
+      "não consegue começar a engolir",
+      "demora para engolir",
+      "precisa tentar várias vezes"
+    ],
+    "apos_iniciacao": [
+      "alimento para depois de engolir",
+      "comida fica presa depois que engole",
+      "alimento não progride",
+      "sensação de retenção após engolir"
+    ],
+    "regra": "não classificar automaticamente como orofaríngea ou esofágica sem descrição suficiente"
+  },
+  "consistencias": {
+    "solidos": [
+      "sólidos",
+      "comida sólida",
+      "carne",
+      "pão",
+      "arroz",
+      "alimentos secos"
+    ],
+    "liquidos": [
+      "líquidos",
+      "água",
+      "suco",
+      "café",
+      "bebidas"
+    ],
+    "pastosos": [
+      "pastosos",
+      "purê",
+      "papinha",
+      "alimentos amassados"
+    ],
+    "medicamentos": [
+      "comprimido",
+      "comprimidos",
+      "cápsula",
+      "cápsulas",
+      "remédio",
+      "medicação"
+    ],
+    "saliva": [
+      "saliva",
+      "secreção oral",
+      "própria saliva"
+    ],
+    "perguntas_logicas": [
+      "sólidos apenas?",
+      "líquidos apenas?",
+      "sólidos e líquidos?",
+      "líquidos mais difíceis que sólidos?",
+      "progressão entre consistências?"
+    ]
+  },
+  "temporalidade": {
+    "inicio": [
+      "súbito",
+      "abrupto",
+      "repentino",
+      "rápido",
+      "progressivo",
+      "insidioso"
+    ],
+    "padrao": [
+      "contínuo",
+      "constante",
+      "intermitente",
+      "episódico",
+      "recorrente",
+      "flutuante"
+    ],
+    "evolucao": [
+      "melhorando",
+      "piorando",
+      "progressivo",
+      "estável",
+      "inalterado"
+    ],
+    "vagos": [
+      "há algum tempo",
+      "faz tempo",
+      "esses dias",
+      "recentemente",
+      "de vez em quando"
+    ],
+    "episodios_previos": [
+      "já aconteceu antes",
+      "episódios prévios",
+      "episódios semelhantes",
+      "recorrência",
+      "recorrente"
+    ]
+  },
+  "localizacao_percebida": {
+    "termos": [
+      "boca",
+      "garganta",
+      "pescoço",
+      "região cervical",
+      "pomo de Adão",
+      "base do pescoço",
+      "retroesternal",
+      "atrás do esterno",
+      "centro do peito",
+      "centro do tórax",
+      "epigástrio"
+    ],
+    "regra": "localização percebida não determina isoladamente a localização anatômica real"
+  },
+  "dor": {
+    "qualidade": [
+      "dor",
+      "ardência",
+      "queimação",
+      "pontada",
+      "corte",
+      "pressão",
+      "aperto",
+      "desconforto"
+    ],
+    "atributos": [
+      "localização",
+      "intensidade",
+      "qualidade",
+      "início",
+      "duração",
+      "irradiação",
+      "progressão",
+      "fatores de melhora",
+      "fatores de piora",
+      "relação com sólidos",
+      "relação com líquidos",
+      "relação com temperatura"
+    ]
+  },
+  "sintomas_degluticao": {
+    "tosse": [
+      "tosse ao engolir",
+      "tosse durante alimentação",
+      "tosse após engolir",
+      "tosse após líquidos"
+    ],
+    "multiplas_degluticoes": [
+      "engole várias vezes",
+      "múltiplas deglutições",
+      "precisa engolir repetidamente"
+    ],
+    "escape_oral": [
+      "alimento escapa pela boca",
+      "comida cai da boca",
+      "perda de alimento pela boca"
+    ],
+    "regurgitacao_nasal": [
+      "alimento sai pelo nariz",
+      "líquido sai pelo nariz",
+      "regurgitação nasal"
+    ],
+    "residuo_oral": [
+      "alimento fica na boca",
+      "comida permanece na boca",
+      "resíduo alimentar na boca"
+    ],
+    "mastigacao": [
+      "dificuldade para mastigar",
+      "dificuldade de mastigação"
+    ],
+    "controle_oral": [
+      "dificuldade para controlar alimento na boca",
+      "dificuldade para formar bolo alimentar"
+    ]
+  },
+  "voz_fala": {
+    "termos": [
+      "voz molhada",
+      "voz úmida",
+      "mudança da voz após engolir",
+      "rouquidão",
+      "disfonia",
+      "alteração da fala",
+      "disartria",
+      "dificuldade para articular palavras"
+    ],
+    "regra": "registrar relação temporal; não inferir causa"
+  },
+  "regurgitacao": {
+    "termos": [
+      "regurgitação",
+      "alimento volta",
+      "comida volta para boca",
+      "retorno de alimento",
+      "alimento não digerido volta",
+      "precisa cuspir"
+    ],
+    "regra": "não converter automaticamente em vômito ou refluxo"
+  },
+  "capacidade_atual": {
+    "itens": [
+      "sólidos",
+      "líquidos",
+      "pequenos goles",
+      "pastosos",
+      "medicamentos",
+      "saliva",
+      "alimentação habitual",
+      "hidratação habitual"
+    ],
+    "categorias": [
+      "deglutição preservada",
+      "dificuldade parcial",
+      "incapacidade completa",
+      "não determinada"
+    ]
+  },
+  "respiratorios_associados": {
+    "termos": [
+      "tosse durante refeição",
+      "tosse após líquidos",
+      "engasgo",
+      "dispneia durante alimentação",
+      "falta de ar ao comer",
+      "sufocamento",
+      "cianose",
+      "secreção respiratória associada"
+    ],
+    "regra": "registrar associação temporal sem inferir mecanismo"
+  },
+  "gastrointestinais_associados": {
+    "termos": [
+      "azia",
+      "pirose",
+      "regurgitação",
+      "dor retroesternal",
+      "dor epigástrica",
+      "náusea",
+      "náuseas",
+      "vômito",
+      "vômitos",
+      "hematêmese",
+      "alteração do apetite",
+      "saciedade precoce"
+    ]
+  },
+  "otorrino_orofaringeos": {
+    "termos": [
+      "dor de garganta",
+      "corpo estranho na garganta",
+      "rouquidão",
+      "disfonia",
+      "dor oral",
+      "lesão oral",
+      "xerostomia",
+      "boca seca",
+      "sialorreia",
+      "babação",
+      "edema na boca",
+      "edema na garganta",
+      "língua aumentada",
+      "alteração da língua",
+      "trismo"
+    ]
+  },
+  "neurologicos_associados": {
+    "termos": [
+      "disartria",
+      "alteração da fala",
+      "fraqueza facial",
+      "assimetria facial",
+      "fraqueza de membro",
+      "paresia",
+      "alteração de sensibilidade",
+      "parestesia",
+      "incoordenação",
+      "ataxia",
+      "desequilíbrio",
+      "vertigem",
+      "diplopia",
+      "confusão",
+      "alteração do estado mental",
+      "dificuldade para movimentar a língua"
+    ],
+    "regra": "registrar relação temporal com alteração da deglutição; não realizar diagnóstico"
+  },
+  "sistemicos": {
+    "termos": [
+      "febre",
+      "calafrios",
+      "sudorese",
+      "fadiga",
+      "astenia",
+      "anorexia",
+      "perda de peso",
+      "perda ponderal",
+      "emagrecimento",
+      "redução da ingestão",
+      "desidratação"
+    ],
+    "perda_ponderal_atributos": [
+      "quantidade",
+      "período",
+      "intencionalidade"
+    ]
+  },
+  "desencadeantes": {
+    "termos": [
+      "alimentação",
+      "tipo de alimento",
+      "consistência",
+      "temperatura",
+      "velocidade ao comer",
+      "bocado grande",
+      "posição corporal",
+      "comprimido",
+      "medicamento",
+      "evento neurológico recente",
+      "cirurgia recente",
+      "procedimento recente",
+      "trauma",
+      "vômitos",
+      "substância irritante"
+    ],
+    "regra": "associação temporal não equivale a causalidade"
+  },
+  "estrategias_compensatorias": {
+    "termos": [
+      "bebe água para descer",
+      "mastiga mais",
+      "bocados menores",
+      "come devagar",
+      "evita alimentos",
+      "prefere pastosos",
+      "evita sólidos",
+      "muda posição da cabeça",
+      "muda posição do corpo",
+      "engole várias vezes",
+      "interrompe alimentação"
+    ]
+  },
+  "impacto_funcional": {
+    "termos": [
+      "come menos",
+      "bebe menos",
+      "redução da ingestão",
+      "abandona refeições",
+      "refeição demorada",
+      "modificou dieta",
+      "medo de comer",
+      "dificuldade para tomar remédios",
+      "precisa de ajuda para comer",
+      "perda de peso",
+      "não mantém alimentação",
+      "não mantém hidratação"
+    ]
+  },
+  "seguranca": {
+    "prioridade_alta": {
+      "incapacidade_saliva": [
+        "não consegue engolir saliva",
+        "não engole saliva",
+        "cuspindo saliva",
+        "sialorreia por não conseguir engolir"
+      ],
+      "incapacidade_liquidos": [
+        "não consegue beber água",
+        "não consegue ingerir líquidos",
+        "líquidos voltam imediatamente"
+      ],
+      "impactacao_persistente": [
+        "alimento permanece preso",
+        "comida continua entalada",
+        "impactação persistente"
+      ],
+      "respiratorio": [
+        "dificuldade respiratória",
+        "dispneia",
+        "sufocamento",
+        "cianose"
+      ],
+      "neurologico_agudo": [
+        "início súbito com alteração da fala",
+        "fraqueza súbita",
+        "assimetria facial súbita",
+        "déficit neurológico associado"
+      ],
+      "sangramento": [
+        "hematêmese",
+        "sangramento"
+      ],
+      "deterioracao": [
+        "piora rápida",
+        "progressão rápida",
+        "redução importante da ingestão",
+        "desidratação",
+        "perda ponderal importante"
+      ]
+    },
+    "regra": "identificar presença, negativa explícita ou falta de caracterização; não diagnosticar"
+  },
+  "ambiguidades": {
+    "comida_nao_desce": [
+      "dificuldade de iniciar deglutição",
+      "retenção após deglutir",
+      "impactação"
+    ],
+    "engasga_muito": [
+      "consistência não definida",
+      "momento não definido",
+      "manifestação do episódio não definida"
+    ],
+    "doi_garganta_para_comer": [
+      "odinofagia possível",
+      "dor contínua agravada ao engolir",
+      "outro desconforto"
+    ],
+    "bolo_na_garganta": [
+      "globus possível",
+      "disfagia não confirmada"
+    ],
+    "tudo_entala": [
+      "consistências não definidas",
+      "retenção verdadeira não confirmada"
+    ]
+  },
+  "contradicoes_a_detectar": [
+    [
+      "não consegue engolir nada",
+      "alimentação normal"
+    ],
+    [
+      "somente sólidos",
+      "engasgos com água"
+    ],
+    [
+      "começou hoje",
+      "sintomas contínuos há meses"
+    ],
+    [
+      "sem dor",
+      "dor intensa ao engolir"
+    ]
+  ],
+  "campos_essenciais": {
+    "alta_prioridade": [
+      "fenômeno principal",
+      "início e duração",
+      "velocidade de instalação/progressão",
+      "fase/momento da dificuldade",
+      "consistências envolvidas",
+      "capacidade de ingerir líquidos",
+      "capacidade de engolir saliva",
+      "impactação persistente",
+      "sintomas respiratórios associados",
+      "sintomas neurológicos agudos"
+    ],
+    "moderada_prioridade": [
+      "localização percebida",
+      "frequência",
+      "duração dos episódios",
+      "dor/odinofagia",
+      "engasgos/tosse",
+      "regurgitação",
+      "sintomas associados",
+      "desencadeantes",
+      "estratégias compensatórias",
+      "episódios prévios",
+      "impacto funcional"
+    ],
+    "baixa_prioridade": [
+      "detalhes complementares de qualidade",
+      "alimentos específicos",
+      "posição corporal",
+      "temperatura dos alimentos"
+    ]
+  },
+  "perguntas_alto_rendimento": [
+    "A dificuldade é para começar a engolir ou a comida desce e depois parece ficar presa?",
+    "Acontece com sólidos, líquidos ou ambos?",
+    "Consegue beber água e engolir a própria saliva normalmente?",
+    "Ao engolir sente dificuldade, dor ou ambos?",
+    "Tosse ou engasga enquanto come ou bebe?",
+    "Começou de repente ou foi piorando progressivamente?",
+    "Algum alimento já ficou completamente entalado?",
+    "Houve perda de peso ou redução da quantidade que consegue comer?"
+  ],
+  "regras_nlp": [
+    "preservar negação explícita",
+    "distinguir negado de não informado",
+    "preservar temporalidade",
+    "preservar sujeito da informação",
+    "não normalizar expressão ambígua para diagnóstico",
+    "não fundir disfagia, odinofagia, globus, engasgo e impactação",
+    "detectar contradições antes de consolidar campos",
+    "priorizar campos de segurança na geração de lacunas",
+    "marcar informação insuficiente quando não houver suporte textual"
+  ]
+}

@@ -1,0 +1,402 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Reação alérgica / hipersensibilidade / suspeita de anafilaxia",
+    "idioma": "pt-BR",
+    "finalidade": "Consulta rápida durante análise crítica de QD/HMA para extração, normalização, identificação de lacunas, ambiguidades, contradições e prioridades de segurança.",
+    "escopo": "QD e HMA/HPMA",
+    "restricoes": [
+      "Não realizar diagnóstico",
+      "Não definir tratamento",
+      "Não solicitar exames",
+      "Não inferir informações ausentes",
+      "Não converter ausência de menção em negativa"
+    ]
+  },
+  "queixa_alvo": {
+    "canonical": [
+      "reação alérgica",
+      "reação de hipersensibilidade",
+      "suspeita de anafilaxia"
+    ],
+    "termos": [
+      "alergia",
+      "reação alérgica",
+      "reação",
+      "anafilaxia",
+      "choque anafilático"
+    ],
+    "coloquiais": [
+      "empolou",
+      "ficou cheio de placas",
+      "manchas pelo corpo",
+      "coceira",
+      "inchou",
+      "passou mal"
+    ]
+  },
+  "dominios": {
+    "cronologia": {
+      "campos": [
+        "início",
+        "duração",
+        "velocidade de instalação",
+        "primeira manifestação",
+        "sequência",
+        "progressão",
+        "intervalo exposição-sintomas",
+        "estado atual",
+        "recorrência"
+      ],
+      "termos": [
+        "súbito",
+        "rápido",
+        "progressivo",
+        "insidioso",
+        "melhorando",
+        "piorando",
+        "oscilando",
+        "estável",
+        "recorreu",
+        "voltou"
+      ]
+    },
+    "exposicao": {
+      "categorias": {
+        "medicamentos": [
+          "antibiótico",
+          "analgésico",
+          "anti-inflamatório",
+          "contraste",
+          "anestésico",
+          "medicação injetável",
+          "vacina",
+          "remédio"
+        ],
+        "alimentos": [
+          "alimento",
+          "comida",
+          "ingrediente",
+          "contaminação cruzada"
+        ],
+        "picadas_ferroadas": [
+          "picada",
+          "ferroada",
+          "inseto",
+          "animal"
+        ],
+        "outras": [
+          "látex",
+          "produto químico",
+          "cosmético",
+          "produto de higiene",
+          "produto de limpeza",
+          "planta",
+          "animal",
+          "exposição ocupacional",
+          "exercício",
+          "exposição ambiental",
+          "contato cutâneo"
+        ]
+      },
+      "atributos": [
+        "agente",
+        "dose",
+        "via",
+        "horário",
+        "quantidade",
+        "tempo até sintomas",
+        "uso/exposição prévia",
+        "reação prévia"
+      ]
+    },
+    "pele_mucosas": {
+      "termos": [
+        "urticária",
+        "placas",
+        "vergões",
+        "eritema",
+        "flushing",
+        "rubor",
+        "prurido",
+        "coceira",
+        "rash",
+        "exantema",
+        "edema cutâneo",
+        "calor",
+        "manchas",
+        "bolinhas",
+        "empolado"
+      ],
+      "atributos": [
+        "localização",
+        "distribuição",
+        "extensão",
+        "início",
+        "progressão",
+        "localizado/generalizado",
+        "prurido",
+        "migração",
+        "desaparecimento/reaparecimento"
+      ]
+    },
+    "edema_angioedema": {
+      "termos": [
+        "edema facial",
+        "rosto inchado",
+        "edema periorbitário",
+        "olho inchado",
+        "edema labial",
+        "lábio inchado",
+        "boca inchada",
+        "edema de língua",
+        "língua inchada",
+        "edema de úvula",
+        "edema orofaríngeo",
+        "edema cervical",
+        "edema de extremidades"
+      ],
+      "atributos": [
+        "localização",
+        "lateralidade",
+        "extensão",
+        "velocidade",
+        "progressão",
+        "urticária/prurido associado",
+        "sintomas respiratórios",
+        "sintomas de deglutição"
+      ]
+    },
+    "via_aerea_superior": {
+      "prioridade": "critica",
+      "termos": [
+        "garganta fechando",
+        "garganta fechada",
+        "aperto na garganta",
+        "edema de língua",
+        "língua aumentada",
+        "edema orofaríngeo",
+        "alteração da voz",
+        "voz abafada",
+        "rouquidão",
+        "disfonia",
+        "estridor",
+        "dificuldade para falar",
+        "dificuldade para engolir",
+        "disfagia",
+        "odinofagia",
+        "dificuldade para engolir saliva",
+        "sialorreia",
+        "bolo na garganta"
+      ],
+      "atributos": [
+        "início",
+        "intensidade",
+        "progressão"
+      ]
+    },
+    "respiratorio": {
+      "prioridade": "critica",
+      "termos": [
+        "dispneia",
+        "falta de ar",
+        "dificuldade respiratória",
+        "respiração ruidosa",
+        "sibilância",
+        "chiado",
+        "tosse",
+        "aperto torácico",
+        "taquipneia",
+        "cianose",
+        "dificuldade para completar frases",
+        "sufocamento",
+        "piora respiratória"
+      ],
+      "subtipos": [
+        "via aérea superior",
+        "brônquico/respiratório inferior",
+        "inespecífico"
+      ]
+    },
+    "cardiovascular_perfusão": {
+      "prioridade": "critica",
+      "termos": [
+        "hipotensão",
+        "tontura",
+        "sensação de desmaio",
+        "pré-síncope",
+        "síncope",
+        "perda de consciência",
+        "fraqueza intensa",
+        "palidez",
+        "sudorese",
+        "colapso",
+        "confusão",
+        "redução da responsividade",
+        "palpitações",
+        "dor torácica",
+        "desconforto torácico"
+      ]
+    },
+    "gastrointestinal": {
+      "termos": [
+        "náusea",
+        "náuseas",
+        "vômito",
+        "vômitos",
+        "dor abdominal",
+        "cólica",
+        "cólicas",
+        "diarreia",
+        "urgência evacuatória"
+      ],
+      "atributos": [
+        "início",
+        "intensidade",
+        "número de episódios",
+        "relação temporal",
+        "persistência",
+        "progressão"
+      ]
+    },
+    "neurologico_estado_geral": {
+      "termos": [
+        "tontura",
+        "fraqueza",
+        "sensação de morte iminente",
+        "ansiedade",
+        "agitação",
+        "confusão",
+        "sonolência",
+        "alteração da responsividade",
+        "perda de consciência"
+      ]
+    },
+    "intervencoes_previas": {
+      "termos": [
+        "interrupção da exposição",
+        "retirada do agente",
+        "medicamento utilizado",
+        "atendimento pré-hospitalar",
+        "atendimento em outro serviço"
+      ],
+      "atributos": [
+        "intervenção",
+        "horário",
+        "dose",
+        "via",
+        "resposta",
+        "tempo até melhora",
+        "recorrência/progressão"
+      ]
+    },
+    "resposta": {
+      "termos": [
+        "melhora completa",
+        "melhora parcial",
+        "sem resposta",
+        "piora",
+        "melhora seguida de recorrência",
+        "novas manifestações"
+      ]
+    },
+    "episodios_anteriores": {
+      "termos": [
+        "episódio semelhante",
+        "exposição prévia",
+        "reação prévia",
+        "urticária recorrente",
+        "edema recorrente",
+        "anafilaxia prévia"
+      ]
+    },
+    "cofatores": {
+      "termos": [
+        "exercício",
+        "álcool",
+        "infecção intercorrente",
+        "medicamentos concomitantes",
+        "múltiplas exposições"
+      ]
+    }
+  },
+  "termos_ambiguos": {
+    "alergia forte": "Especificar manifestações, sistemas envolvidos, intensidade e progressão.",
+    "reação": "Definir quais manifestações ocorreram e sua cronologia.",
+    "empolou": "Descrever morfologia, distribuição, extensão e prurido.",
+    "inchou": "Definir localização, extensão, velocidade e progressão.",
+    "fechou a garganta": "Esclarecer sensação subjetiva, edema, voz, estridor e deglutição.",
+    "ficou sem ar": "Caracterizar dispneia, sibilância, estridor e progressão.",
+    "passou mal": "Especificar sintomas e sequência temporal.",
+    "quase morreu": "Identificar manifestações objetivas associadas.",
+    "desmaiou": "Caracterizar perda de consciência/responsividade e recuperação.",
+    "ficou vermelho": "Definir distribuição, eritema/flushing e manifestações associadas.",
+    "deu alergia no remédio": "Identificar fármaco, dose, via, horário, intervalo e manifestações."
+  },
+  "negativas_pertinentes": [
+    "edema de língua",
+    "edema de garganta",
+    "alteração da voz",
+    "estridor",
+    "disfagia",
+    "dispneia",
+    "sibilância",
+    "síncope",
+    "manifestações cutâneas",
+    "sintomas gastrointestinais",
+    "progressão"
+  ],
+  "lacunas_alta_prioridade": [
+    "cronologia precisa",
+    "possível agente desencadeante",
+    "intervalo exposição-sintomas",
+    "edema de língua/orofaringe",
+    "alteração da voz",
+    "estridor",
+    "dificuldade para engolir",
+    "dispneia/sibilância",
+    "sintomas cardiovasculares/perfusionais",
+    "síncope/alteração da consciência",
+    "progressão rápida",
+    "número de sistemas envolvidos",
+    "intervenções já realizadas e resposta",
+    "recorrência após melhora"
+  ],
+  "classificacao_qualidade": [
+    "PRESENTE E ADEQUADAMENTE CARACTERIZADO",
+    "PRESENTE, MAS INCOMPLETO",
+    "PRESENTE, MAS AMBÍGUO",
+    "CONTRADITÓRIO",
+    "NEGATIVA EXPLICITAMENTE DOCUMENTADA",
+    "NÃO INFORMADO",
+    "NÃO APLICÁVEL AO TEXTO ANALISADO"
+  ],
+  "regras_motor": [
+    "Preservar a expressão original antes da normalização.",
+    "Não assumir equivalência automática entre termos coloquiais e conceitos técnicos.",
+    "Não atribuir causalidade apenas por proximidade temporal.",
+    "Ausência de menção deve ser classificada como NÃO INFORMADO, nunca como negativa.",
+    "Priorizar via aérea, respiração, circulação/perfusão, progressão e envolvimento multissistêmico.",
+    "Não resolver contradições por inferência.",
+    "Distinguir manifestação localizada de multissistêmica.",
+    "Distinguir edema superficial de descrição potencialmente relacionada à via aérea.",
+    "Distinguir via aérea superior, manifestação brônquica e dispneia inespecífica quando o texto permitir."
+  ],
+  "saida_recomendada": {
+    "secoes": [
+      "resumo_documentado",
+      "informacoes_criticas_faltantes",
+      "informacoes_importantes_faltantes",
+      "ambiguidades_contradicoes",
+      "perguntas_objetivas"
+    ],
+    "indices_opcionais": [
+      "completude_global",
+      "caracterizacao_temporal",
+      "caracterizacao_exposicao",
+      "caracterizacao_multissistemica",
+      "caracterizacao_via_aerea_respiratoria",
+      "caracterizacao_cardiovascular_perfusional",
+      "clareza_coerencia"
+    ]
+  }
+}

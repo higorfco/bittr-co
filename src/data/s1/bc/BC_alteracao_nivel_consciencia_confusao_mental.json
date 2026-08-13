@@ -1,0 +1,862 @@
+{
+  "metadata": {
+    "name": "alteracao_estado_mental_termos_clinicos",
+    "version": "1.0.0",
+    "language": "pt-BR",
+    "domain": [
+      "semiologia",
+      "medicina_de_emergencia",
+      "neurologia",
+      "clinica_medica",
+      "geriatria",
+      "toxicologia",
+      "NLP_saude"
+    ],
+    "scope": "QD_HMA_HPMA_only",
+    "purpose": "Apoiar extração, normalização, análise crítica, identificação de lacunas, ambiguidades, contradições e risco de erro na caracterização de alteração do nível de consciência/confusão mental/alteração do estado mental, sem diagnóstico, tratamento ou solicitação de exames.",
+    "core_rules": [
+      "nao_inferir_informacao_ausente",
+      "ausente_no_texto_nao_equivale_a_negativo",
+      "preservar_descricao_original",
+      "nao_equivaler_confusao_sonolencia_desorientacao_desmaio_nao_responsivo",
+      "nao_estimar_glasgow",
+      "nao_converter_termo_vago_em_categoria_clinica_sem_evidencia",
+      "distinguir_estado_basal_de_estado_atual",
+      "distinguir_alteracao_cognitiva_de_linguagem",
+      "distinguir_alteracao_do_nivel_de_consciencia_de_perda_transitoria_da_consciencia"
+    ]
+  },
+  "normalization": {
+    "status_labels": [
+      "PRESENTE_E_ADEQUADAMENTE_CARACTERIZADO",
+      "PRESENTE_MAS_INCOMPLETO",
+      "AMBIGUO",
+      "CONTRADITORIO",
+      "NAO_INFORMADO"
+    ],
+    "negation_rule": "Somente classificar como ausente quando houver negativa explícita e semanticamente vinculada ao achado.",
+    "uncertainty_markers": [
+      "talvez",
+      "parece",
+      "aparentemente",
+      "possivelmente",
+      "provavelmente",
+      "segundo relato",
+      "não sabe informar",
+      "não soube precisar",
+      "incerto",
+      "duvidoso"
+    ],
+    "vague_time_markers": [
+      "hoje",
+      "desde cedo",
+      "há algum tempo",
+      "esses dias",
+      "recentemente",
+      "faz um tempo",
+      "há horas",
+      "há dias"
+    ],
+    "source_markers": {
+      "patient": [
+        "paciente relata",
+        "refere",
+        "informa",
+        "nega"
+      ],
+      "family": [
+        "familiar relata",
+        "filha relata",
+        "filho relata",
+        "esposa relata",
+        "esposo relata",
+        "mãe relata",
+        "pai relata"
+      ],
+      "caregiver": [
+        "cuidador relata",
+        "acompanhante relata"
+      ],
+      "prehospital": [
+        "SAMU relata",
+        "equipe pré-hospitalar relata",
+        "ambulância relata"
+      ],
+      "witness": [
+        "testemunha relata",
+        "foi testemunhado"
+      ]
+    }
+  },
+  "concepts": {
+    "altered_mental_status_general": {
+      "preferred_terms": [
+        "alteração do estado mental",
+        "alteração do sensório",
+        "alteração do nível de consciência",
+        "confusão mental"
+      ],
+      "colloquial": [
+        "está diferente",
+        "não está normal",
+        "está estranho",
+        "fora de si",
+        "não está ele mesmo",
+        "mudou de repente"
+      ],
+      "ambiguity_note": "Termos gerais não definem se a alteração é de consciência, atenção, orientação, memória, linguagem, percepção ou comportamento."
+    },
+    "decreased_consciousness": {
+      "preferred_terms": [
+        "rebaixamento do nível de consciência",
+        "redução do nível de consciência",
+        "hiporresponsividade"
+      ],
+      "synonyms": [
+        "rebaixado",
+        "sonolento",
+        "torporoso",
+        "estuporoso",
+        "hipoativo",
+        "pouco responsivo"
+      ],
+      "colloquial": [
+        "apagado",
+        "muito mole",
+        "difícil de acordar",
+        "não responde direito",
+        "só abre o olho quando chama",
+        "volta a dormir"
+      ],
+      "must_distinguish_from": [
+        "fadiga",
+        "sono fisiológico",
+        "confusão sem rebaixamento",
+        "afasia",
+        "perda transitória da consciência"
+      ]
+    },
+    "alertness_responsiveness": {
+      "positive_terms": [
+        "alerta",
+        "vigil",
+        "acordado",
+        "desperto espontaneamente",
+        "mantém olhos abertos",
+        "interage espontaneamente"
+      ],
+      "reduced_terms": [
+        "desperta ao chamado",
+        "necessita estímulo repetido",
+        "responde ao estímulo verbal",
+        "responde ao estímulo físico",
+        "responde apenas à dor",
+        "não responsivo"
+      ],
+      "pitfalls": [
+        "alerta não implica orientação preservada",
+        "orientado não implica atenção preservada"
+      ]
+    },
+    "confusion": {
+      "preferred_terms": [
+        "confusão mental",
+        "estado confusional",
+        "pensamento desorganizado"
+      ],
+      "colloquial": [
+        "não fala coisa com coisa",
+        "está meio perdido",
+        "fala coisas sem sentido",
+        "não entende o que está acontecendo"
+      ],
+      "required_disambiguation": [
+        "atenção",
+        "orientação",
+        "memória",
+        "linguagem",
+        "curso/flutuação",
+        "estado basal"
+      ]
+    },
+    "disorientation": {
+      "preferred_terms": [
+        "desorientação temporal",
+        "desorientação espacial",
+        "desorientação pessoal",
+        "desorientação situacional"
+      ],
+      "general_terms": [
+        "desorientado",
+        "perdido"
+      ],
+      "examples": {
+        "temporal": [
+          "não sabe o dia",
+          "não sabe o mês",
+          "não sabe o ano",
+          "não sabe que horas são"
+        ],
+        "spatial": [
+          "não sabe onde está",
+          "não reconhece o local"
+        ],
+        "personal": [
+          "não reconhece familiares",
+          "não sabe quem é"
+        ],
+        "situational": [
+          "não sabe por que está no hospital",
+          "não compreende a situação atual"
+        ]
+      },
+      "pitfall": "Não converter 'desorientado' em desorientação global sem domínios especificados."
+    },
+    "attention": {
+      "positive_terms": [
+        "mantém atenção",
+        "acompanha conversa",
+        "mantém contato",
+        "segue comandos",
+        "responde coerentemente"
+      ],
+      "abnormal_terms": [
+        "desatento",
+        "distraível",
+        "perde o foco",
+        "não consegue acompanhar conversa",
+        "atenção flutuante",
+        "hipoprosexia"
+      ],
+      "colloquial": [
+        "não presta atenção",
+        "se perde no meio da conversa",
+        "não consegue se concentrar"
+      ]
+    },
+    "memory_cognition": {
+      "terms": [
+        "amnésia",
+        "alteração de memória",
+        "memória recente prejudicada",
+        "memória remota prejudicada",
+        "déficit cognitivo",
+        "lentificação cognitiva"
+      ],
+      "colloquial": [
+        "esquece o que acabou de falar",
+        "não lembra o que aconteceu",
+        "não reconhece as pessoas",
+        "não lembra onde está"
+      ]
+    },
+    "language_communication": {
+      "terms": [
+        "afasia",
+        "disfasia",
+        "disartria",
+        "fala incoerente",
+        "compreensão prejudicada",
+        "expressão verbal prejudicada",
+        "mutismo"
+      ],
+      "colloquial": [
+        "fala enrolado",
+        "não consegue falar",
+        "não acha as palavras",
+        "fala palavras erradas",
+        "não entende o que falam"
+      ],
+      "pitfall": "Alteração de linguagem pode simular confusão; não classificá-la automaticamente como alteração cognitiva ou do nível de consciência."
+    },
+    "behavior_perception": {
+      "terms": [
+        "agitação",
+        "agressividade",
+        "inquietação",
+        "apatia",
+        "hipoatividade",
+        "comportamento desorganizado",
+        "alteração perceptiva",
+        "alucinação",
+        "ilusão"
+      ],
+      "colloquial": [
+        "fora de si",
+        "muito agitado",
+        "agressivo do nada",
+        "vendo coisas",
+        "ouvindo coisas",
+        "não interage",
+        "ficou parado"
+      ],
+      "pitfall": "Alteração comportamental isolada não define alteração do nível de consciência."
+    },
+    "transient_loss_of_consciousness": {
+      "terms": [
+        "perda transitória da consciência",
+        "perdeu a consciência",
+        "desmaiou",
+        "apagou",
+        "ficou inconsciente"
+      ],
+      "near_syncope_terms": [
+        "quase desmaiou",
+        "sensação de desmaio",
+        "escurecimento da visão",
+        "lipotimia",
+        "pré-síncope"
+      ],
+      "pitfall": "Não assumir equivalência entre desmaio, pré-síncope, queda, crise convulsiva e alteração persistente do estado mental."
+    }
+  },
+  "temporal_characterization": {
+    "onset_terms": {
+      "sudden": [
+        "súbito",
+        "abrupto",
+        "de repente",
+        "repentino"
+      ],
+      "rapid": [
+        "rápido",
+        "em minutos"
+      ],
+      "progressive": [
+        "progressivo",
+        "foi piorando",
+        "aos poucos"
+      ],
+      "insidious": [
+        "insidioso",
+        "gradual",
+        "lentamente"
+      ]
+    },
+    "course_terms": {
+      "continuous": [
+        "contínuo",
+        "persistente",
+        "desde então"
+      ],
+      "intermittent": [
+        "intermitente",
+        "vai e volta",
+        "episódico",
+        "em crises"
+      ],
+      "fluctuating": [
+        "flutuante",
+        "oscila",
+        "tem períodos melhores e piores",
+        "alterna sonolência e agitação"
+      ],
+      "improving": [
+        "melhorando",
+        "mais desperto",
+        "mais orientado"
+      ],
+      "worsening": [
+        "piorando",
+        "mais sonolento",
+        "menos responsivo"
+      ],
+      "stable": [
+        "estável",
+        "sem mudança",
+        "mantém o mesmo padrão"
+      ]
+    },
+    "last_known_well_terms": [
+      "última vez bem",
+      "última vez normal",
+      "última vez visto normal",
+      "last known well",
+      "LKW",
+      "visto bem pela última vez"
+    ]
+  },
+  "glasgow": {
+    "terms": [
+      "Glasgow",
+      "ECG",
+      "Escala de Coma de Glasgow",
+      "GCS"
+    ],
+    "components": {
+      "eye": [
+        "abertura ocular",
+        "AO"
+      ],
+      "verbal": [
+        "resposta verbal",
+        "RV"
+      ],
+      "motor": [
+        "resposta motora",
+        "RM"
+      ]
+    },
+    "rule": "Extrair somente se explicitamente documentado; nunca estimar pontuação total ou componentes ausentes."
+  },
+  "associated_neurologic_symptoms": {
+    "headache": [
+      "cefaleia",
+      "dor de cabeça"
+    ],
+    "speech": [
+      "alteração da fala",
+      "fala enrolada",
+      "disartria",
+      "afasia"
+    ],
+    "comprehension": [
+      "dificuldade de compreensão",
+      "não entende comandos"
+    ],
+    "weakness": [
+      "fraqueza",
+      "perda de força",
+      "paresia",
+      "plegia",
+      "hemiparesia"
+    ],
+    "facial": [
+      "assimetria facial",
+      "desvio de rima",
+      "boca torta"
+    ],
+    "sensory": [
+      "parestesia",
+      "dormência",
+      "hipoestesia",
+      "perda de sensibilidade"
+    ],
+    "visual": [
+      "alteração visual",
+      "visão turva",
+      "perda visual",
+      "diplopia"
+    ],
+    "vestibular_gait": [
+      "vertigem",
+      "desequilíbrio",
+      "ataxia",
+      "dificuldade para caminhar",
+      "instabilidade"
+    ],
+    "coordination": [
+      "dismetria",
+      "incoordenação",
+      "alteração da coordenação"
+    ],
+    "seizure": [
+      "convulsão",
+      "crise convulsiva",
+      "abalo",
+      "movimentos tônico-clônicos",
+      "movimentos involuntários"
+    ],
+    "tloc": [
+      "desmaio",
+      "perda de consciência",
+      "apagão"
+    ]
+  },
+  "associated_systemic_symptoms": {
+    "fever": [
+      "febre",
+      "febril",
+      "calafrios"
+    ],
+    "respiratory": [
+      "dispneia",
+      "falta de ar",
+      "tosse"
+    ],
+    "cardiovascular": [
+      "dor torácica",
+      "palpitação",
+      "palpitações"
+    ],
+    "gastrointestinal": [
+      "náusea",
+      "náuseas",
+      "vômito",
+      "vômitos",
+      "diarreia",
+      "dor abdominal"
+    ],
+    "urinary": [
+      "disúria",
+      "ardor ao urinar",
+      "urgência urinária",
+      "polaciúria",
+      "redução da diurese",
+      "oligúria"
+    ],
+    "general": [
+      "prostração",
+      "astenia",
+      "fraqueza",
+      "redução da ingestão",
+      "recusa alimentar",
+      "baixa ingesta hídrica"
+    ]
+  },
+  "preceding_events": {
+    "trauma": [
+      "queda",
+      "trauma",
+      "TCE",
+      "trauma craniano",
+      "bateu a cabeça"
+    ],
+    "seizure_related": [
+      "convulsão",
+      "crise",
+      "abalo",
+      "movimentos anormais"
+    ],
+    "physiologic_stress": [
+      "esforço",
+      "calor",
+      "exposição ao calor",
+      "jejum",
+      "desidratação",
+      "vômitos",
+      "diarreia"
+    ],
+    "recent_illness": [
+      "infecção recente",
+      "doença recente",
+      "febre recente",
+      "quadro gripal",
+      "internação recente",
+      "procedimento recente"
+    ],
+    "medication_change": [
+      "medicação nova",
+      "iniciou medicamento",
+      "aumentou dose",
+      "reduziu dose",
+      "suspendeu medicamento",
+      "troca de medicação"
+    ]
+  },
+  "medications_substances": {
+    "generic_exposure_terms": [
+      "medicamento",
+      "remédio",
+      "substância",
+      "intoxicação",
+      "ingestão",
+      "exposição",
+      "overdose",
+      "superdose"
+    ],
+    "use_errors": [
+      "dose duplicada",
+      "tomou duas vezes",
+      "uso incorreto",
+      "tomou a mais",
+      "ingestão acidental",
+      "automedicação"
+    ],
+    "alcohol_drugs": [
+      "álcool",
+      "bebida alcoólica",
+      "etilismo",
+      "droga",
+      "drogas recreativas",
+      "cocaína",
+      "crack",
+      "maconha",
+      "opioide",
+      "benzodiazepínico"
+    ],
+    "environmental": [
+      "produto químico",
+      "solvente",
+      "agrotóxico",
+      "gás",
+      "monóxido de carbono",
+      "exposição ocupacional"
+    ],
+    "rule": "Presença de substância ou medicamento no texto não autoriza atribuição causal."
+  },
+  "trauma_fall_logic": {
+    "questions": [
+      "houve_queda",
+      "houve_trauma_craniano",
+      "mecanismo_descrito",
+      "alteracao_ocorreu_antes_ou_depois_da_queda",
+      "houve_perda_transitoria_da_consciencia",
+      "houve_recuperacao"
+    ],
+    "critical_ambiguity": "Se não houver sequência temporal clara entre queda, trauma e alteração mental, sinalizar ambiguidade relevante."
+  },
+  "prior_episodes": {
+    "terms": [
+      "episódio semelhante",
+      "já aconteceu antes",
+      "recorrente",
+      "episódios prévios",
+      "evento anterior",
+      "quadro semelhante"
+    ],
+    "attributes": [
+      "numero",
+      "frequencia",
+      "duracao",
+      "circunstancias",
+      "recuperacao",
+      "semelhancas",
+      "diferencas"
+    ]
+  },
+  "documentation_quality": {
+    "high_value_fields": [
+      "fenomeno_exato_descrito",
+      "estado_mental_basal",
+      "ultima_vez_observado_normal",
+      "inicio",
+      "tempo_de_evolucao",
+      "curso_flutuacao",
+      "responsividade",
+      "atencao",
+      "orientacao_por_dominio",
+      "linguagem_comunicacao",
+      "eventos_precedentes",
+      "sintomas_neurologicos_associados",
+      "trauma_quedas",
+      "medicamentos_substancias",
+      "fonte_da_historia",
+      "cronologia"
+    ],
+    "priority_missing_logic": [
+      {
+        "field": "estado_mental_basal",
+        "priority": "alta",
+        "reason": "Sem basal, não é possível quantificar adequadamente a mudança atual."
+      },
+      {
+        "field": "ultima_vez_observado_normal",
+        "priority": "alta",
+        "reason": "Essencial para estabelecer cronologia do início quando há alteração aguda."
+      },
+      {
+        "field": "fenomeno_exato_descrito",
+        "priority": "alta",
+        "reason": "Termos como confuso ou rebaixado podem representar fenômenos distintos."
+      },
+      {
+        "field": "responsividade",
+        "priority": "alta",
+        "reason": "Caracteriza objetivamente o nível de consciência."
+      },
+      {
+        "field": "curso_flutuacao",
+        "priority": "alta",
+        "reason": "Diferencia quadro contínuo, episódico ou flutuante sem atribuir etiologia."
+      },
+      {
+        "field": "fonte_da_historia",
+        "priority": "alta",
+        "reason": "A alteração do estado mental pode limitar a confiabilidade do próprio relato."
+      },
+      {
+        "field": "sintomas_neurologicos_associados",
+        "priority": "alta",
+        "reason": "A ausência de documentação pode ocultar achados relevantes para a caracterização clínica."
+      },
+      {
+        "field": "trauma_quedas",
+        "priority": "alta",
+        "reason": "É necessário estabelecer presença e sequência temporal quando aplicável."
+      }
+    ]
+  },
+  "ambiguity_dictionary": {
+    "confuso": [
+      "atenção",
+      "orientação",
+      "memória",
+      "linguagem",
+      "comportamento",
+      "nível de consciência"
+    ],
+    "alterado": [
+      "qual domínio mental está alterado",
+      "comparação com basal",
+      "responsividade"
+    ],
+    "rebaixado": [
+      "resposta espontânea",
+      "resposta verbal",
+      "resposta física",
+      "capacidade de manter vigília"
+    ],
+    "sonolento": [
+      "desperta espontaneamente ou ao chamado",
+      "mantém interação",
+      "volta a dormir"
+    ],
+    "desorientado": [
+      "tempo",
+      "espaço",
+      "pessoa",
+      "situação"
+    ],
+    "nao_responsivo": [
+      "tipo de estímulo aplicado",
+      "abertura ocular",
+      "resposta verbal",
+      "resposta motora"
+    ],
+    "apagado": [
+      "perda de consciência transitória ou rebaixamento persistente",
+      "duração",
+      "recuperação"
+    ],
+    "desmaiou": [
+      "houve perda completa da consciência",
+      "perda de tônus",
+      "duração",
+      "recuperação",
+      "testemunha"
+    ],
+    "estranho": [
+      "comportamento",
+      "fala",
+      "atenção",
+      "orientação",
+      "consciência"
+    ],
+    "fora_do_normal": [
+      "estado basal",
+      "qual mudança foi observada",
+      "início e evolução"
+    ]
+  },
+  "contradiction_patterns": [
+    {
+      "a": "alerta",
+      "b": "não responde",
+      "condition": "sem explicacao_temporal"
+    },
+    {
+      "a": "orientado",
+      "b": "não sabe onde está",
+      "condition": "mesmo_momento"
+    },
+    {
+      "a": "início súbito",
+      "b": "início progressivo",
+      "condition": "mesmo_evento"
+    },
+    {
+      "a": "sem perda de consciência",
+      "b": "ficou inconsciente",
+      "condition": "mesmo_evento"
+    },
+    {
+      "a": "conversa normalmente",
+      "b": "não consegue compreender",
+      "condition": "mesmo_momento_sem_contexto"
+    },
+    {
+      "a": "horario_inicio_1",
+      "b": "horario_inicio_2",
+      "condition": "incompativeis"
+    }
+  ],
+  "explicit_negations": {
+    "consciousness": [
+      "sem rebaixamento do nível de consciência",
+      "mantém-se alerta",
+      "não perdeu a consciência"
+    ],
+    "confusion": [
+      "sem confusão",
+      "não está confuso"
+    ],
+    "orientation": [
+      "orientado no tempo e espaço",
+      "orientado em pessoa, tempo e espaço"
+    ],
+    "seizure": [
+      "nega convulsão",
+      "sem movimentos convulsivos",
+      "sem crise convulsiva"
+    ],
+    "trauma": [
+      "nega queda",
+      "nega trauma",
+      "sem trauma craniano"
+    ],
+    "neurologic": [
+      "nega fraqueza",
+      "nega alteração da fala",
+      "nega cefaleia",
+      "sem déficit focal descrito"
+    ]
+  },
+  "chronology_template": [
+    "estado_basal",
+    "ultima_vez_observado_normal",
+    "inicio_da_alteracao",
+    "manifestacoes_iniciais",
+    "eventos_ou_sintomas_associados",
+    "evolucao",
+    "estado_no_momento_do_atendimento"
+  ],
+  "analysis_output_schema": {
+    "sintese_documentada": "string",
+    "caracterizacao_estruturada": {
+      "queixa_fenomeno": "status+evidencia",
+      "estado_mental_basal": "status+evidencia",
+      "ultima_vez_normal": "status+evidencia",
+      "inicio": "status+evidencia",
+      "tempo_evolucao": "status+evidencia",
+      "curso_flutuacao": "status+evidencia",
+      "nivel_consciencia_responsividade": "status+evidencia",
+      "atencao_interacao": "status+evidencia",
+      "orientacao": "status+evidencia",
+      "cognicao_memoria": "status+evidencia",
+      "linguagem_comunicacao": "status+evidencia",
+      "comportamento_percepcao": "status+evidencia",
+      "eventos_precedentes": "status+evidencia",
+      "sintomas_neurologicos": "status+evidencia",
+      "sintomas_sistemicos": "status+evidencia",
+      "trauma_quedas": "status+evidencia",
+      "medicamentos_substancias": "status+evidencia",
+      "episodios_anteriores": "status+evidencia",
+      "fonte_historia": "status+evidencia",
+      "cronologia_reconstruivel": "status+evidencia"
+    },
+    "faltantes_prioritarios": [
+      "field",
+      "reason",
+      "example_documentation"
+    ],
+    "ambiguidades_contradicoes": [
+      "term_or_conflict",
+      "why",
+      "needed_clarification"
+    ],
+    "sugestoes_complementacao": [
+      "short_question_or_documentation_example"
+    ]
+  },
+  "safety_guardrails": [
+    "nao_diagnosticar",
+    "nao_prescrever",
+    "nao_solicitar_exames",
+    "nao_atribuir_causalidade",
+    "nao_inferir_ausencias",
+    "nao_assumir_equivalencia_semantica_entre_fenomenos",
+    "nao_estimar_escalas",
+    "sinalizar_ambiguidade_quando_necessario"
+  ]
+}

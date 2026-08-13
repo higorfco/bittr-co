@@ -1,0 +1,681 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Náuseas e Vômitos",
+    "finalidade": "Apoio algorítmico à análise crítica de QD e HMA/HPMA, com identificação de informações presentes, ausentes, incompletas, ambíguas ou contraditórias.",
+    "escopo": [
+      "náusea",
+      "vômito",
+      "êmese",
+      "ânsia",
+      "regurgitação"
+    ],
+    "restricoes": [
+      "não diagnosticar",
+      "não prescrever",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "não converter ausência de informação em negativa"
+    ]
+  },
+  "status_informacao": {
+    "P": "presente",
+    "N": "negado explicitamente",
+    "A": "ausente/não informado",
+    "I": "incompleto",
+    "AMB": "ambíguo",
+    "C": "contraditório",
+    "NA": "não aplicável quando justificável"
+  },
+  "dominios": {
+    "fenomeno": {
+      "nausea": [
+        "náusea",
+        "nauseas",
+        "enjoo",
+        "enjoado",
+        "enjoada",
+        "vontade de vomitar",
+        "embrulho no estômago"
+      ],
+      "vomito": [
+        "vômito",
+        "vomito",
+        "vômitos",
+        "vomitos",
+        "vomitou",
+        "vomitando",
+        "êmese",
+        "emese",
+        "colocou para fora",
+        "botou para fora",
+        "botou tudo para fora"
+      ],
+      "ansia": [
+        "ânsia",
+        "ansia",
+        "ânsia de vômito",
+        "ansia de vomito",
+        "esforço para vomitar",
+        "vômito seco",
+        "vomito seco"
+      ],
+      "regurgitacao": [
+        "regurgitação",
+        "regurgitacao",
+        "regurgitou",
+        "golfou"
+      ]
+    },
+    "tempo": {
+      "inicio": [
+        "início",
+        "inicio",
+        "começou",
+        "comecou",
+        "iniciou",
+        "desde",
+        "há",
+        "ha"
+      ],
+      "padrao_inicio": [
+        "súbito",
+        "subito",
+        "abrupto",
+        "rápido",
+        "rapido",
+        "progressivo",
+        "insidioso"
+      ],
+      "evolucao": [
+        "melhorando",
+        "piorando",
+        "estável",
+        "estavel",
+        "progressivo",
+        "persistente",
+        "recorrente"
+      ],
+      "vagos": [
+        "há algum tempo",
+        "faz um tempo",
+        "recentemente",
+        "esses dias",
+        "desde esses dias"
+      ]
+    },
+    "frequencia_quantidade": {
+      "frequencia": [
+        "episódio",
+        "episodios",
+        "episódios",
+        "vez",
+        "vezes",
+        "frequente",
+        "repetitivo",
+        "sucessivo"
+      ],
+      "volume": [
+        "pequeno volume",
+        "moderado volume",
+        "grande volume",
+        "grande quantidade",
+        "pouco",
+        "muito"
+      ],
+      "imprecisos": [
+        "vomitou muito",
+        "algumas vezes",
+        "muito vômito",
+        "muito vomito",
+        "vômitos frequentes",
+        "vomitos frequentes",
+        "vomitou tudo"
+      ]
+    },
+    "conteudo_vomito": {
+      "alimentar": [
+        "alimentar",
+        "alimentos",
+        "comida",
+        "alimento recente",
+        "alimento parcialmente digerido"
+      ],
+      "liquido": [
+        "líquido",
+        "liquido",
+        "aquoso",
+        "claro"
+      ],
+      "amarelado": [
+        "amarelo",
+        "amarelado"
+      ],
+      "esverdeado": [
+        "verde",
+        "esverdeado"
+      ],
+      "bilioso": [
+        "bilioso",
+        "bile"
+      ],
+      "sangue": [
+        "sangue",
+        "sangue vivo",
+        "hematêmese",
+        "hematemese",
+        "avermelhado",
+        "vermelho",
+        "coágulo",
+        "coagulo"
+      ],
+      "borra_cafe": [
+        "borra de café",
+        "borra de cafe"
+      ],
+      "escuro": [
+        "escuro",
+        "enegrecido"
+      ],
+      "fecaloide": [
+        "fecaloide",
+        "fecalóide",
+        "odor fecaloide",
+        "aspecto fecaloide"
+      ],
+      "muco": [
+        "muco",
+        "mucoso"
+      ]
+    },
+    "alimentacao_ingestao": {
+      "relacao_refeicao": [
+        "antes da refeição",
+        "durante a refeição",
+        "após a refeição",
+        "depois de comer",
+        "pós-prandial",
+        "pos-prandial"
+      ],
+      "tolerancia_oral": [
+        "tolera dieta",
+        "tolera líquidos",
+        "tolera liquidos",
+        "aceita dieta",
+        "aceita líquidos",
+        "mantém líquidos",
+        "mantem liquidos",
+        "não consegue comer",
+        "não consegue beber",
+        "vomita após ingerir"
+      ],
+      "alimento_suspeito": [
+        "alimento suspeito",
+        "comida diferente",
+        "comida estragada",
+        "mesmo alimento",
+        "outras pessoas com sintomas"
+      ]
+    },
+    "padrao": {
+      "continuidade": [
+        "contínuo",
+        "continuo",
+        "intermitente",
+        "episódico",
+        "episodico",
+        "em crises"
+      ],
+      "periodicidade": [
+        "recorrente",
+        "periódico",
+        "periodico"
+      ],
+      "horario": [
+        "matinal",
+        "ao despertar",
+        "madrugada",
+        "noturno"
+      ],
+      "episodios_previos": [
+        "episódio prévio",
+        "episodio previo",
+        "episódios semelhantes",
+        "episodios semelhantes",
+        "já apresentou",
+        "ja apresentou"
+      ]
+    },
+    "relacao_nausea_vomito": {
+      "precedencia": [
+        "náusea antes do vômito",
+        "nausea antes do vomito",
+        "precedido de náusea",
+        "precedido de nausea"
+      ],
+      "sem_nausea": [
+        "sem náusea",
+        "sem nausea",
+        "vômito súbito",
+        "vomito subito"
+      ],
+      "pos_vomito": [
+        "melhora após vomitar",
+        "melhora depois de vomitar",
+        "náusea persiste",
+        "nausea persiste"
+      ],
+      "jato": [
+        "em jato",
+        "vômito em jato",
+        "vomito em jato",
+        "projétil",
+        "projetil"
+      ],
+      "explosivo": [
+        "explosivo",
+        "abrupto"
+      ]
+    },
+    "gastrointestinais_associados": {
+      "dor": [
+        "dor abdominal",
+        "dor na barriga",
+        "cólica",
+        "colica"
+      ],
+      "distensao": [
+        "distensão abdominal",
+        "distensao abdominal",
+        "abdome distendido",
+        "barriga inchada"
+      ],
+      "diarreia": [
+        "diarreia",
+        "fezes líquidas",
+        "fezes liquidas",
+        "evacuações líquidas",
+        "evacuacoes liquidas"
+      ],
+      "constipacao": [
+        "constipação",
+        "constipacao",
+        "obstipação",
+        "obstipacao",
+        "prisão de ventre",
+        "prisao de ventre"
+      ],
+      "eliminacao": [
+        "eliminação de fezes",
+        "eliminacao de fezes",
+        "eliminação de gases",
+        "eliminacao de gases",
+        "flatos"
+      ],
+      "sangramento": [
+        "sangue nas fezes",
+        "hematoquezia",
+        "melena",
+        "fezes escurecidas"
+      ],
+      "alto_tgi": [
+        "azia",
+        "pirose",
+        "refluxo",
+        "regurgitação",
+        "regurgitacao",
+        "disfagia",
+        "odinofagia"
+      ],
+      "alimentares": [
+        "plenitude pós-prandial",
+        "plenitude pos-prandial",
+        "saciedade precoce",
+        "inapetência",
+        "inapetencia",
+        "anorexia"
+      ]
+    },
+    "sistemicos": {
+      "febre": [
+        "febre",
+        "febril",
+        "sensação de febre",
+        "sensacao de febre",
+        "temperatura"
+      ],
+      "outros": [
+        "calafrios",
+        "sudorese",
+        "mal-estar",
+        "fraqueza",
+        "prostração",
+        "prostracao",
+        "fadiga",
+        "perda ponderal",
+        "perda de peso"
+      ]
+    },
+    "neurologicos_vestibulares": {
+      "cefaleia": [
+        "cefaleia",
+        "dor de cabeça",
+        "dor de cabeca"
+      ],
+      "vestibular": [
+        "vertigem",
+        "tontura",
+        "desequilíbrio",
+        "desequilibrio"
+      ],
+      "visual": [
+        "alteração visual",
+        "alteracao visual",
+        "fotofobia"
+      ],
+      "consciencia": [
+        "confusão",
+        "confusao",
+        "alteração do nível de consciência",
+        "alteracao do nivel de consciencia",
+        "síncope",
+        "sincope",
+        "desmaio"
+      ],
+      "neurologico": [
+        "convulsão",
+        "convulsao",
+        "déficit neurológico",
+        "deficit neurologico",
+        "fraqueza focal",
+        "alteração da marcha",
+        "alteracao da marcha"
+      ]
+    },
+    "perda_liquidos": {
+      "ingestao": [
+        "redução da ingestão",
+        "reducao da ingestao",
+        "não tolera líquidos",
+        "nao tolera liquidos"
+      ],
+      "sede_mucosas": [
+        "sede",
+        "boca seca",
+        "mucosa seca"
+      ],
+      "diurese": [
+        "oligúria",
+        "oliguria",
+        "redução da diurese",
+        "reducao da diurese",
+        "urina escura",
+        "urina concentrada"
+      ],
+      "ortostatismo": [
+        "tontura ao levantar",
+        "tontura ortostática",
+        "tontura ortostatica",
+        "sensação de desmaio",
+        "sensacao de desmaio"
+      ]
+    },
+    "geniturinarios": {
+      "urinarios": [
+        "disúria",
+        "disuria",
+        "polaciúria",
+        "polaciuria",
+        "urgência urinária",
+        "urgencia urinaria",
+        "hematúria",
+        "hematuria"
+      ],
+      "dor": [
+        "dor lombar",
+        "dor em flanco",
+        "dor suprapúbica",
+        "dor suprapubica"
+      ]
+    },
+    "gineco_obstetrico": {
+      "gestacao": [
+        "gestação",
+        "gestacao",
+        "grávida",
+        "gravida",
+        "gravidez",
+        "possibilidade de gestação",
+        "teste de gravidez"
+      ],
+      "menstrual": [
+        "atraso menstrual",
+        "DUM",
+        "data da última menstruação",
+        "data da ultima menstruacao"
+      ],
+      "associados": [
+        "sangramento vaginal",
+        "dor pélvica",
+        "dor pelvica"
+      ]
+    },
+    "desencadeantes_exposicoes": {
+      "alimentar": [
+        "alimentação",
+        "alimentacao",
+        "alimento",
+        "refeição",
+        "refeicao"
+      ],
+      "epidemiologico": [
+        "viagem",
+        "contato com doente",
+        "contato com pessoas sintomáticas",
+        "contato com pessoas sintomaticas"
+      ],
+      "ambiental": [
+        "exposição ambiental",
+        "exposicao ambiental",
+        "calor",
+        "exercício",
+        "exercicio"
+      ],
+      "substancias": [
+        "álcool",
+        "alcool",
+        "droga",
+        "substância recreativa",
+        "substancia recreativa",
+        "produto químico",
+        "produto quimico",
+        "toxina"
+      ],
+      "medicamentos": [
+        "medicação nova",
+        "medicacao nova",
+        "mudança de medicação",
+        "mudanca de medicacao",
+        "aumento de dose",
+        "redução de dose",
+        "reducao de dose",
+        "interrupção de medicamento",
+        "interrupcao de medicamento"
+      ],
+      "outros": [
+        "trauma",
+        "cirurgia recente",
+        "procedimento recente"
+      ]
+    },
+    "medidas_previas": {
+      "medicacao": [
+        "antiemético",
+        "antiemetico",
+        "remédio para enjoo",
+        "remedio para enjoo",
+        "medicação",
+        "medicacao"
+      ],
+      "resposta": [
+        "melhorou",
+        "melhora parcial",
+        "melhora completa",
+        "sem melhora",
+        "recorreu",
+        "piorou",
+        "efeito adverso"
+      ],
+      "qualificadores": [
+        "dose",
+        "via",
+        "horário",
+        "horario",
+        "frequência",
+        "frequencia"
+      ]
+    },
+    "impacto": {
+      "ingestao": [
+        "não consegue comer",
+        "nao consegue comer",
+        "não consegue beber",
+        "nao consegue beber"
+      ],
+      "atividade": [
+        "incapacitante",
+        "impede atividades",
+        "permanece deitado",
+        "acamado"
+      ],
+      "sono": [
+        "interfere no sono",
+        "acorda à noite",
+        "acorda a noite"
+      ],
+      "gravidade": [
+        "leve",
+        "moderado",
+        "intenso",
+        "persistente",
+        "incoercível",
+        "incoercivel",
+        "incapacitante"
+      ]
+    }
+  },
+  "seguranca_documental": {
+    "alta_prioridade": [
+      "tolerância e manutenção de líquidos",
+      "frequência/persistência dos vômitos",
+      "conteúdo do vômito e descrição de sangue",
+      "conteúdo esverdeado/bilioso descrito",
+      "aspecto fecaloide",
+      "dor abdominal importante",
+      "distensão abdominal",
+      "redução/ausência de fezes ou gases",
+      "alteração do estado mental",
+      "síncope",
+      "convulsão",
+      "déficit neurológico",
+      "cefaleia importante associada",
+      "febre",
+      "elementos de perda importante de líquidos",
+      "redução importante da diurese",
+      "possibilidade de gestação quando aplicável",
+      "exposição medicamentosa/tóxica",
+      "trauma recente"
+    ]
+  },
+  "regras_antierro": [
+    {
+      "entrada": "amarelo",
+      "nao_converter_automaticamente_em": "bilioso"
+    },
+    {
+      "entrada": "verde",
+      "nao_converter_automaticamente_em": "bilioso"
+    },
+    {
+      "entrada": "vermelho",
+      "nao_converter_automaticamente_em": "sangue"
+    },
+    {
+      "entrada": "escuro",
+      "nao_converter_automaticamente_em": "hematêmese"
+    },
+    {
+      "entrada": "borra de café",
+      "regra": "preservar descrição original"
+    },
+    {
+      "entrada": "regurgitou",
+      "nao_converter_automaticamente_em": "vômito"
+    },
+    {
+      "entrada": "ânsia",
+      "nao_converter_automaticamente_em": "vômito"
+    },
+    {
+      "entrada": "tontura",
+      "nao_converter_automaticamente_em": "vertigem ou pré-síncope"
+    },
+    {
+      "entrada": "febril",
+      "nao_converter_automaticamente_em": "febre objetivamente medida"
+    },
+    {
+      "entrada": "informação ausente",
+      "nao_converter_automaticamente_em": "negativa"
+    }
+  ],
+  "qualidade_textual": {
+    "marcadores_vaguidade": [
+      "algumas vezes",
+      "muito",
+      "frequente",
+      "passando mal",
+      "há dias",
+      "vomitou tudo",
+      "vômito estranho",
+      "não consegue comer direito"
+    ],
+    "avaliar": [
+      "cronologia",
+      "frequência",
+      "quantidade",
+      "conteúdo",
+      "tolerância oral",
+      "evolução",
+      "sintomas associados",
+      "exposições",
+      "resposta a medidas prévias",
+      "ambiguidades",
+      "contradições"
+    ]
+  },
+  "pipeline_sugerido": [
+    "normalizar texto sem destruir a expressão original",
+    "detectar termos e variantes",
+    "mapear termos para domínios",
+    "extrair relações temporais e negações explícitas",
+    "distinguir presente de negado e não informado",
+    "detectar informação incompleta, vaga, ambígua ou contraditória",
+    "aplicar regras antierro",
+    "identificar lacunas relevantes",
+    "priorizar lacunas",
+    "gerar saída curta e operacional"
+  ],
+  "saida": {
+    "secoes": [
+      "informacoes_identificadas",
+      "informacoes_faltantes_ou_incompletas",
+      "ambiguidades_ou_contradicoes",
+      "resumo_completude"
+    ],
+    "prioridades": [
+      "alta",
+      "moderada",
+      "baixa"
+    ]
+  }
+}

@@ -1,0 +1,393 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Intoxicação / Exposição / Overdose",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Consulta rápida durante análise crítica de QD/HMA para extração, completude, ambiguidade e prevenção de erros.",
+    "escopo": "Caracterização da exposição; não realiza diagnóstico, tratamento ou solicitação de exames."
+  },
+  "regras_nucleares": [
+    "Não inferir informação ausente.",
+    "Não considerar ausência de informação como negativa.",
+    "Diferenciar exposição de intoxicação clínica.",
+    "Diferenciar dose disponível, relatada, máxima possível e efetivamente ingerida.",
+    "Diferenciar horário da exposição do início dos sintomas.",
+    "Não inferir intencionalidade.",
+    "Preservar incertezas, linguagem original e fonte da informação."
+  ],
+  "dominios": {
+    "evento_exposicao": {
+      "termos": [
+        "intoxicação",
+        "overdose",
+        "superdosagem",
+        "envenenamento",
+        "exposição",
+        "ingestão desconhecida",
+        "substância desconhecida",
+        "tomou muitos comprimidos",
+        "tomou remédio demais",
+        "dose excessiva",
+        "ingeriu produto",
+        "bebeu produto químico",
+        "cheirou",
+        "inalou",
+        "aspirou fumaça",
+        "contato com produto",
+        "misturou medicamentos",
+        "tomou medicamento errado",
+        "tomou dose dobrada",
+        "exposição a gás",
+        "exposição a fumaça",
+        "contato com agrotóxico",
+        "uso de drogas"
+      ],
+      "atributos": [
+        "confirmada_ou_suspeita",
+        "única_ou_repetida",
+        "presenciada",
+        "fonte_do_relato"
+      ]
+    },
+    "agente": {
+      "categorias": [
+        "medicamento",
+        "produto doméstico",
+        "produto industrial",
+        "produto agrícola",
+        "agrotóxico",
+        "droga recreativa",
+        "planta",
+        "cogumelo",
+        "animal/toxina",
+        "gás",
+        "vapor",
+        "fumaça",
+        "desconhecido"
+      ],
+      "atributos": [
+        "nome",
+        "nome_comercial",
+        "princípio_ativo",
+        "classe",
+        "apresentação",
+        "concentração",
+        "dose_por_unidade",
+        "formulação",
+        "fabricante",
+        "composição",
+        "rótulo_ou_embalagem"
+      ]
+    },
+    "dose_quantidade": {
+      "atributos": [
+        "quantidade_potencial",
+        "quantidade_efetiva",
+        "número_de_unidades",
+        "volume",
+        "concentração",
+        "dose_total_estimada",
+        "dose_por_peso",
+        "quantidade_máxima_disponível",
+        "quantidade_restante",
+        "exata_estimada_ou_desconhecida"
+      ],
+      "termos_vagos": [
+        "vários comprimidos",
+        "um monte",
+        "um pouco",
+        "um gole",
+        "metade do frasco",
+        "quase tudo",
+        "dose alta"
+      ]
+    },
+    "vias": [
+      "oral/ingestão",
+      "inalatória",
+      "intranasal",
+      "intravenosa",
+      "intramuscular",
+      "subcutânea",
+      "transdérmica",
+      "cutânea",
+      "ocular",
+      "mucosa",
+      "retal",
+      "vaginal",
+      "inoculação",
+      "mordida/picada",
+      "outra",
+      "desconhecida"
+    ],
+    "tempo_cronologia": {
+      "atributos": [
+        "data",
+        "horário",
+        "tempo_desde_exposição",
+        "duração",
+        "última_exposição",
+        "relação_exposição_sintomas",
+        "cronologia_reconstruível"
+      ],
+      "termos_vagos": [
+        "mais cedo",
+        "hoje",
+        "há algumas horas",
+        "ontem",
+        "recentemente"
+      ],
+      "padrões": [
+        "aguda/única",
+        "repetida",
+        "recorrente",
+        "contínua",
+        "ocupacional prolongada",
+        "ambiental prolongada",
+        "cumulativa",
+        "desconhecida"
+      ]
+    },
+    "circunstancia": [
+      "acidental",
+      "erro terapêutico",
+      "erro de administração",
+      "automedicação",
+      "recreativa",
+      "ocupacional",
+      "ambiental",
+      "deliberada para produzir efeito",
+      "autoagressão",
+      "tentativa de suicídio",
+      "agressão por terceiro",
+      "adulteração de bebida/alimento",
+      "desconhecida"
+    ],
+    "coexposicoes": [
+      "múltiplos medicamentos",
+      "álcool",
+      "drogas recreativas",
+      "medicamentos habituais",
+      "substância desconhecida",
+      "produto adulterado/composição incerta"
+    ],
+    "manifestacoes": {
+      "neurologicas": [
+        "alteração do nível de consciência",
+        "sonolência",
+        "agitação",
+        "confusão",
+        "desorientação",
+        "convulsão",
+        "tremores",
+        "fraqueza",
+        "alteração da coordenação",
+        "cefaleia",
+        "tontura",
+        "alteração comportamental",
+        "perda de consciência",
+        "ausência de responsividade"
+      ],
+      "respiratorias": [
+        "dispneia",
+        "hipoventilação",
+        "dificuldade respiratória",
+        "tosse",
+        "engasgo",
+        "sufocamento"
+      ],
+      "cardiovasculares": [
+        "palpitações",
+        "dor torácica",
+        "síncope",
+        "pré-síncope"
+      ],
+      "gastrointestinais": [
+        "náuseas",
+        "vômitos",
+        "dor abdominal",
+        "diarreia",
+        "hipersalivação"
+      ],
+      "oculares": [
+        "dor ocular",
+        "lacrimejamento",
+        "alteração visual",
+        "irritação ocular"
+      ],
+      "cutaneas": [
+        "irritação",
+        "queimadura",
+        "sudorese",
+        "alteração de coloração",
+        "lesão no local de contato"
+      ],
+      "outros": [
+        "alterações urinárias",
+        "alterações musculares",
+        "alterações térmicas",
+        "sintomas inespecíficos"
+      ]
+    },
+    "eventos_associados": [
+      "convulsão",
+      "queda",
+      "trauma",
+      "trauma craniano",
+      "perda de consciência",
+      "vômitos",
+      "engasgo",
+      "possível aspiração"
+    ],
+    "inalatoria": [
+      "ambiente fechado",
+      "ambiente aberto",
+      "incêndio",
+      "fumaça",
+      "duração da exposição",
+      "outras pessoas expostas",
+      "perda de consciência no ambiente",
+      "tempo até retirada/atendimento"
+    ],
+    "cutanea_ocular": [
+      "local do contato",
+      "extensão",
+      "duração",
+      "roupa contaminada",
+      "contato ocular",
+      "sintomas locais",
+      "lavagem/descontaminação prévia"
+    ],
+    "ocupacional_ambiental": [
+      "atividade",
+      "ambiente",
+      "produto",
+      "duração",
+      "frequência",
+      "EPI",
+      "acidente específico",
+      "outras pessoas expostas",
+      "exposição prévia semelhante"
+    ],
+    "intervencoes_previas": [
+      "retirada do agente",
+      "lavagem de pele/olhos",
+      "remoção de roupas",
+      "vômito espontâneo/provocado",
+      "ingestão de substância após exposição",
+      "atendimento pré-hospitalar",
+      "medicação prévia"
+    ],
+    "evolucao": [
+      "assintomático",
+      "surgimento de sintomas",
+      "melhora",
+      "piora",
+      "estável",
+      "melhora espontânea",
+      "melhora após intervenção",
+      "recorrência",
+      "novos sintomas"
+    ],
+    "fonte_confiabilidade": {
+      "fontes": [
+        "paciente",
+        "familiar",
+        "testemunha",
+        "acompanhante",
+        "equipe pré-hospitalar",
+        "embalagem",
+        "receita",
+        "prontuário",
+        "outra"
+      ],
+      "status": [
+        "confirmado",
+        "relatado",
+        "estimado",
+        "suspeito",
+        "desconhecido"
+      ],
+      "problemas": [
+        "história não confiável",
+        "alteração de consciência",
+        "informações conflitantes",
+        "quantidade estimada",
+        "horário estimado",
+        "versões diferentes",
+        "períodos não esclarecidos",
+        "possível agente adicional desconhecido"
+      ]
+    },
+    "contextos_especiais": [
+      "criança",
+      "idoso",
+      "gestação",
+      "exposição ocupacional",
+      "exposição coletiva",
+      "uso crônico",
+      "tolerância conhecida",
+      "dependência/uso recorrente",
+      "exposição prévia recente",
+      "dificuldade de estimar quantidade"
+    ]
+  },
+  "prioridade_critica": [
+    "agente",
+    "quantidade/dose",
+    "concentração/apresentação",
+    "via",
+    "horário",
+    "única versus repetida",
+    "coexposições",
+    "circunstância/intencionalidade descrita",
+    "sintomas e início",
+    "estado mental",
+    "convulsão/trauma/aspiração",
+    "evolução",
+    "intervenções prévias",
+    "confiabilidade da história"
+  ],
+  "classes_de_qualidade": {
+    "adequado": "Dado suficientemente caracterizado.",
+    "ausente": "Não informado; não equivale a negado.",
+    "incompleto_vago": "Há menção, mas falta especificidade relevante.",
+    "ambiguo": "Permite mais de uma interpretação clinicamente relevante.",
+    "contraditorio": "Há informações incompatíveis entre si.",
+    "redundante_baixa_relevancia": "Pode ser condensado sem perda da caracterização."
+  },
+  "contradicoes_a_buscar": [
+    "quantidades diferentes",
+    "horários incompatíveis",
+    "agente identificado e depois negado",
+    "divergência paciente/testemunha",
+    "incompatibilidade entre unidades disponíveis e usadas",
+    "acidental versus intencional",
+    "cronologia de sintomas incompatível",
+    "termos vagos para agente/dose/via/tempo"
+  ],
+  "modelo_por_agente": [
+    "agente",
+    "quantidade",
+    "via",
+    "horário",
+    "circunstância"
+  ],
+  "sequencia_temporal": [
+    "exposição",
+    "intervalo",
+    "primeiros sintomas",
+    "progressão",
+    "intervenções",
+    "estado atual"
+  ],
+  "saida_recomendada": [
+    "resumo_estruturado",
+    "informações_adequadas",
+    "informações_ausentes_relevantes",
+    "informações_incompletas_ou_vagas",
+    "ambiguidades_ou_contradições",
+    "redundâncias_ou_baixa_relevância",
+    "questionamentos_prioritários"
+  ]
+}

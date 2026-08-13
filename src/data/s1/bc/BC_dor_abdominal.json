@@ -1,0 +1,1185 @@
+{
+  "meta":{
+    "name":"dor_abdominal_hma_audit_terminology",
+    "version":"1.0.0",
+    "language":"pt-BR",
+    "scope":"QD + HMA/HPMA; auditoria de caracterizacao de dor abdominal",
+    "purpose":[
+      "reconhecer termos e variantes",
+      "normalizar conceitos",
+      "identificar dados presentes e ausentes",
+      "detectar ambiguidade e contradicoes",
+      "sinalizar informacoes de potencial gravidade sem diagnosticar",
+      "apoiar revisao tempo-efetiva da qualidade do registro"
+    ],
+    "exclusions":[
+      "diagnostico",
+      "tratamento",
+      "solicitacao de exames",
+      "inferencia de dados ausentes"
+    ],
+    "source_note":"Estrutura baseada no prompt fornecido pelo usuario e revisada com referencia a materiais de avaliacao de dor abdominal do MSD Manual Professional e SAEM, alem de sinais de alerta descritos pelo NHS.",
+    "generated_at":"2026-08-12"
+  },
+  "normalization":{
+    "casefold":true,
+    "strip_accents_optional":true,
+    "collapse_whitespace":true,
+    "preserve_original_text":true,
+    "negation_window_tokens_default":6,
+    "uncertainty_markers":[
+      "talvez",
+      "aparentemente",
+      "parece",
+      "acho que",
+      "refere talvez",
+      "possivelmente",
+      "provavelmente",
+      "nao sabe informar",
+      "nao soube informar"
+    ],
+    "temporal_vagueness":[
+      "ha algum tempo",
+      "esses dias",
+      "recentemente",
+      "faz um tempo",
+      "ha dias",
+      "ha semanas",
+      "de uns tempos pra ca",
+      "ultimamente"
+    ]
+  },
+  "complaint_terms":{
+    "dor_abdominal":[
+      "dor abdominal",
+      "dor na barriga",
+      "dor de barriga",
+      "barriga doendo",
+      "barriga dolorida",
+      "barriga sensivel",
+      "desconforto abdominal",
+      "dor no abdomen",
+      "dor no abdome",
+      "abdominalgia"
+    ],
+    "colloquial_location_terms":{
+      "dor_no_estomago":{
+        "terms":[
+          "dor no estomago",
+          "estomago doendo",
+          "dor na boca do estomago"
+        ],
+        "rule":"Nao mapear automaticamente para orgao gastrico; tratar como descricao coloquial e exigir localizacao anatomica."
+      },
+      "pe_da_barriga":{
+        "terms":[
+          "dor no pe da barriga",
+          "pe da barriga doendo"
+        ],
+        "rule":"Tratar como localizacao imprecisa ate melhor caracterizacao."
+      }
+    }
+  },
+  "pain_attributes":{
+    "onset":{
+      "sudden":[
+        "subito",
+        "subita",
+        "de repente",
+        "repentino",
+        "abrupto",
+        "do nada"
+      ],
+      "rapid":[
+        "rapido",
+        "rapidamente",
+        "em pouco tempo"
+      ],
+      "progressive":[
+        "progressivo",
+        "foi aumentando",
+        "piorando aos poucos",
+        "crescendo"
+      ],
+      "insidious":[
+        "insidioso",
+        "aos poucos",
+        "devagar",
+        "gradual",
+        "comecou fraco"
+      ]
+    },
+    "duration_units":[
+      "segundo",
+      "segundos",
+      "minuto",
+      "minutos",
+      "hora",
+      "horas",
+      "dia",
+      "dias",
+      "semana",
+      "semanas",
+      "mes",
+      "meses",
+      "ano",
+      "anos"
+    ],
+    "quality":{
+      "colicky":[
+        "colica",
+        "em colica",
+        "vai e volta em ondas"
+      ],
+      "burning":[
+        "queimacao",
+        "ardencia",
+        "queima",
+        "ardor"
+      ],
+      "stabbing":[
+        "pontada",
+        "facada",
+        "agulhada",
+        "fisgada"
+      ],
+      "pressure":[
+        "pressao",
+        "aperto",
+        "comprimindo"
+      ],
+      "heaviness":[
+        "peso",
+        "pesado"
+      ],
+      "dull":[
+        "dor surda",
+        "dolorimento",
+        "dolorida"
+      ],
+      "throbbing":[
+        "latejante",
+        "pulsatil",
+        "latejamento"
+      ],
+      "electric":[
+        "choque",
+        "eletrica",
+        "em choque"
+      ],
+      "distension_discomfort":[
+        "estufamento",
+        "inchaco",
+        "distensao",
+        "barriga estufada",
+        "empachamento"
+      ]
+    },
+    "intensity":{
+      "qualitative":{
+        "mild":[
+          "leve",
+          "fraca",
+          "pouca"
+        ],
+        "moderate":[
+          "moderada",
+          "media"
+        ],
+        "severe":[
+          "intensa",
+          "forte",
+          "muito forte",
+          "severa"
+        ],
+        "extreme":[
+          "insuportavel",
+          "incapacitante",
+          "pior dor",
+          "pior dor da vida"
+        ]
+      },
+      "numeric_patterns":[
+        "\\b(?:eva\\s*)?(?:de\\s*)?([0-9]|10)\\s*(?:/|de)\\s*10\\b",
+        "\\bdor\\s*(?:nota\\s*)?([0-9]|10)\\b"
+      ]
+    },
+    "pattern":{
+      "continuous":[
+        "continua",
+        "continuamente",
+        "constante",
+        "direto",
+        "sem parar"
+      ],
+      "intermittent":[
+        "intermitente",
+        "vai e volta",
+        "em crises",
+        "episodica",
+        "por episodios"
+      ],
+      "episodic_duration_markers":[
+        "dura",
+        "cada episodio",
+        "cada crise",
+        "por cerca de"
+      ],
+      "frequency_markers":[
+        "vezes ao dia",
+        "vezes por dia",
+        "por semana",
+        "frequencia",
+        "todo dia"
+      ]
+    },
+    "evolution":{
+      "worsening":[
+        "piorando",
+        "piorou",
+        "aumentando",
+        "mais forte",
+        "progressao"
+      ],
+      "improving":[
+        "melhorando",
+        "melhorou",
+        "reduzindo",
+        "menos intensa"
+      ],
+      "stable":[
+        "igual",
+        "estavel",
+        "sem mudanca",
+        "mesma intensidade"
+      ]
+    },
+    "radiation_migration":{
+      "radiation_markers":[
+        "irradia",
+        "irradia para",
+        "vai para",
+        "se espalha para",
+        "corre para"
+      ],
+      "migration_markers":[
+        "migrou",
+        "mudou de lugar",
+        "comecou em",
+        "depois foi para",
+        "passou para"
+      ],
+      "destinations":[
+        "dorso",
+        "costas",
+        "regiao lombar",
+        "lombar",
+        "torax",
+        "peito",
+        "ombro",
+        "escapula",
+        "virilha",
+        "regiao inguinal",
+        "genitais",
+        "testiculo",
+        "vagina",
+        "membro",
+        "perna"
+      ]
+    }
+  },
+  "locations":{
+    "diffuse":[
+      "difusa",
+      "generalizada",
+      "abdome todo",
+      "barriga toda",
+      "toda barriga"
+    ],
+    "epigastrium":[
+      "epigastrio",
+      "epigastrica",
+      "boca do estomago"
+    ],
+    "hypogastrium":[
+      "hipogastrio",
+      "hipogastrica"
+    ],
+    "mesogastrium":[
+      "mesogastrio",
+      "mesogastrica",
+      "periumbilical",
+      "ao redor do umbigo",
+      "umbigo"
+    ],
+    "right_hypochondrium":[
+      "hipocondrio direito",
+      "quadrante superior direito",
+      "qsd"
+    ],
+    "left_hypochondrium":[
+      "hipocondrio esquerdo",
+      "quadrante superior esquerdo",
+      "qse"
+    ],
+    "right_flank":[
+      "flanco direito",
+      "lateral direita do abdomen"
+    ],
+    "left_flank":[
+      "flanco esquerdo",
+      "lateral esquerda do abdomen"
+    ],
+    "right_iliac_fossa":[
+      "fossa iliaca direita",
+      "fid",
+      "quadrante inferior direito",
+      "qid"
+    ],
+    "left_iliac_fossa":[
+      "fossa iliaca esquerda",
+      "fie",
+      "quadrante inferior esquerdo",
+      "qie"
+    ],
+    "suprapubic":[
+      "suprapubica",
+      "suprapubico",
+      "acima do pubis"
+    ],
+    "upper_abdomen":[
+      "abdome superior",
+      "andar superior do abdomen",
+      "parte de cima da barriga"
+    ],
+    "lower_abdomen":[
+      "abdome inferior",
+      "andar inferior do abdomen",
+      "baixo ventre",
+      "parte de baixo da barriga"
+    ],
+    "right_side":[
+      "lado direito",
+      "direita da barriga"
+    ],
+    "left_side":[
+      "lado esquerdo",
+      "esquerda da barriga"
+    ]
+  },
+  "triggers_and_modifiers":{
+    "food":[
+      "apos comer",
+      "depois de comer",
+      "alimentacao",
+      "comida",
+      "refeicao",
+      "pos-prandial",
+      "prandial"
+    ],
+    "fasting":[
+      "jejum",
+      "em jejum",
+      "sem comer"
+    ],
+    "specific_food":[
+      "gordura",
+      "comida gordurosa",
+      "leite",
+      "lacteos",
+      "pimenta",
+      "fritura"
+    ],
+    "alcohol":[
+      "alcool",
+      "bebida alcoolica",
+      "cerveja",
+      "destilado"
+    ],
+    "effort":[
+      "esforco",
+      "atividade fisica",
+      "carregar peso"
+    ],
+    "trauma":[
+      "trauma",
+      "queda",
+      "pancada",
+      "batida"
+    ],
+    "defecation":[
+      "evacuar",
+      "evacuacao",
+      "defecar",
+      "fezes"
+    ],
+    "urination":[
+      "urinar",
+      "miccao",
+      "fazer xixi"
+    ],
+    "movement":[
+      "movimento",
+      "mexer",
+      "andar",
+      "caminhar",
+      "mudanca de posicao"
+    ],
+    "cough":[
+      "tosse",
+      "tossir"
+    ],
+    "breathing":[
+      "respirar",
+      "inspirar",
+      "inspiracao"
+    ],
+    "sexual_intercourse":[
+      "relacao sexual",
+      "coito",
+      "sexo"
+    ],
+    "menstrual_cycle":[
+      "menstruacao",
+      "ciclo menstrual",
+      "periodo menstrual"
+    ],
+    "medication":[
+      "medicamento",
+      "remedio",
+      "analgesico",
+      "antiacido"
+    ],
+    "recent_procedure":[
+      "cirurgia recente",
+      "procedimento recente",
+      "operou recentemente"
+    ],
+    "travel_food_exposure":[
+      "viagem",
+      "comeu fora",
+      "alimento suspeito",
+      "comida estragada",
+      "agua contaminada"
+    ]
+  },
+  "improvement_terms":{
+    "rest":[
+      "repouso",
+      "ficar parado",
+      "descansar"
+    ],
+    "position":[
+      "posicao",
+      "deitar",
+      "sentar",
+      "encolher as pernas"
+    ],
+    "food":[
+      "comer",
+      "alimentacao"
+    ],
+    "fasting":[
+      "jejum",
+      "ficar sem comer"
+    ],
+    "defecation":[
+      "evacuar",
+      "apos evacuar"
+    ],
+    "gas":[
+      "eliminar gases",
+      "soltar gases",
+      "flatulencia"
+    ],
+    "vomiting":[
+      "vomitar",
+      "apos vomitar"
+    ],
+    "analgesics":[
+      "analgesico",
+      "dipirona",
+      "paracetamol"
+    ],
+    "antacids":[
+      "antiacido",
+      "omeprazol",
+      "leite de magnesia"
+    ]
+  },
+  "associated_symptoms":{
+    "gastrointestinal":{
+      "nausea":[
+        "nausea",
+        "enjoo"
+      ],
+      "vomiting":[
+        "vomito",
+        "vomitos",
+        "vomitou",
+        "emese"
+      ],
+      "hematemesis":[
+        "hematemese",
+        "vomito com sangue",
+        "vomitou sangue",
+        "sangue no vomito",
+        "borra de cafe"
+      ],
+      "diarrhea":[
+        "diarreia",
+        "fezes liquidas",
+        "evacuacoes liquidas"
+      ],
+      "constipation":[
+        "constipacao",
+        "prisao de ventre",
+        "obstipacao"
+      ],
+      "bowel_habit_change":[
+        "mudanca do habito intestinal",
+        "alteracao do habito intestinal"
+      ],
+      "last_bowel_movement":[
+        "ultima evacuacao",
+        "evacuou pela ultima vez"
+      ],
+      "flatus":[
+        "eliminando gases",
+        "soltando gases",
+        "nao elimina gases",
+        "parou de soltar gases"
+      ],
+      "distension":[
+        "distensao abdominal",
+        "abdome distendido",
+        "barriga inchada",
+        "barriga estufada"
+      ],
+      "anorexia":[
+        "anorexia",
+        "inapetencia",
+        "sem apetite",
+        "perda de apetite"
+      ],
+      "early_satiety":[
+        "saciedade precoce",
+        "enche rapido",
+        "fica satisfeito rapido"
+      ],
+      "heartburn":[
+        "pirose",
+        "azia",
+        "queimacao retroesternal"
+      ],
+      "regurgitation":[
+        "regurgitacao",
+        "volta comida",
+        "refluxo de alimento"
+      ],
+      "dysphagia":[
+        "disfagia",
+        "dificuldade para engolir"
+      ],
+      "odynophagia":[
+        "odinofagia",
+        "dor para engolir"
+      ],
+      "hematochezia":[
+        "hematoquezia",
+        "sangue vivo nas fezes",
+        "sangue vermelho nas fezes"
+      ],
+      "melena":[
+        "melena",
+        "fezes pretas",
+        "fezes negras",
+        "fezes em borra",
+        "fezes tipo piche"
+      ],
+      "mucus":[
+        "muco nas fezes",
+        "fezes com muco"
+      ]
+    },
+    "urinary":{
+      "dysuria":[
+        "disuria",
+        "dor ao urinar",
+        "ardor ao urinar",
+        "ardencia ao urinar"
+      ],
+      "frequency":[
+        "polaciuria",
+        "urina muitas vezes",
+        "aumento da frequencia urinaria"
+      ],
+      "urgency":[
+        "urgencia urinaria",
+        "urgencia para urinar"
+      ],
+      "hematuria":[
+        "hematuria",
+        "sangue na urina",
+        "urina com sangue"
+      ],
+      "urine_color_change":[
+        "urina escura",
+        "mudanca da cor da urina",
+        "urina avermelhada"
+      ],
+      "oliguria":[
+        "oliguria",
+        "pouca urina",
+        "reduziu a urina"
+      ],
+      "flank_lumbar_pain":[
+        "dor lombar",
+        "dor no flanco",
+        "dor nas costas"
+      ]
+    },
+    "gynecologic_obstetric":{
+      "lmp":[
+        "dum",
+        "data da ultima menstruacao",
+        "ultima menstruacao"
+      ],
+      "menstrual_delay":[
+        "atraso menstrual",
+        "menstruacao atrasada"
+      ],
+      "pregnancy_possibility":[
+        "possibilidade de gravidez",
+        "chance de estar gravida",
+        "pode estar gravida"
+      ],
+      "known_pregnancy":[
+        "gestante",
+        "gravida",
+        "gestacao",
+        "gravidez confirmada"
+      ],
+      "vaginal_bleeding":[
+        "sangramento vaginal",
+        "sangue pela vagina",
+        "sangramento genital"
+      ],
+      "vaginal_discharge":[
+        "corrimento vaginal",
+        "corrimento"
+      ],
+      "pelvic_pain":[
+        "dor pelvica",
+        "dor na pelve"
+      ],
+      "cycle_relation":[
+        "relacao com menstruacao",
+        "relacao com ciclo menstrual"
+      ],
+      "dyspareunia":[
+        "dispareunia",
+        "dor na relacao sexual"
+      ],
+      "postpartum":[
+        "puerperio",
+        "pos-parto",
+        "recentemente deu a luz"
+      ]
+    },
+    "systemic_extraabdominal":{
+      "fever":[
+        "febre",
+        "febril",
+        "temperatura alta"
+      ],
+      "chills":[
+        "calafrio",
+        "calafrios",
+        "tremores"
+      ],
+      "sweating":[
+        "sudorese",
+        "suor frio",
+        "suando"
+      ],
+      "malaise":[
+        "mal-estar",
+        "indisposicao"
+      ],
+      "weakness":[
+        "fraqueza",
+        "astenia"
+      ],
+      "dizziness":[
+        "tontura",
+        "vertigem"
+      ],
+      "syncope":[
+        "sincope",
+        "desmaio",
+        "desmaiou",
+        "perdeu a consciencia"
+      ],
+      "presyncope":[
+        "pre-sincope",
+        "quase desmaiou",
+        "sensacao de desmaio"
+      ],
+      "weight_loss":[
+        "perda de peso",
+        "emagrecimento",
+        "perda ponderal"
+      ],
+      "dyspnea":[
+        "dispneia",
+        "falta de ar",
+        "dificuldade para respirar"
+      ],
+      "chest_pain":[
+        "dor toracica",
+        "dor no peito",
+        "aperto no peito"
+      ]
+    }
+  },
+  "previous_episodes":{
+    "markers":[
+      "episodio semelhante",
+      "ja teve antes",
+      "ja sentiu isso",
+      "dor igual antes",
+      "recorrente",
+      "episodios anteriores",
+      "aconteceu antes"
+    ],
+    "required_subfields_if_present":[
+      "quando",
+      "quantidade_de_episodios",
+      "semelhanca_com_atual",
+      "diferenca_de_intensidade",
+      "diferenca_de_duracao",
+      "diferenca_de_caracteristicas"
+    ]
+  },
+  "interventions":{
+    "medication_markers":[
+      "tomou",
+      "usou",
+      "medicou",
+      "remedio",
+      "medicamento",
+      "automedicou"
+    ],
+    "home_measures":[
+      "cha",
+      "bolsa quente",
+      "compressa",
+      "repouso",
+      "dieta",
+      "jejum"
+    ],
+    "prior_care":[
+      "foi ao medico",
+      "passou em pronto-socorro",
+      "upa",
+      "hospital",
+      "consulta previa"
+    ],
+    "response":{
+      "none":[
+        "nao melhorou",
+        "sem melhora",
+        "nao fez efeito"
+      ],
+      "partial":[
+        "melhorou um pouco",
+        "melhora parcial"
+      ],
+      "complete":[
+        "melhorou totalmente",
+        "cessou",
+        "sumiu"
+      ],
+      "temporary":[
+        "melhorou e voltou",
+        "melhora temporaria",
+        "voltou depois"
+      ]
+    }
+  },
+  "pertinent_negation":{
+    "negators":[
+      "nega",
+      "negou",
+      "sem",
+      "nao apresenta",
+      "nao refere",
+      "nao teve",
+      "ausencia de",
+      "nao relata",
+      "nao possui"
+    ],
+    "rule":"Associar negacao somente a conceitos dentro da janela sintatica/semantica apropriada; preservar negativa pertinente explicitamente documentada."
+  },
+  "potential_severity_flags":{
+    "abrupt_severe_onset":[
+      "dor subita intensa",
+      "inicio abrupto",
+      "dor muito forte de repente",
+      "pior dor da vida"
+    ],
+    "rapid_progression":[
+      "piora rapida",
+      "piorando rapidamente",
+      "progressao rapida"
+    ],
+    "syncope":[
+      "sincope",
+      "desmaio",
+      "colapso"
+    ],
+    "hematemesis":[
+      "hematemese",
+      "vomito com sangue",
+      "borra de cafe"
+    ],
+    "melena":[
+      "melena",
+      "fezes pretas",
+      "fezes negras",
+      "fezes tipo piche"
+    ],
+    "hematochezia":[
+      "hematoquezia",
+      "sangue vivo nas fezes"
+    ],
+    "persistent_vomiting":[
+      "vomitos persistentes",
+      "vomitando sem parar",
+      "vomitos repetidos"
+    ],
+    "unable_oral_intake":[
+      "nao consegue ingerir liquidos",
+      "nao consegue beber",
+      "nao tolera via oral"
+    ],
+    "marked_distension":[
+      "distensao abdominal importante",
+      "abdome muito distendido",
+      "barriga muito inchada"
+    ],
+    "obstipation":[
+      "nao evacua nem elimina gases",
+      "parada de fezes e gases",
+      "nao consegue soltar gases"
+    ],
+    "fever_associated":[
+      "dor abdominal com febre",
+      "febre associada"
+    ],
+    "altered_mental_status":[
+      "confusao",
+      "rebaixamento",
+      "alteracao do estado mental"
+    ],
+    "pregnancy_with_pain_or_bleeding":[
+      "gravida com dor",
+      "gestante com dor",
+      "gravidez com sangramento",
+      "gestante com sangramento"
+    ],
+    "trauma":[
+      "dor abdominal apos trauma",
+      "trauma abdominal"
+    ],
+    "thoracic_respiratory_association":[
+      "dor abdominal com dor no peito",
+      "dor abdominal com falta de ar",
+      "dor abdominal com dispneia"
+    ],
+    "inability_to_urinate":[
+      "nao consegue urinar",
+      "retencao urinaria"
+    ]
+  },
+  "ambiguity_and_quality_rules":{
+    "vague_location":[
+      "dor no estomago",
+      "dor na barriga",
+      "dor no pe da barriga",
+      "dor do lado",
+      "dor embaixo",
+      "dor em cima"
+    ],
+    "vague_intensity":[
+      "muita dor",
+      "dor demais",
+      "dor ruim"
+    ],
+    "vague_timing":[
+      "ha algum tempo",
+      "esses dias",
+      "recentemente",
+      "faz um tempo",
+      "ultimamente"
+    ],
+    "vague_frequency":[
+      "as vezes",
+      "de vez em quando",
+      "frequentemente"
+    ],
+    "unclear_evolution":[
+      "vai piorando",
+      "mudou",
+      "ficou diferente"
+    ],
+    "rules":[
+      {
+        "id":"A01",
+        "if":"complaint_present AND location_missing",
+        "severity":"high",
+        "message":"Localizacao da dor nao informada."
+      },
+      {
+        "id":"A02",
+        "if":"complaint_present AND onset_or_duration_missing",
+        "severity":"high",
+        "message":"Inicio/tempo de evolucao insuficientemente caracterizado."
+      },
+      {
+        "id":"A03",
+        "if":"pain_present AND intensity_missing",
+        "severity":"medium",
+        "message":"Intensidade nao informada."
+      },
+      {
+        "id":"A04",
+        "if":"pain_present AND pattern_missing",
+        "severity":"medium",
+        "message":"Padrao continuo/intermitente nao informado."
+      },
+      {
+        "id":"A05",
+        "if":"pain_present AND evolution_missing",
+        "severity":"medium",
+        "message":"Evolucao da dor nao informada."
+      },
+      {
+        "id":"A06",
+        "if":"severe_or_abrupt_language_present AND severity_context_incomplete",
+        "severity":"high",
+        "message":"Descricao sugere potencial gravidade, mas caracterizacao temporal/associada esta incompleta."
+      },
+      {
+        "id":"A07",
+        "if":"vomiting_present AND vomiting_frequency_or_content_missing",
+        "severity":"medium",
+        "message":"Vomitos presentes sem frequencia e/ou conteudo adequadamente descritos."
+      },
+      {
+        "id":"A08",
+        "if":"diarrhea_present AND blood_or_mucus_status_missing",
+        "severity":"medium",
+        "message":"Diarreia presente sem caracterizacao de sangue/muco quando clinicamente pertinente."
+      },
+      {
+        "id":"A09",
+        "if":"reproductive_context_present AND pregnancy_status_relevant_but_missing",
+        "severity":"high",
+        "message":"Contexto gineco-obstetrico potencialmente relevante sem informacao suficiente sobre gestacao/DUM."
+      },
+      {
+        "id":"A10",
+        "if":"medication_used AND response_missing",
+        "severity":"low",
+        "message":"Medicamento utilizado sem resposta clinica documentada."
+      },
+      {
+        "id":"A11",
+        "if":"same_concept_positive_and_negated",
+        "severity":"high",
+        "message":"INFORMACAO CONTRADITORIA — requer esclarecimento."
+      }
+    ]
+  },
+  "contradiction_patterns":[
+    [
+      "dor continua",
+      "dor intermitente"
+    ],
+    [
+      "sem vomitos",
+      "vomitos"
+    ],
+    [
+      "nega febre",
+      "febre"
+    ],
+    [
+      "nega diarreia",
+      "diarreia"
+    ],
+    [
+      "sem sangramento",
+      "hematemese"
+    ],
+    [
+      "sem sangramento",
+      "melena"
+    ],
+    [
+      "sem sangramento",
+      "hematoquezia"
+    ],
+    [
+      "nega sintomas urinarios",
+      "disuria"
+    ],
+    [
+      "nega sintomas urinarios",
+      "hematuria"
+    ],
+    [
+      "sem irradiacao",
+      "irradia para"
+    ]
+  ],
+  "minimum_characterization_fields":{
+    "core":[
+      "presenca_da_queixa",
+      "inicio",
+      "duracao",
+      "localizacao",
+      "qualidade",
+      "intensidade",
+      "padrao",
+      "evolucao",
+      "irradiacao_ou_migracao",
+      "fatores_piora",
+      "fatores_melhora"
+    ],
+    "context_dependent":[
+      "sintomas_gastrointestinais",
+      "sintomas_urinarios",
+      "sintomas_gineco_obstetricos",
+      "sintomas_sistemicos",
+      "episodios_previos",
+      "intervencoes_previas",
+      "potenciais_sinais_de_gravidade"
+    ]
+  },
+  "priority_questions":{
+    "high":[
+      {
+        "field":"inicio_duracao",
+        "question":"Quando exatamente começou e há quanto tempo está com essa dor?"
+      },
+      {
+        "field":"localizacao",
+        "question":"Mostre com um dedo onde a dor começou e onde dói agora."
+      },
+      {
+        "field":"evolucao",
+        "question":"Desde que começou, a dor está melhorando, piorando ou permanece igual?"
+      },
+      {
+        "field":"severity_context",
+        "question":"A dor começou de repente ou é a pior dor que já sentiu?"
+      },
+      {
+        "field":"bleeding",
+        "question":"Teve vômito com sangue, fezes pretas ou sangue nas fezes?"
+      },
+      {
+        "field":"obstruction_context",
+        "question":"Está conseguindo evacuar e eliminar gases?"
+      },
+      {
+        "field":"vomiting_oral_intake",
+        "question":"Está vomitando repetidamente ou sem conseguir manter líquidos?"
+      },
+      {
+        "field":"syncope",
+        "question":"Teve desmaio, quase desmaio ou tontura importante?"
+      },
+      {
+        "field":"pregnancy_context",
+        "question":"Quando aplicável: há possibilidade de gestação, atraso menstrual ou sangramento vaginal?"
+      }
+    ],
+    "medium":[
+      {
+        "field":"quality",
+        "question":"Como é a dor: cólica, queimação, pontada, pressão, peso ou outro tipo?"
+      },
+      {
+        "field":"intensity",
+        "question":"De 0 a 10, qual a intensidade da dor?"
+      },
+      {
+        "field":"pattern",
+        "question":"A dor é contínua ou vai e volta? Quanto dura cada episódio?"
+      },
+      {
+        "field":"radiation",
+        "question":"A dor fica nesse local ou se espalha/migra para outro lugar?"
+      },
+      {
+        "field":"associated_symptoms",
+        "question":"Há náuseas, vômitos, diarreia, constipação, febre ou sintomas urinários associados?"
+      }
+    ],
+    "low":[
+      {
+        "field":"triggers",
+        "question":"Percebe relação com alimentação, jejum, esforço, movimento, evacuação ou micção?"
+      },
+      {
+        "field":"relief",
+        "question":"Algo melhora a dor, como repouso, posição, evacuação, gases ou medicamento?"
+      },
+      {
+        "field":"previous_episodes",
+        "question":"Já teve episódio semelhante antes?"
+      },
+      {
+        "field":"medication_response",
+        "question":"Tomou algum medicamento? Melhorou quanto e por quanto tempo?"
+      }
+    ]
+  },
+  "output_schema":{
+    "A_queixa_identificada":"string",
+    "B_caracterizacao_dor":{
+      "inicio":"string|null",
+      "duracao":"string|null",
+      "localizacao":"string|null",
+      "qualidade":"string|null",
+      "intensidade":"string|null",
+      "padrao":"string|null",
+      "evolucao":"string|null",
+      "irradiacao_migracao":"string|null",
+      "fatores_piora":"array",
+      "fatores_melhora":"array"
+    },
+    "C_sintomas_associados":{
+      "positivos":"array",
+      "negativas_pertinentes":"array"
+    },
+    "D_contexto_relevante":"array",
+    "E_informacoes_faltantes":[
+      {
+        "prioridade":"alta|media|baixa",
+        "campo":"string",
+        "pergunta_sugerida":"string|null"
+      }
+    ],
+    "F_vagas_ambiguas":"array",
+    "G_contradicoes":"array",
+    "H_sintese_completude":{
+      "classificacao":"adequadamente_caracterizada|parcialmente_caracterizada|insuficientemente_caracterizada",
+      "justificativa":"string"
+    }
+  }
+}

@@ -1,0 +1,1050 @@
+{
+  "metadata": {
+    "id": "qd_hma_dispneia_dificuldade_respiratoria",
+    "version": "1.0.0",
+    "language": "pt-BR",
+    "scope": [
+      "Queixa e Duração (QD)",
+      "História da Moléstia Atual (HMA/HPMA)"
+    ],
+    "chief_complaint": [
+      "dispneia",
+      "dificuldade respiratória"
+    ],
+    "purpose": [
+      "extrair informações clínicas explicitamente documentadas",
+      "normalizar terminologia relevante",
+      "identificar informações ausentes, vagas, incompletas ou contraditórias",
+      "reconhecer negativas pertinentes",
+      "priorizar lacunas clínicas de forma tempo-efetiva",
+      "apoiar análise crítica da qualidade do registro",
+      "reduzir erros de interpretação sem realizar diagnóstico"
+    ],
+    "prohibited_actions": [
+      "diagnosticar",
+      "definir tratamento",
+      "solicitar exames",
+      "inferir informações não presentes no texto",
+      "interpretar ausência de menção como negativa"
+    ]
+  },
+  "core_rules": {
+    "negation": "NEGADO != NAO_INFORMADO",
+    "no_inference": true,
+    "source_fidelity": "preservar o significado do texto original; normalização sem inventar conteúdo",
+    "temporal_missing_rule": "se a temporalidade não puder ser determinada, classificar como AUSENTE_NAO_INFORMADO",
+    "orthopnea_rule": "não assumir ortopneia apenas por dispneia noturna ou menção isolada a dormir mal",
+    "pnd_rule": "não assumir dispneia paroxística noturna apenas por dispneia durante a noite",
+    "ambiguity_rule": "cansaço, fadiga e fraqueza não equivalem automaticamente a dispneia",
+    "time_efficiency": "priorizar o menor número de perguntas com maior ganho informacional e impacto em segurança"
+  },
+  "information_status": {
+    "PRESENTE_E_CLARO": "informação explícita e suficientemente caracterizada",
+    "PRESENTE_MAS_INCOMPLETO": "informação presente, porém necessita detalhamento",
+    "AUSENTE_NAO_INFORMADO": "não consta no texto",
+    "AMBIGUO_VAGO": "linguagem insuficientemente precisa ou semanticamente incerta",
+    "CONTRADITORIO": "há informações incompatíveis entre si",
+    "NAO_APLICAVEL": "não pertinente ao contexto, quando justificável"
+  },
+  "priority": {
+    "CRITICA": "ausência pode prejudicar significativamente a avaliação inicial de segurança",
+    "IMPORTANTE": "necessária para caracterização adequada da queixa",
+    "COMPLEMENTAR": "melhora a qualidade do registro, com menor prioridade imediata"
+  },
+  "lexicon": {
+    "chief_complaint": {
+      "canonical": "dispneia",
+      "direct_terms": [
+        "dispneia",
+        "falta de ar",
+        "dificuldade para respirar",
+        "dificuldade respiratória",
+        "respiração difícil",
+        "respiração curta",
+        "cansaço para respirar",
+        "fôlego curto",
+        "sem fôlego",
+        "respiração pesada",
+        "não consigo puxar o ar",
+        "sensação de sufocamento",
+        "sufocamento",
+        "não consigo encher os pulmões",
+        "não consigo respirar direito",
+        "falta de fôlego",
+        "perda de fôlego"
+      ],
+      "colloquial_variants": [
+        "tô sem ar",
+        "estou sem ar",
+        "tá faltando ar",
+        "está faltando ar",
+        "o ar não entra",
+        "não entra ar",
+        "respiração presa",
+        "peito fechado para respirar",
+        "respiração curta"
+      ],
+      "ambiguous_terms": [
+        "cansaço",
+        "canseira",
+        "fadiga",
+        "fraqueza",
+        "moleza",
+        "respiração ofegante",
+        "ofegante",
+        "cansa fácil"
+      ],
+      "ambiguity_action": "buscar contexto respiratório antes de normalizar como dispneia"
+    },
+    "temporal": {
+      "onset": {
+        "sudden": [
+          "súbito",
+          "subitamente",
+          "de repente",
+          "repentino",
+          "repentinamente",
+          "abrupto",
+          "abruptamente",
+          "do nada"
+        ],
+        "gradual": [
+          "gradual",
+          "gradualmente",
+          "insidioso",
+          "insidiosamente",
+          "aos poucos",
+          "progressivo desde o início"
+        ]
+      },
+      "duration_markers": [
+        "há",
+        "desde",
+        "começou",
+        "iniciou",
+        "início",
+        "faz",
+        "minuto",
+        "minutos",
+        "hora",
+        "horas",
+        "dia",
+        "dias",
+        "semana",
+        "semanas",
+        "mês",
+        "meses",
+        "ano",
+        "anos"
+      ],
+      "pattern": {
+        "continuous": [
+          "contínuo",
+          "constante",
+          "o tempo todo",
+          "persistente",
+          "ininterrupto"
+        ],
+        "intermittent": [
+          "intermitente",
+          "vai e volta",
+          "oscila",
+          "em crises",
+          "episódico",
+          "por episódios",
+          "crises"
+        ]
+      },
+      "course": {
+        "worsening": [
+          "piorando",
+          "piora progressiva",
+          "progressivamente pior",
+          "agravando",
+          "intensificando"
+        ],
+        "improving": [
+          "melhorando",
+          "melhora progressiva",
+          "regredindo"
+        ],
+        "stable": [
+          "estável",
+          "sem mudança",
+          "igual desde o início",
+          "inalterado"
+        ],
+        "fluctuating": [
+          "oscilando",
+          "variável",
+          "flutuante",
+          "tem horas que melhora e piora"
+        ]
+      }
+    },
+    "functional_impact": {
+      "exertion_levels": {
+        "major_exertion": [
+          "grandes esforços",
+          "exercício intenso",
+          "corrida",
+          "atividade intensa"
+        ],
+        "usual_exertion": [
+          "esforços habituais",
+          "atividade habitual",
+          "caminhada habitual"
+        ],
+        "minor_exertion": [
+          "pequenos esforços",
+          "mínimos esforços",
+          "pouco esforço"
+        ],
+        "walking": [
+          "ao caminhar",
+          "andando",
+          "ao andar"
+        ],
+        "stairs": [
+          "ao subir escadas",
+          "subindo escada",
+          "lance de escada"
+        ],
+        "adl": [
+          "banho",
+          "vestir-se",
+          "trocar de roupa",
+          "comer",
+          "higiene pessoal",
+          "atividades básicas"
+        ],
+        "speaking": [
+          "ao falar",
+          "falando",
+          "não consegue completar frases",
+          "fala entrecortada"
+        ],
+        "rest": [
+          "em repouso",
+          "parado",
+          "sentado sem esforço",
+          "mesmo sem esforço"
+        ]
+      },
+      "limitation_terms": [
+        "limita atividades",
+        "não consegue caminhar",
+        "precisa parar",
+        "não completa frases",
+        "interrompe atividade",
+        "redução da tolerância ao esforço",
+        "cansa mais que o habitual",
+        "piora da capacidade funcional"
+      ]
+    },
+    "position_sleep": {
+      "orthopnea_terms": [
+        "ortopneia",
+        "piora ao deitar",
+        "falta de ar ao deitar",
+        "melhora sentado",
+        "melhora ao sentar",
+        "precisa elevar a cabeceira",
+        "dorme sentado",
+        "precisa dormir sentado",
+        "usa vários travesseiros para respirar melhor"
+      ],
+      "pnd_terms": [
+        "dispneia paroxística noturna",
+        "acorda à noite com falta de ar",
+        "desperta sufocado",
+        "acorda sufocado",
+        "acorda sem ar"
+      ],
+      "sleep_context": [
+        "travesseiro",
+        "travesseiros",
+        "cabeceira elevada",
+        "deitado",
+        "decúbito",
+        "sentado",
+        "dormir",
+        "sono",
+        "à noite",
+        "noturno"
+      ]
+    },
+    "triggers_worsening": {
+      "exertion": [
+        "esforço",
+        "exercício",
+        "atividade física",
+        "caminhada",
+        "escada"
+      ],
+      "position": [
+        "deitar",
+        "decúbito",
+        "posição",
+        "sentar",
+        "inclinar"
+      ],
+      "smoke": [
+        "fumaça",
+        "cigarro",
+        "tabaco",
+        "queimada"
+      ],
+      "dust": [
+        "poeira",
+        "pó"
+      ],
+      "chemicals": [
+        "produto químico",
+        "produtos químicos",
+        "gás",
+        "vapores",
+        "solvente"
+      ],
+      "perfume_irritants": [
+        "perfume",
+        "odor forte",
+        "cheiro forte",
+        "irritante"
+      ],
+      "allergens": [
+        "alérgeno",
+        "alérgenos",
+        "mofo",
+        "pelo de animal",
+        "ácaro"
+      ],
+      "temperature": [
+        "frio",
+        "calor",
+        "mudança de temperatura"
+      ],
+      "recent_respiratory_infection": [
+        "gripe",
+        "resfriado",
+        "infecção respiratória recente",
+        "quadro viral"
+      ],
+      "occupational": [
+        "trabalho",
+        "exposição ocupacional",
+        "ambiente de trabalho"
+      ],
+      "food": [
+        "alimentação",
+        "após comer",
+        "depois de comer"
+      ],
+      "stress": [
+        "ansiedade",
+        "estresse",
+        "nervoso",
+        "nervosismo",
+        "crise emocional"
+      ],
+      "trauma": [
+        "trauma",
+        "queda",
+        "acidente",
+        "pancada"
+      ],
+      "immobility": [
+        "imobilização",
+        "acamado",
+        "repouso prolongado"
+      ],
+      "travel": [
+        "viagem prolongada",
+        "voo prolongado",
+        "viagem longa"
+      ]
+    },
+    "relief_factors": {
+      "rest": [
+        "repouso",
+        "parar o esforço",
+        "interromper atividade"
+      ],
+      "sitting": [
+        "sentar",
+        "ficar sentado",
+        "posição sentada"
+      ],
+      "head_elevation": [
+        "elevar a cabeceira",
+        "cabeceira elevada",
+        "mais travesseiros"
+      ],
+      "position_change": [
+        "mudança de posição",
+        "mudar de posição"
+      ],
+      "bronchodilator": [
+        "broncodilatador",
+        "bombinha",
+        "inalador",
+        "spray para respirar"
+      ],
+      "oxygen": [
+        "oxigênio",
+        "O2",
+        "cateter de oxigênio"
+      ],
+      "usual_medication": [
+        "medicação habitual",
+        "remédio habitual"
+      ],
+      "environment_removal": [
+        "afastar da exposição",
+        "sair do ambiente",
+        "ir para local arejado"
+      ],
+      "spontaneous": [
+        "melhora espontânea",
+        "passou sozinho",
+        "resolveu sozinho"
+      ]
+    },
+    "respiratory_associated_symptoms": {
+      "cough": [
+        "tosse"
+      ],
+      "dry_cough": [
+        "tosse seca",
+        "tosse sem catarro",
+        "tosse não produtiva"
+      ],
+      "productive_cough": [
+        "tosse produtiva",
+        "tosse com catarro",
+        "tosse com secreção",
+        "expectoração"
+      ],
+      "sputum": [
+        "escarro",
+        "catarro",
+        "secreção",
+        "expectoração"
+      ],
+      "hemoptysis": [
+        "hemoptise",
+        "sangue no escarro",
+        "tosse com sangue",
+        "catarro com sangue"
+      ],
+      "wheeze": [
+        "sibilância",
+        "sibilos",
+        "chiado",
+        "chiado no peito",
+        "peito chiando"
+      ],
+      "stridor": [
+        "estridor",
+        "barulho ao inspirar",
+        "ruído inspiratório"
+      ],
+      "hoarseness": [
+        "rouquidão",
+        "voz rouca"
+      ],
+      "chest_pain": [
+        "dor torácica",
+        "dor no peito",
+        "dor no tórax"
+      ],
+      "pleuritic_pain": [
+        "dor pleurítica",
+        "dor ventilatório-dependente",
+        "dor ao respirar",
+        "dor que piora ao inspirar"
+      ],
+      "chest_tightness": [
+        "aperto no peito",
+        "pressão no peito",
+        "peito apertado",
+        "opressão torácica"
+      ],
+      "nasal_congestion": [
+        "congestão nasal",
+        "nariz entupido",
+        "obstrução nasal"
+      ],
+      "rhinorrhea": [
+        "coriza",
+        "secreção nasal",
+        "nariz escorrendo"
+      ],
+      "odynophagia": [
+        "odinofagia",
+        "dor de garganta",
+        "dor para engolir"
+      ]
+    },
+    "systemic_cardiovascular_associated_symptoms": {
+      "fever": [
+        "febre",
+        "febril"
+      ],
+      "chills": [
+        "calafrio",
+        "calafrios",
+        "tremores"
+      ],
+      "sweating": [
+        "sudorese",
+        "suor",
+        "sudorese fria",
+        "suor frio"
+      ],
+      "malaise": [
+        "mal-estar",
+        "indisposição"
+      ],
+      "fatigue": [
+        "fadiga",
+        "cansaço",
+        "astenia"
+      ],
+      "syncope": [
+        "síncope",
+        "desmaio",
+        "perda da consciência"
+      ],
+      "presyncope": [
+        "pré-síncope",
+        "quase desmaiou",
+        "sensação de desmaio"
+      ],
+      "dizziness": [
+        "tontura",
+        "vertigem"
+      ],
+      "palpitations": [
+        "palpitação",
+        "palpitações",
+        "coração acelerado",
+        "batedeira"
+      ],
+      "chest_discomfort": [
+        "dor torácica",
+        "desconforto torácico",
+        "dor no peito",
+        "aperto no peito"
+      ],
+      "lower_limb_edema": [
+        "edema de membros inferiores",
+        "pernas inchadas",
+        "inchaço nas pernas",
+        "edema de MMII"
+      ],
+      "weight_gain": [
+        "ganho de peso",
+        "aumento de peso recente"
+      ],
+      "exercise_tolerance_reduction": [
+        "redução da tolerância aos esforços",
+        "menor capacidade para esforço",
+        "cansa mais que antes"
+      ],
+      "cyanosis": [
+        "cianose",
+        "arroxeado",
+        "lábios roxos",
+        "extremidades roxas"
+      ]
+    },
+    "acute_event_elements": {
+      "abrupt_onset": [
+        "início súbito",
+        "início abrupto",
+        "de repente"
+      ],
+      "concurrent_chest_pain": [
+        "dor torácica concomitante",
+        "dor no peito junto com falta de ar"
+      ],
+      "hemoptysis": [
+        "hemoptise",
+        "tosse com sangue"
+      ],
+      "syncope_presyncope": [
+        "síncope",
+        "pré-síncope",
+        "desmaio",
+        "quase desmaio"
+      ],
+      "recent_trauma": [
+        "trauma recente",
+        "queda recente",
+        "acidente recente"
+      ],
+      "choking_aspiration": [
+        "engasgo",
+        "engasgou",
+        "aspiração",
+        "broncoaspiração",
+        "aspirou alimento",
+        "corpo estranho"
+      ],
+      "allergic_event": [
+        "reação alérgica",
+        "alergia súbita",
+        "anafilaxia mencionada no texto"
+      ],
+      "exposure_substance": [
+        "medicamento novo",
+        "alimento",
+        "substância",
+        "produto químico",
+        "veneno",
+        "inalação"
+      ],
+      "face_tongue_throat_edema": [
+        "edema de face",
+        "face inchada",
+        "língua inchada",
+        "edema de língua",
+        "garganta inchada",
+        "edema de garganta"
+      ],
+      "recent_immobility": [
+        "imobilização recente",
+        "acamado",
+        "repouso prolongado"
+      ],
+      "recent_surgery": [
+        "cirurgia recente",
+        "pós-operatório recente",
+        "operou recentemente"
+      ],
+      "prolonged_travel": [
+        "viagem prolongada",
+        "voo longo",
+        "viagem longa"
+      ],
+      "unilateral_leg_symptoms": [
+        "dor unilateral na perna",
+        "edema unilateral de membro inferior",
+        "uma perna inchada",
+        "panturrilha dolorosa"
+      ],
+      "smoke_gas_inhalation": [
+        "inalação de fumaça",
+        "inalação de gás",
+        "fumaça em ambiente fechado",
+        "gases",
+        "vapores tóxicos"
+      ]
+    },
+    "previous_episodes": {
+      "terms": [
+        "episódios prévios",
+        "já teve antes",
+        "já aconteceu antes",
+        "crises anteriores",
+        "episódio semelhante",
+        "recorrente",
+        "recidivante"
+      ],
+      "comparison": [
+        "igual aos anteriores",
+        "diferente dos anteriores",
+        "mais intenso",
+        "mais forte",
+        "mais prolongado",
+        "mais frequente"
+      ]
+    },
+    "current_episode_interventions": {
+      "medication": [
+        "medicação",
+        "remédio",
+        "medicamento"
+      ],
+      "inhaler": [
+        "inalador",
+        "bombinha",
+        "spray",
+        "broncodilatador"
+      ],
+      "nebulization": [
+        "nebulização",
+        "inalação"
+      ],
+      "oxygen": [
+        "oxigênio",
+        "O2"
+      ],
+      "previous_care": [
+        "procurou atendimento",
+        "foi ao pronto-socorro",
+        "foi à UPA",
+        "foi ao hospital",
+        "consulta anterior"
+      ],
+      "response": {
+        "complete": [
+          "melhora completa",
+          "resolveu",
+          "cessou"
+        ],
+        "partial": [
+          "melhora parcial",
+          "melhorou um pouco"
+        ],
+        "none": [
+          "sem melhora",
+          "não melhorou",
+          "sem resposta"
+        ],
+        "worsened": [
+          "piorou após",
+          "piora após"
+        ]
+      }
+    }
+  },
+  "negation_detection": {
+    "common_negators": [
+      "nega",
+      "negou",
+      "sem",
+      "não apresenta",
+      "não refere",
+      "não relata",
+      "ausência de",
+      "não teve",
+      "não tem",
+      "não houve"
+    ],
+    "examples": [
+      "nega febre",
+      "sem tosse",
+      "nega dor torácica",
+      "sem hemoptise"
+    ],
+    "rules": [
+      "associar a negação apenas ao conceito abrangido linguisticamente",
+      "não propagar negação para sintomas vizinhos sem suporte textual",
+      "não converter silêncio documental em negativa",
+      "preservar escopo temporal da negativa quando explicitado"
+    ]
+  },
+  "clinical_fields": [
+    {
+      "id": "complaint_confirmation",
+      "label": "Confirmação da queixa",
+      "priority": "CRITICA",
+      "required_elements": [
+        "presença de dispneia/dificuldade respiratória",
+        "descrição da sensação"
+      ],
+      "question_examples": [
+        "Há falta de ar ou dificuldade para respirar?",
+        "Como você descreve essa sensação?"
+      ]
+    },
+    {
+      "id": "onset_duration",
+      "label": "Início e duração",
+      "priority": "CRITICA",
+      "required_elements": [
+        "quando começou",
+        "há quanto tempo"
+      ],
+      "question_examples": [
+        "Há quanto tempo começou a falta de ar?"
+      ]
+    },
+    {
+      "id": "onset_pattern",
+      "label": "Modo de início",
+      "priority": "CRITICA",
+      "required_elements": [
+        "súbito/abrupto ou gradual/insidioso"
+      ],
+      "question_examples": [
+        "Começou de repente ou foi aparecendo aos poucos?"
+      ]
+    },
+    {
+      "id": "temporal_pattern",
+      "label": "Padrão temporal",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "contínuo/intermitente/episódico"
+      ],
+      "question_examples": [
+        "A falta de ar fica o tempo todo ou vai e volta?"
+      ]
+    },
+    {
+      "id": "course",
+      "label": "Evolução",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "melhorando/piorando/estável/oscilando",
+        "piora súbita sobre quadro estável"
+      ],
+      "question_examples": [
+        "Desde que começou, está melhorando, piorando ou igual?"
+      ]
+    },
+    {
+      "id": "functional_severity",
+      "label": "Intensidade e repercussão funcional",
+      "priority": "CRITICA",
+      "required_elements": [
+        "nível de esforço que provoca dispneia",
+        "dispneia em repouso",
+        "limitação funcional",
+        "capacidade de completar frases"
+      ],
+      "question_examples": [
+        "A falta de ar aparece em repouso ou só aos esforços?",
+        "Consegue caminhar e falar frases completas normalmente?"
+      ]
+    },
+    {
+      "id": "position_sleep",
+      "label": "Relação com posição e sono",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "piora ao deitar",
+        "melhora sentado",
+        "travesseiros/cabeceira",
+        "despertar noturno com dispneia"
+      ],
+      "question_examples": [
+        "Piora quando se deita ou acorda à noite com falta de ar?"
+      ]
+    },
+    {
+      "id": "triggers",
+      "label": "Desencadeantes e fatores de piora",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "esforço",
+        "posição",
+        "exposições",
+        "infecção recente",
+        "trauma/imobilização/viagem quando pertinentes"
+      ],
+      "question_examples": [
+        "Percebe algo que desencadeia ou piora a falta de ar?"
+      ]
+    },
+    {
+      "id": "relief",
+      "label": "Fatores de melhora",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "repouso/posição/medicação/oxigênio/afastamento de exposição/resolução espontânea"
+      ],
+      "question_examples": [
+        "O que faz a falta de ar melhorar?"
+      ]
+    },
+    {
+      "id": "respiratory_associated",
+      "label": "Sintomas respiratórios associados",
+      "priority": "CRITICA",
+      "required_elements": [
+        "tosse",
+        "expectoração",
+        "hemoptise",
+        "sibilância",
+        "estridor/rouquidão",
+        "dor torácica/pleurítica"
+      ],
+      "question_examples": [
+        "Junto com a falta de ar há tosse, catarro, chiado, sangue ao tossir ou dor no peito?"
+      ]
+    },
+    {
+      "id": "systemic_cardiovascular",
+      "label": "Sintomas sistêmicos e cardiovasculares",
+      "priority": "CRITICA",
+      "required_elements": [
+        "febre",
+        "síncope/pré-síncope",
+        "palpitações",
+        "edema de membros inferiores",
+        "cianose relatada"
+      ],
+      "question_examples": [
+        "Teve febre, desmaio, palpitações, inchaço nas pernas ou ficou arroxeado?"
+      ]
+    },
+    {
+      "id": "acute_event_elements",
+      "label": "Elementos associados a eventos agudos",
+      "priority": "CRITICA",
+      "required_elements": [
+        "início abrupto",
+        "dor torácica",
+        "hemoptise",
+        "síncope/pré-síncope",
+        "trauma",
+        "engasgo/aspiração",
+        "reação alérgica/edema de via aérea",
+        "imobilização/cirurgia/viagem",
+        "dor ou edema unilateral em membro inferior",
+        "inalação de fumaça/gases"
+      ],
+      "question_examples": [
+        "A falta de ar começou de repente e veio com dor no peito, desmaio ou sangue ao tossir?",
+        "Houve engasgo, reação alérgica, cirurgia/imobilização/viagem recente ou exposição a fumaça/gases?"
+      ]
+    },
+    {
+      "id": "previous_episodes",
+      "label": "Episódios prévios e padrão habitual",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "episódios semelhantes",
+        "frequência",
+        "comparação com episódio atual",
+        "duração habitual",
+        "desencadeantes e alívio habituais"
+      ],
+      "question_examples": [
+        "Já teve episódios parecidos? Este está igual ou diferente dos anteriores?"
+      ]
+    },
+    {
+      "id": "prior_interventions",
+      "label": "Intervenções realizadas no episódio atual",
+      "priority": "IMPORTANTE",
+      "required_elements": [
+        "medicação/inalador/nebulização/oxigênio",
+        "resposta",
+        "atendimento prévio"
+      ],
+      "question_examples": [
+        "Usou alguma medicação, inalador, nebulização ou oxigênio? Melhorou?"
+      ]
+    }
+  ],
+  "quality_control": {
+    "ambiguity_patterns": [
+      {
+        "term": "cansaço",
+        "risk": "pode significar dispneia, fadiga ou limitação geral",
+        "action": "solicitar descrição da sensação e relação com respiração/esforço"
+      },
+      {
+        "term": "fraqueza",
+        "risk": "não caracteriza dispneia",
+        "action": "não normalizar como dispneia sem contexto respiratório"
+      },
+      {
+        "term": "falta de ar à noite",
+        "risk": "não define ortopneia nem dispneia paroxística noturna isoladamente",
+        "action": "esclarecer relação com decúbito, despertar e melhora ao sentar"
+      },
+      {
+        "term": "chiado",
+        "risk": "pode ser relato inespecífico de ruído respiratório",
+        "action": "registrar como relato do paciente sem inferir mecanismo"
+      },
+      {
+        "term": "dor no peito",
+        "risk": "descrição insuficiente",
+        "action": "registrar associação; caracterização detalhada pertence ao módulo específico de dor torácica quando necessário"
+      }
+    ],
+    "contradiction_examples": [
+      [
+        "nega dispneia em repouso",
+        "relata falta de ar mesmo parado"
+      ],
+      [
+        "nega tosse",
+        "refere tosse produtiva"
+      ],
+      [
+        "início súbito",
+        "quadro começou gradualmente ao longo de vários dias"
+      ],
+      [
+        "sem melhora com repouso",
+        "refere resolução ao interromper esforço"
+      ]
+    ],
+    "redundancy_examples": [
+      [
+        "falta de ar",
+        "dispneia",
+        "dificuldade respiratória"
+      ],
+      [
+        "piora ao deitar",
+        "ortopneia explicitamente descrita"
+      ],
+      [
+        "tosse com sangue",
+        "hemoptise"
+      ]
+    ],
+    "error_prevention_rules": [
+      "não atribuir etiologia a partir de um termo isolado",
+      "não transformar fator de risco em diagnóstico",
+      "não interpretar tratamento prévio como confirmação etiológica",
+      "não classificar resposta a broncodilatador como diagnóstico",
+      "não confundir sintoma associado ausente de menção com sintoma negado",
+      "não ignorar contradições internas",
+      "não duplicar a mesma lacuna com perguntas semanticamente equivalentes",
+      "priorizar caracterização de segurança antes de detalhes complementares"
+    ]
+  },
+  "gap_generation": {
+    "output_schema": {
+      "priority": "CRITICA|IMPORTANTE|COMPLEMENTAR",
+      "field": "campo clínico",
+      "problem": "AUSENTE_NAO_INFORMADO|PRESENTE_MAS_INCOMPLETO|AMBIGUO_VAGO|CONTRADITORIO",
+      "needed_information": "descrição objetiva da informação necessária",
+      "example_question": "pergunta breve de alto ganho informacional"
+    },
+    "ranking_rules": [
+      "primeiro: elementos de segurança e gravidade funcional",
+      "segundo: temporalidade e evolução",
+      "terceiro: sintomas associados de maior impacto",
+      "quarto: fatores desencadeantes/alívio e contexto",
+      "quinto: episódios prévios e detalhes complementares"
+    ]
+  },
+  "recommended_output": {
+    "A_sintese_queixa": "resumo objetivo somente do que está documentado",
+    "B_informacoes_identificadas": [
+      "início/tempo",
+      "evolução",
+      "intensidade/repercussão funcional",
+      "relação com esforço",
+      "relação com posição/sono",
+      "fatores de piora",
+      "fatores de melhora",
+      "sintomas respiratórios associados",
+      "sintomas sistêmicos/cardiovasculares associados",
+      "episódios prévios",
+      "intervenções já realizadas"
+    ],
+    "C_negativas_pertinentes": "somente negativas explicitamente documentadas",
+    "D_lacunas": "prioridade | campo | problema | informação necessária",
+    "E_perguntas_complementares": "perguntas curtas, objetivas e ordenadas por prioridade",
+    "F_controle_qualidade": [
+      "ambiguidades",
+      "contradições",
+      "termos vagos",
+      "redundâncias",
+      "confusões semânticas",
+      "elementos relevantes não explorados"
+    ]
+  }
+}

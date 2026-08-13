@@ -1,0 +1,454 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Convulsão / Crise Convulsiva / Evento Paroxístico",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Consulta algorítmica rápida para auditoria de completude, clareza, ambiguidade e segurança da QD/HMA.",
+    "escopo": "Extração e análise crítica; não realiza diagnóstico, tratamento ou solicitação de exames."
+  },
+  "regras_globais": [
+    "Não inferir informação ausente.",
+    "Não considerar informação ausente como negativa.",
+    "Preservar a descrição original do fenômeno.",
+    "Não assumir equivalência entre convulsão, crise, desmaio, tremedeira e apagão.",
+    "Separar descrição do fenômeno de interpretação diagnóstica.",
+    "Distinguir estado pré-evento, evento, recuperação e estado atual."
+  ],
+  "dominios": {
+    "evento": {
+      "termos": [
+        "convulsão",
+        "crise convulsiva",
+        "crise",
+        "ataque",
+        "episódio paroxístico",
+        "espasmos",
+        "se debateu",
+        "começou a tremer",
+        "ficou duro",
+        "travou",
+        "esticou o corpo",
+        "revirou os olhos",
+        "apagou",
+        "perdeu os sentidos",
+        "ficou inconsciente",
+        "ficou olhando para o nada",
+        "ficou fora do ar"
+      ],
+      "campos": [
+        "descrição objetiva",
+        "testemunhado",
+        "memória do episódio",
+        "queda",
+        "alteração do tônus"
+      ]
+    },
+    "tempo_contexto": {
+      "termos": [
+        "súbito",
+        "durante o sono",
+        "acordado",
+        "repouso",
+        "atividade física",
+        "ao levantar-se",
+        "hoje",
+        "mais cedo",
+        "recentemente",
+        "há algum tempo",
+        "esses dias"
+      ],
+      "campos": [
+        "momento do evento",
+        "tempo decorrido",
+        "modo de início",
+        "estado vigília/sono",
+        "atividade imediatamente anterior",
+        "sequência cronológica"
+      ]
+    },
+    "pre_evento": {
+      "termos": [
+        "sensação estranha",
+        "alteração visual",
+        "alteração auditiva",
+        "alteração olfatória",
+        "alteração gustativa",
+        "parestesia",
+        "sensação epigástrica",
+        "medo súbito",
+        "déjà vu",
+        "tontura",
+        "escurecimento da visão",
+        "sensação de desmaio",
+        "palpitação",
+        "dor torácica",
+        "cefaleia",
+        "náusea",
+        "sintomas autonômicos"
+      ],
+      "regra": "Não classificar automaticamente como aura."
+    },
+    "consciencia_responsividade": {
+      "termos": [
+        "perda da consciência",
+        "alteração da consciência",
+        "inconsciente",
+        "não responsivo",
+        "respondia",
+        "obedecia comandos",
+        "amnésia",
+        "apagou"
+      ],
+      "campos": [
+        "consciência",
+        "responsividade",
+        "interação",
+        "obediência a comandos",
+        "memória",
+        "relação temporal com movimentos"
+      ]
+    },
+    "motor": {
+      "termos": [
+        "enrijecimento",
+        "tônico",
+        "abalo",
+        "clônico",
+        "tremor",
+        "contração breve",
+        "mioclonia",
+        "automatismo",
+        "desvio da cabeça",
+        "desvio ocular",
+        "postura anormal",
+        "mastigação",
+        "movimentos manuais repetitivos",
+        "perda do tônus",
+        "atonia",
+        "queda"
+      ],
+      "campos": [
+        "tipo",
+        "região inicial",
+        "lateralidade",
+        "simetria",
+        "progressão",
+        "ritmicidade",
+        "duração"
+      ],
+      "regra": "Não converter automaticamente tremedeira/se debateu em atividade tônico-clônica."
+    },
+    "focalidade_lateralidade": {
+      "termos": [
+        "direito",
+        "esquerdo",
+        "unilateral",
+        "bilateral",
+        "hemiface",
+        "membro superior",
+        "membro inferior",
+        "desvio cefálico",
+        "desvio conjugado do olhar",
+        "assimétrico",
+        "generalização",
+        "déficit focal"
+      ],
+      "campos": [
+        "região inicial",
+        "lado",
+        "progressão",
+        "generalização",
+        "assimetria"
+      ]
+    },
+    "duracao_recorrencia": {
+      "termos_vagos": [
+        "alguns minutos",
+        "um tempão",
+        "foi rápido",
+        "durou bastante"
+      ],
+      "campos": [
+        "duração dos movimentos",
+        "duração da não responsividade",
+        "duração total",
+        "cronometrada/estimada",
+        "número de episódios",
+        "intervalo",
+        "recuperação entre episódios"
+      ]
+    },
+    "trauma": {
+      "termos": [
+        "queda",
+        "trauma",
+        "traumatismo craniano",
+        "ferimento",
+        "bateu a cabeça"
+      ],
+      "campos": [
+        "ocorrência",
+        "região",
+        "relação temporal",
+        "trauma antecedente/consequente"
+      ]
+    },
+    "manifestacoes_durante": {
+      "termos": [
+        "cianose",
+        "alteração respiratória",
+        "salivação",
+        "espuma pela boca",
+        "vômito",
+        "mordedura de língua",
+        "mordedura lateral",
+        "mordedura da ponta",
+        "incontinência urinária",
+        "perda urinária",
+        "incontinência fecal",
+        "perda fecal",
+        "vocalização",
+        "alteração autonômica"
+      ],
+      "regra": "Não atribuir valor diagnóstico isolado."
+    },
+    "pos_evento": {
+      "termos": [
+        "confusão",
+        "desorientação",
+        "sonolência",
+        "agitação",
+        "alteração comportamental",
+        "amnésia",
+        "cefaleia",
+        "náusea",
+        "vômito",
+        "dor muscular",
+        "fraqueza",
+        "déficit neurológico focal",
+        "dificuldade para falar",
+        "alteração visual"
+      ],
+      "campos": [
+        "recuperação imediata",
+        "sintomas após evento",
+        "duração da recuperação",
+        "retorno ao estado basal"
+      ],
+      "regra": "Não assumir automaticamente período pós-ictal."
+    },
+    "estado_atual": {
+      "termos": [
+        "estado basal",
+        "permanece confuso",
+        "permanece sonolento",
+        "alteração da consciência",
+        "novos episódios",
+        "déficit neurológico",
+        "cefaleia",
+        "vômitos",
+        "sintomas persistentes"
+      ],
+      "campos": [
+        "retorno completo ao basal",
+        "alterações persistentes",
+        "recorrência atual"
+      ]
+    },
+    "antecedentes_crises": {
+      "termos": [
+        "primeiro episódio",
+        "episódios semelhantes",
+        "crises prévias",
+        "epilepsia",
+        "histórico de crises",
+        "padrão habitual"
+      ],
+      "campos": [
+        "primeiro evento",
+        "número prévio",
+        "data anterior",
+        "semelhança",
+        "avaliação prévia"
+      ],
+      "regra": "Crises prévias não equivalem automaticamente a diagnóstico de epilepsia."
+    },
+    "medicacoes_adesao": {
+      "termos": [
+        "anticonvulsivante",
+        "antiepiléptico",
+        "esquecimento",
+        "interrupção",
+        "mudança de dose",
+        "dificuldade de acesso",
+        "vômitos após medicação",
+        "medicação nova",
+        "retirada de medicamento"
+      ],
+      "campos": [
+        "nome",
+        "dose/alteração",
+        "adesão explicitamente descrita",
+        "interrupção",
+        "novas medicações"
+      ],
+      "regra": "Uso de anticonvulsivante isoladamente não comprova epilepsia."
+    },
+    "fatores_temporais": {
+      "termos": [
+        "privação de sono",
+        "febre",
+        "infecção",
+        "doença aguda",
+        "diarreia",
+        "vômitos",
+        "jejum",
+        "desidratação",
+        "calor",
+        "esforço físico",
+        "álcool",
+        "abstinência de álcool",
+        "drogas",
+        "substâncias",
+        "intoxicação",
+        "retirada de medicamento",
+        "traumatismo craniano",
+        "gestação",
+        "puerpério",
+        "alteração metabólica",
+        "estresse fisiológico"
+      ],
+      "regra": "Registrar associação temporal sem estabelecer causalidade."
+    },
+    "sintomas_associados": {
+      "termos": [
+        "febre",
+        "cefaleia",
+        "cervicalgia",
+        "rigidez de nuca",
+        "vômitos",
+        "alteração do estado mental",
+        "déficit neurológico focal",
+        "alteração da fala",
+        "alteração visual",
+        "fraqueza",
+        "parestesia",
+        "dor torácica",
+        "palpitação",
+        "dispneia",
+        "tontura",
+        "síncope",
+        "pré-síncope"
+      ],
+      "estados_validos": [
+        "presente",
+        "negado",
+        "não informado"
+      ]
+    },
+    "eventos_a_diferenciar_descritivamente": {
+      "termos": [
+        "perda transitória da consciência",
+        "síncope",
+        "pré-síncope",
+        "queda sem perda da consciência",
+        "tremor",
+        "calafrios",
+        "movimentos involuntários sem alteração da consciência",
+        "alteração comportamental",
+        "perda de responsividade sem manifestação motora",
+        "evento relacionado ao sono"
+      ]
+    },
+    "testemunha": {
+      "campos": [
+        "evento testemunhado",
+        "quem descreve",
+        "observou desde o início",
+        "sequência temporal",
+        "duração observada",
+        "movimentos",
+        "responsividade",
+        "recuperação"
+      ],
+      "alerta": "Rótulo 'convulsão' sem descrição objetiva é insuficiente."
+    }
+  },
+  "marcadores_qualidade": {
+    "ambiguidade": [
+      "convulsão sem descrição",
+      "crise sem descrição",
+      "desmaiou e tremeu",
+      "tremendo por alguns minutos",
+      "apagou",
+      "ficou fora do ar"
+    ],
+    "temporalidade_vaga": [
+      "hoje",
+      "mais cedo",
+      "recentemente",
+      "há algum tempo",
+      "esses dias",
+      "alguns minutos",
+      "um tempão",
+      "foi rápido",
+      "durou bastante"
+    ],
+    "contradicao": [
+      "cronologia incompatível",
+      "durações incompatíveis",
+      "relatos conflitantes paciente/testemunha"
+    ],
+    "erro_a_evitar": [
+      "ausente != negado",
+      "rótulo != descrição",
+      "associação temporal != causalidade",
+      "anticonvulsivante != prova de epilepsia",
+      "sonolência/confusão != pós-ictal automaticamente"
+    ]
+  },
+  "lacunas_prioritarias": {
+    "alta": [
+      "natureza exata do evento",
+      "consciência/responsividade",
+      "descrição objetiva dos movimentos",
+      "focalidade/lateralidade",
+      "duração",
+      "número de episódios",
+      "recuperação entre episódios",
+      "retorno ao estado basal",
+      "trauma associado",
+      "sintomas neurológicos/sistêmicos relevantes"
+    ],
+    "moderada": [
+      "eventos prévios semelhantes",
+      "contexto imediatamente anterior",
+      "fatores temporalmente associados",
+      "qualidade do relato da testemunha"
+    ],
+    "baixa": [
+      "detalhes complementares que melhorem precisão documental sem alterar a caracterização essencial"
+    ]
+  },
+  "cronologia_alvo": [
+    "estado basal",
+    "sintomas prévios",
+    "início do evento",
+    "consciência/responsividade",
+    "manifestações motoras/não motoras",
+    "duração",
+    "término",
+    "recuperação",
+    "sintomas posteriores",
+    "estado atual"
+  ],
+  "saida_recomendada": [
+    "informações identificadas",
+    "informações explicitamente negadas",
+    "informações relevantes faltantes",
+    "informações ambíguas ou insuficientes",
+    "contradições",
+    "cronologia reconstruída",
+    "prioridade das lacunas"
+  ]
+}

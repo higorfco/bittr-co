@@ -139,17 +139,45 @@ function ChecklistResultView({
   );
 }
 
+function ListBlock({
+  title,
+  items,
+  empty = "Nenhum.",
+}: {
+  title: string;
+  items: string[];
+  empty?: string;
+}) {
+  return (
+    <>
+      <h3>{title}</h3>
+      {items.length ? (
+        <ul className="finding-list">
+          {items.map((item) => (
+            <li key={`${title}-${item}`}>{item}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-note">{empty}</p>
+      )}
+    </>
+  );
+}
+
 function S1ResultView({ result }: { result: S1Result }) {
+  const a = result.avaliacao;
+  const r = result.routing;
+
   return (
     <section className="panel result-panel" aria-live="polite">
       <div className="score-row">
         <div>
-          <p className="eyebrow">S1 · Dor na QP + HPMA</p>
+          <p className="eyebrow">S1 · Análise crítica QD/QP/HMA</p>
           <p className="score">
             PANDA93: {result.panda93}/{PANDA93_MAX}
           </p>
           <p className="acronym-note">{result.law}</p>
-          <p className="acronym-note">Terminologia: {result.sourcePack}</p>
+          <p className="acronym-note">{result.sourcePack}</p>
           <p className={`band-label ${bandClass(result.panda93)}`}>
             {result.bandLabel}
           </p>
@@ -165,55 +193,112 @@ function S1ResultView({ result }: { result: S1Result }) {
 
       <p className="scope-note">{result.scopeNote}</p>
 
-      <h3>Etapa 1 — Existe dor?</h3>
-      <p className="s1-presence">{result.painPresence}</p>
-
-      <h3>Etapa 2 — Atributos da dor</h3>
+      <h3>Roteamento clínico</h3>
       <ul className="topic-list">
-        {result.attributes.map((item) => (
-          <li key={item.key} className="topic-row">
+        <li className="topic-row">
+          <div className="topic-head">
+            <strong>Queixa dominante</strong>
+            <span className="ciq-pill band-good">
+              {r.queixa_principal_identificada || "—"}
+            </span>
+          </div>
+        </li>
+        <li className="topic-row">
+          <div className="topic-head">
+            <strong>JSON primário</strong>
+            <span className="ciq-pill band-partial">{r.json_primario || "—"}</span>
+          </div>
+        </li>
+        <li className="topic-row">
+          <div className="topic-head">
+            <strong>Confiança</strong>
+            <span
+              className={`ciq-pill ${r.confianca >= 0.7 ? "band-good" : r.confianca >= 0.5 ? "band-partial" : "band-poor"}`}
+            >
+              {r.confianca.toFixed(2)}
+              {r.classificacao_insegura ? " · INSEGURA" : ""}
+            </span>
+          </div>
+        </li>
+      </ul>
+      <p className="scope-note">{r.motivo_selecao}</p>
+      {r.json_secundarios.length ? (
+        <p className="scope-note">
+          Secundários: {r.json_secundarios.join(", ")}
+        </p>
+      ) : null}
+
+      <h3>Avaliação</h3>
+      <ul className="topic-list">
+        {(
+          [
+            ["Completude", a.completude],
+            ["Clareza", a.clareza],
+            ["Relevância", a.relevancia],
+            ["Coerência", a.coerencia],
+            ["Segurança documental", a.seguranca_documental],
+            ["Score global", a.score_global],
+          ] as const
+        ).map(([label, value]) => (
+          <li key={label} className="topic-row">
             <div className="topic-head">
-              <strong>{item.key}</strong>
-              <span
-                className={`ciq-pill ${item.found || item.key === "Dor" ? "band-good" : "band-poor"}`}
-              >
-                {item.value ?? "—"}
+              <strong>{label}</strong>
+              <span className={`ciq-pill ${bandClass(toPanda93Like(value))}`}>
+                {value}
               </span>
             </div>
           </li>
         ))}
       </ul>
 
-      <h3>Etapa 3 — Completude</h3>
-      <ul className="topic-list">
-        {result.completeness.map((item) => (
-          <li key={item.key} className="topic-row">
-            <div className="topic-head">
-              <strong>{item.key}</strong>
-              <span
-                className={`ciq-pill ${item.found ? "band-good" : "band-poor"}`}
-              >
-                {item.found ? "presente" : "ausente"}
-              </span>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <ListBlock title="Informações presentes" items={result.informacoes_presentes} />
+      <ListBlock title="Informações parciais" items={result.informacoes_parciais} />
+      <ListBlock title="Informações vagas" items={result.informacoes_vagas} />
+      <ListBlock title="Ambiguidades" items={result.ambiguidades} />
+      <ListBlock title="Contradições" items={result.contradicoes} />
+      <ListBlock
+        title="Ausentes relevantes"
+        items={result.informacoes_ausentes_relevantes}
+        empty="Nenhuma lacuna relevante no contexto."
+      />
+      <ListBlock
+        title="Condicionais não ativados"
+        items={result.campos_condicionais_nao_ativados}
+      />
+      <ListBlock
+        title="Não aplicáveis"
+        items={result.campos_nao_aplicaveis}
+      />
+      <ListBlock
+        title="Negativas pertinentes"
+        items={result.negativas_pertinentes_documentadas}
+      />
 
-      <h3>Etapa 4 — Informações faltantes</h3>
-      {result.missingBlocks.length ? (
-        <ul className="finding-list s1-missing">
-          {result.missingBlocks.map((block) => (
-            <li key={block}>
-              <pre className="s1-missing-block">{block}</pre>
+      <h3>Pontos de melhoria prioritários</h3>
+      {result.pontos_de_melhoria_prioritarios.length ? (
+        <ul className="finding-list">
+          {result.pontos_de_melhoria_prioritarios.map((item) => (
+            <li key={`${item.nivel}-${item.texto}`}>
+              [{item.nivel}] {item.texto}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="empty-note">Nenhuma lacuna essencial evidente.</p>
+        <p className="empty-note">Nenhuma lacuna de alto valor evidente.</p>
       )}
+
+      {r.arquivos_descartados_relevantes.length ? (
+        <ListBlock
+          title="Arquivos descartados (auditoria)"
+          items={r.arquivos_descartados_relevantes}
+        />
+      ) : null}
     </section>
   );
+}
+
+function toPanda93Like(score100: number): number {
+  return Math.round((score100 / 100) * PANDA93_MAX);
 }
 
 export function ModeSwitch({
@@ -289,9 +374,9 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
 
   const labels: Record<AppMode, { field: string; placeholder: string }> = {
     S1: {
-      field: "QP + HPMA (dor)",
+      field: "QD / QP / HMA (HPMA)",
       placeholder:
-        "Cole a Queixa Principal e a História da Moléstia Atual…",
+        "Cole a Queixa e Duração, Queixa Principal e/ou História da Moléstia Atual…",
     },
     H1: {
       field: "Anamnese",

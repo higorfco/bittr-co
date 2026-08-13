@@ -1,0 +1,2890 @@
+{
+  "metadata": {
+    "name": "syncope_tloc_ptbr_critical_review_db",
+    "title": "Banco de Dados de Termos e Regras — Síncope / Perda Transitória da Consciência",
+    "version": "1.0.0",
+    "language": "pt-BR",
+    "created": "2026-08-12",
+    "purpose": [
+      "extração estruturada de informações de QD e HMA/HPMA",
+      "checagem de completude da caracterização de síncope/perda transitória da consciência",
+      "detecção de lacunas, ambiguidades e contradições",
+      "geração de perguntas complementares tempo-efetivas",
+      "prevenção de inferências indevidas durante análise textual"
+    ],
+    "scope": {
+      "include": [
+        "QD",
+        "HMA",
+        "HPMA"
+      ],
+      "exclude": [
+        "diagnóstico",
+        "tratamento",
+        "solicitação de exames",
+        "inferências não sustentadas pelo texto",
+        "antecedentes fora do trecho analisado",
+        "exame físico fora do trecho analisado",
+        "exames complementares fora do trecho analisado"
+      ]
+    },
+    "core_principles": [
+      "ausência de informação não equivale a resposta negativa",
+      "não preencher lacunas com suposições",
+      "não classificar automaticamente qualquer desmaio como síncope",
+      "preservar a expressão original do paciente quando houver risco de perda semântica",
+      "separar relato do paciente de relato de testemunha",
+      "priorizar fenomenologia e cronologia",
+      "diferenciar inconsciência de recuperação completa",
+      "não atribuir valor diagnóstico isolado a incontinência, mordedura de língua, abalos ou recuperação rápida"
+    ],
+    "references": [
+      {
+        "organization": "European Society of Cardiology",
+        "document": "2018 ESC Guidelines for the diagnosis and management of syncope",
+        "role": "referência conceitual complementar"
+      },
+      {
+        "organization": "ACC/AHA/HRS",
+        "document": "2017 Guideline for the Evaluation and Management of Patients With Syncope",
+        "role": "referência conceitual complementar"
+      }
+    ]
+  },
+  "output_states": {
+    "documented": "informação explicitamente presente e suficientemente caracterizada",
+    "partial": "informação presente, porém vaga, incompleta ou sem detalhe necessário",
+    "absent": "informação relevante não documentada; não interpretar como negativa",
+    "ambiguous": "texto admite mais de uma interpretação clínica relevante",
+    "contradictory": "duas ou mais afirmações incompatíveis no mesmo episódio",
+    "not_applicable": "item dependente de condição que não ocorreu ou não foi estabelecida"
+  },
+  "normalization": {
+    "casefold": true,
+    "strip_accents_for_matching": true,
+    "preserve_original_text": true,
+    "allow_fuzzy_matching": true,
+    "suggested_fuzzy_threshold": 0.88,
+    "negation_window_tokens": 6,
+    "temporality_window_tokens": 10,
+    "witness_window_tokens": 12,
+    "do_not_expand_ambiguous_abbreviations_without_context": true
+  },
+  "semantic_classes": {
+    "confirmed_tloc_expression": {
+      "description": "Expressões que explicitam perda de consciência/responsividade, ainda exigindo análise contextual.",
+      "terms": [
+        "perdeu a consciência",
+        "perda de consciência",
+        "ficou inconsciente",
+        "estava inconsciente",
+        "perdeu os sentidos",
+        "ficou desacordado",
+        "permaneceu desacordado",
+        "não respondia",
+        "ficou irresponsivo",
+        "perdeu a responsividade"
+      ]
+    },
+    "possible_tloc_colloquial": {
+      "description": "Expressões coloquiais potencialmente compatíveis, mas insuficientes isoladamente.",
+      "terms": [
+        "desmaiou",
+        "desmaiei",
+        "apagou",
+        "apaguei",
+        "apagão",
+        "deu um branco",
+        "caiu desacordado",
+        "ficou mole",
+        "caiu de repente",
+        "desligou",
+        "desconectou"
+      ],
+      "rule": "não converter automaticamente em perda completa da consciência"
+    },
+    "presyncope_possible": {
+      "terms": [
+        "quase desmaiou",
+        "quase desmaiei",
+        "sensação de desmaio",
+        "ia desmaiar",
+        "parecia que ia apagar",
+        "escureceu a visão",
+        "tudo ficou preto",
+        "visão fechando",
+        "fraqueza súbita",
+        "lipotimia",
+        "pré-síncope",
+        "presíncope"
+      ],
+      "rule": "não classificar como perda completa da consciência sem declaração explícita"
+    },
+    "non_specific_altered_awareness": {
+      "terms": [
+        "ficou fora do ar",
+        "ficou aérea",
+        "ficou aéreo",
+        "ficou distante",
+        "deu um branco",
+        "não lembra direito",
+        "ficou confuso",
+        "ficou parado",
+        "travou"
+      ],
+      "rule": "exige esclarecimento de responsividade, memória, postura e duração"
+    }
+  },
+  "event_characterization": {
+    "loss_of_consciousness": {
+      "aliases": [
+        "perda da consciência",
+        "perda dos sentidos",
+        "inconsciência",
+        "desacordado"
+      ],
+      "questions": [
+        "Houve perda completa da consciência?",
+        "O paciente deixou de responder durante o episódio?"
+      ],
+      "critical": true
+    },
+    "responsiveness": {
+      "positive_terms": [
+        "não respondia",
+        "irresponsivo",
+        "sem resposta",
+        "não reagia"
+      ],
+      "negative_terms": [
+        "respondia",
+        "continuou respondendo",
+        "permaneceu consciente"
+      ],
+      "questions": [
+        "Durante o episódio, respondia quando era chamado ou tocado?"
+      ],
+      "critical": true
+    },
+    "postural_tone_loss": {
+      "terms": [
+        "caiu",
+        "desabou",
+        "perdeu o tônus",
+        "ficou mole",
+        "foi ao chão"
+      ],
+      "questions": [
+        "Houve perda do tônus postural ou queda?"
+      ],
+      "critical": true
+    },
+    "transience": {
+      "terms": [
+        "transitório",
+        "passageiro",
+        "voltou",
+        "recuperou",
+        "acordou"
+      ],
+      "questions": [
+        "O episódio foi transitório, com recuperação posterior?"
+      ],
+      "critical": true
+    },
+    "spontaneous_recovery": {
+      "terms": [
+        "acordou sozinho",
+        "recuperou espontaneamente",
+        "voltou sozinho",
+        "retomou a consciência"
+      ],
+      "questions": [
+        "A recuperação da consciência ocorreu espontaneamente?"
+      ],
+      "critical": true
+    },
+    "complete_recovery": {
+      "terms": [
+        "voltou ao normal",
+        "retornou ao habitual",
+        "recuperação completa",
+        "ficou bem depois"
+      ],
+      "questions": [
+        "Retornou completamente ao estado habitual?"
+      ],
+      "critical": true
+    },
+    "memory": {
+      "terms": [
+        "lembra do episódio",
+        "não lembra",
+        "amnésia",
+        "lacuna de memória"
+      ],
+      "questions": [
+        "O que é a última coisa que lembra antes e a primeira que lembra depois do episódio?"
+      ]
+    },
+    "witnessed": {
+      "positive_terms": [
+        "testemunhado",
+        "presenciado",
+        "esposa viu",
+        "marido viu",
+        "familiar viu",
+        "acompanhante viu"
+      ],
+      "questions": [
+        "Alguém presenciou o episódio?"
+      ]
+    }
+  },
+  "temporality": {
+    "onset_terms": {
+      "sudden": [
+        "súbito",
+        "subitamente",
+        "de repente",
+        "abrupto",
+        "repentino"
+      ],
+      "progressive": [
+        "progressivo",
+        "aos poucos",
+        "foi piorando",
+        "gradualmente"
+      ]
+    },
+    "duration_units": [
+      "segundo",
+      "segundos",
+      "minuto",
+      "minutos",
+      "hora",
+      "horas"
+    ],
+    "vague_duration_terms": [
+      "alguns segundos",
+      "por um tempo",
+      "rapidinho",
+      "demorou para voltar",
+      "um tempinho",
+      "pouco tempo",
+      "não sei quanto tempo"
+    ],
+    "recurrence_terms": [
+      "episódio único",
+      "primeiro episódio",
+      "recorrente",
+      "repetiu",
+      "vários episódios",
+      "outras vezes",
+      "já aconteceu",
+      "episódios prévios"
+    ],
+    "questions": [
+      "Quando ocorreu?",
+      "Quanto tempo durou a perda da consciência ou da responsividade?",
+      "A duração foi medida ou estimada?",
+      "Foi um episódio único ou já ocorreu outras vezes?"
+    ]
+  },
+  "pre_event_context": {
+    "positions": {
+      "standing": [
+        "em pé",
+        "ortostase",
+        "ortostatismo",
+        "de pé"
+      ],
+      "sitting": [
+        "sentado",
+        "sentada"
+      ],
+      "supine": [
+        "deitado",
+        "deitada",
+        "decúbito",
+        "posição supina"
+      ],
+      "rising": [
+        "levantando",
+        "ao levantar",
+        "levantou da cama",
+        "levantou da cadeira",
+        "mudança postural"
+      ]
+    },
+    "activities": {
+      "rest": [
+        "repouso",
+        "em repouso",
+        "parado"
+      ],
+      "walking": [
+        "caminhando",
+        "andando",
+        "durante caminhada"
+      ],
+      "exercise": [
+        "exercício",
+        "atividade física",
+        "correndo",
+        "corrida",
+        "academia"
+      ],
+      "during_exertion": [
+        "durante esforço",
+        "em esforço",
+        "no meio do exercício"
+      ],
+      "post_exertion": [
+        "após esforço",
+        "depois do exercício",
+        "logo após exercício"
+      ]
+    },
+    "situational_triggers": {
+      "micturition": [
+        "micção",
+        "urinando",
+        "após urinar",
+        "ao urinar"
+      ],
+      "defecation": [
+        "evacuação",
+        "evacuando",
+        "ao evacuar",
+        "após evacuar"
+      ],
+      "cough": [
+        "tosse",
+        "tossindo",
+        "após tossir"
+      ],
+      "swallowing": [
+        "deglutição",
+        "engolindo",
+        "ao engolir"
+      ],
+      "pain": [
+        "dor intensa",
+        "após dor",
+        "com dor"
+      ],
+      "fear": [
+        "medo",
+        "susto"
+      ],
+      "emotion": [
+        "emoção",
+        "estresse emocional",
+        "ansiedade intensa"
+      ],
+      "blood_sight": [
+        "viu sangue",
+        "visão de sangue"
+      ],
+      "procedure": [
+        "procedimento",
+        "coleta de sangue",
+        "injeção",
+        "punção"
+      ],
+      "heat": [
+        "calor",
+        "ambiente quente",
+        "muito quente"
+      ],
+      "crowding": [
+        "aglomerado",
+        "local fechado",
+        "ambiente cheio"
+      ],
+      "prolonged_standing": [
+        "muito tempo em pé",
+        "permanência prolongada em pé"
+      ],
+      "fasting": [
+        "jejum",
+        "sem comer",
+        "não havia se alimentado"
+      ],
+      "low_intake": [
+        "baixa ingestão",
+        "comeu pouco",
+        "bebeu pouca água",
+        "ingeriu pouco líquido"
+      ],
+      "fluid_loss": [
+        "desidratação",
+        "perda de líquidos",
+        "diarreia",
+        "vômitos",
+        "sudorese intensa"
+      ]
+    },
+    "critical_questions": [
+      "O que estava fazendo imediatamente antes do episódio?",
+      "Em que posição estava?",
+      "Houve mudança de posição pouco antes?",
+      "O evento ocorreu durante esforço ou após o esforço?"
+    ]
+  },
+  "prodromes": {
+    "autonomic": [
+      "náusea",
+      "enjoo",
+      "sudorese",
+      "suor frio",
+      "sensação de calor",
+      "calorão",
+      "palidez",
+      "mal-estar",
+      "fraqueza"
+    ],
+    "visual_auditory": [
+      "visão turva",
+      "visão embaçada",
+      "escurecimento da visão",
+      "visão em túnel",
+      "pontos pretos",
+      "tudo ficou preto",
+      "visão fechando",
+      "zumbido",
+      "audição diminuindo",
+      "redução da audição"
+    ],
+    "cardiopulmonary": [
+      "palpitação",
+      "palpitações",
+      "coração acelerado",
+      "taquicardia percebida",
+      "batimento irregular",
+      "coração irregular",
+      "dor torácica",
+      "dor no peito",
+      "aperto no peito",
+      "pressão no peito",
+      "falta de ar",
+      "dispneia"
+    ],
+    "neurologic": [
+      "cefaleia",
+      "dor de cabeça",
+      "tontura",
+      "vertigem",
+      "dificuldade para falar",
+      "fala enrolada",
+      "alteração visual",
+      "fraqueza",
+      "dormência",
+      "formigamento",
+      "alteração de coordenação"
+    ],
+    "explicit_no_prodrome_terms": [
+      "sem pródromos",
+      "sem aviso",
+      "sem sintomas antes",
+      "apagou de repente sem aviso",
+      "perda abrupta sem sintomas prévios"
+    ],
+    "rule": "ausência de menção a pródromos não autoriza registrar 'sem pródromos'"
+  },
+  "fall_and_trauma": {
+    "fall_terms": [
+      "queda",
+      "caiu",
+      "foi ao chão",
+      "desabou",
+      "tombou"
+    ],
+    "gradual_fall_terms": [
+      "foi escorregando",
+      "sentou antes",
+      "conseguiu se apoiar",
+      "ajoelhou antes"
+    ],
+    "sudden_fall_terms": [
+      "queda súbita",
+      "caiu de repente",
+      "desabou"
+    ],
+    "support_terms": [
+      "foi segurado",
+      "conseguiram segurar",
+      "apoiou-se",
+      "encostou na parede"
+    ],
+    "trauma_terms": [
+      "trauma",
+      "bateu a cabeça",
+      "trauma craniano",
+      "TCE",
+      "ferimento",
+      "corte",
+      "laceração",
+      "sangramento",
+      "contusão",
+      "hematoma",
+      "dor após queda"
+    ],
+    "height_terms": [
+      "queda da própria altura",
+      "QPA",
+      "queda de altura"
+    ],
+    "critical_relation": {
+      "question": "A perda da consciência ocorreu antes ou depois do trauma?",
+      "rule": "se a relação temporal não estiver definida, marcar como ambígua ou ausente"
+    }
+  },
+  "witness_report": {
+    "source_markers": [
+      "segundo acompanhante",
+      "segundo esposa",
+      "segundo marido",
+      "segundo familiar",
+      "testemunha refere",
+      "acompanhante relata",
+      "foi visto",
+      "presenciou",
+      "quem viu"
+    ],
+    "features": {
+      "pre_event_behavior": [
+        "comportamento antes",
+        "falava normalmente",
+        "ficou estranho"
+      ],
+      "responsiveness": [
+        "não respondia",
+        "respondia",
+        "reagia"
+      ],
+      "position": [
+        "em pé",
+        "sentado",
+        "deitado"
+      ],
+      "fall_mode": [
+        "queda súbita",
+        "queda gradual",
+        "foi ao chão"
+      ],
+      "skin_color": [
+        "pálido",
+        "palidez",
+        "arroxeado",
+        "cianótico",
+        "cianose"
+      ],
+      "eyes": [
+        "olhos abertos",
+        "olhos fechados",
+        "olhar fixo",
+        "desvio ocular"
+      ],
+      "body_movements": [
+        "abalos",
+        "tremores",
+        "convulsões",
+        "rigidez",
+        "movimentos repetitivos"
+      ],
+      "breathing": [
+        "respirava",
+        "não respirava",
+        "respiração ruidosa",
+        "roncos",
+        "apneia percebida"
+      ],
+      "vocalization": [
+        "grito",
+        "gemido",
+        "vocalização"
+      ],
+      "recovery": [
+        "acordou",
+        "voltou",
+        "ficou confuso",
+        "ficou sonolento"
+      ]
+    },
+    "rule": "armazenar separadamente a fonte do dado"
+  },
+  "abnormal_movements": {
+    "generic": [
+      "abalos",
+      "tremores",
+      "sacudidas",
+      "espasmos",
+      "movimentos involuntários"
+    ],
+    "tonic": [
+      "rigidez",
+      "enrijeceu",
+      "ficou duro",
+      "extensão dos membros",
+      "flexão dos membros"
+    ],
+    "clonic": [
+      "movimentos tônico-clônicos",
+      "contrações repetitivas",
+      "abalos repetidos"
+    ],
+    "automatisms": [
+      "automatismos",
+      "mastigação",
+      "movimentos repetitivos da boca",
+      "manipulação das mãos"
+    ],
+    "asymmetry": [
+      "movimentos assimétricos",
+      "um lado",
+      "unilateral"
+    ],
+    "head_eye_deviation": [
+      "desvio da cabeça",
+      "virou a cabeça",
+      "desvio ocular",
+      "olhos desviados"
+    ],
+    "attributes_to_extract": [
+      "início antes ou depois da queda",
+      "duração",
+      "número aproximado de movimentos",
+      "simetria",
+      "padrão descrito por testemunha"
+    ],
+    "rule": "não interpretar automaticamente movimentos anormais como crise epiléptica"
+  },
+  "during_event_manifestations": {
+    "color": [
+      "cianose",
+      "cianótico",
+      "arroxeado",
+      "palidez",
+      "pálido"
+    ],
+    "sweating": [
+      "sudorese",
+      "suor frio"
+    ],
+    "respiratory": [
+      "alteração respiratória",
+      "apneia",
+      "parou de respirar",
+      "roncos",
+      "respiração ruidosa"
+    ],
+    "oral": [
+      "salivação",
+      "sialorreia",
+      "espuma pela boca"
+    ],
+    "tongue_bite": {
+      "terms": [
+        "mordeu a língua",
+        "mordedura de língua",
+        "lesão na língua"
+      ],
+      "location_terms": [
+        "lateral da língua",
+        "borda lateral",
+        "ponta da língua"
+      ],
+      "rule": "registrar presença e localização apenas quando explicitamente descritas"
+    },
+    "incontinence": {
+      "urinary": [
+        "incontinência urinária",
+        "urinou na roupa",
+        "perdeu urina"
+      ],
+      "fecal": [
+        "incontinência fecal",
+        "evacuou na roupa",
+        "perdeu fezes"
+      ]
+    },
+    "vomiting": [
+      "vômito",
+      "vomitou",
+      "êmese"
+    ],
+    "rule": "não atribuir significado diagnóstico isolado"
+  },
+  "recovery": {
+    "spontaneous": [
+      "recuperou espontaneamente",
+      "acordou sozinho",
+      "voltou sozinho"
+    ],
+    "rapid": [
+      "recuperação rápida",
+      "acordou rapidamente",
+      "voltou logo",
+      "em segundos estava bem"
+    ],
+    "gradual": [
+      "recuperação gradual",
+      "foi voltando aos poucos",
+      "demorou a voltar"
+    ],
+    "complete": [
+      "voltou ao normal",
+      "retornou ao habitual",
+      "recuperação completa"
+    ],
+    "requires_stimulation": [
+      "precisou ser chamado",
+      "acordou com estímulo",
+      "respondeu após estímulo"
+    ],
+    "post_event_features": {
+      "confusion": [
+        "confusão",
+        "confuso",
+        "desorientado",
+        "desorientação"
+      ],
+      "somnolence": [
+        "sonolência",
+        "sonolento",
+        "dormiu depois"
+      ],
+      "amnesia": [
+        "amnésia",
+        "não lembra",
+        "lacuna de memória"
+      ],
+      "agitation": [
+        "agitação",
+        "agitado"
+      ],
+      "speech": [
+        "dificuldade de fala",
+        "fala enrolada",
+        "não conseguia falar"
+      ],
+      "weakness": [
+        "fraqueza",
+        "fraqueza focal",
+        "perda de força"
+      ],
+      "sensory": [
+        "dormência",
+        "parestesia",
+        "alteração sensitiva"
+      ],
+      "headache": [
+        "cefaleia",
+        "dor de cabeça"
+      ],
+      "nausea_vomiting": [
+        "náusea",
+        "enjoo",
+        "vômitos"
+      ],
+      "myalgia": [
+        "dor muscular",
+        "mialgia"
+      ],
+      "fatigue": [
+        "fadiga",
+        "cansaço intenso",
+        "prostração"
+      ]
+    },
+    "critical_rule": "armazenar separadamente duração da inconsciência e tempo até recuperação completa"
+  },
+  "associated_cardiovascular": {
+    "chest_pain": [
+      "dor torácica",
+      "dor no peito",
+      "aperto torácico",
+      "pressão torácica",
+      "peso no peito"
+    ],
+    "palpitations": [
+      "palpitação",
+      "palpitações",
+      "coração acelerado",
+      "coração disparado",
+      "batimento irregular"
+    ],
+    "dyspnea": [
+      "dispneia",
+      "falta de ar",
+      "dificuldade para respirar"
+    ],
+    "exercise_intolerance": [
+      "intolerância ao esforço",
+      "cansaço ao esforço"
+    ],
+    "syncope_context": [
+      "durante esforço",
+      "em repouso",
+      "deitado",
+      "posição supina"
+    ],
+    "rule": "extrair relação temporal: antes/durante/depois do evento"
+  },
+  "associated_neurologic": {
+    "headache": [
+      "cefaleia",
+      "dor de cabeça",
+      "cefaleia súbita",
+      "dor de cabeça súbita"
+    ],
+    "vestibular": [
+      "vertigem",
+      "tontura"
+    ],
+    "visual": [
+      "diplopia",
+      "visão dupla",
+      "alteração visual"
+    ],
+    "speech": [
+      "disartria",
+      "fala enrolada",
+      "afasia",
+      "não conseguia falar"
+    ],
+    "swallowing": [
+      "disfagia",
+      "dificuldade para engolir"
+    ],
+    "motor": [
+      "fraqueza focal",
+      "perda de força",
+      "hemiparesia",
+      "fraqueza de um lado"
+    ],
+    "sensory": [
+      "alteração sensitiva",
+      "dormência",
+      "parestesia"
+    ],
+    "face": [
+      "assimetria facial",
+      "boca torta"
+    ],
+    "coordination": [
+      "ataxia",
+      "alteração de coordenação",
+      "desequilíbrio"
+    ],
+    "gait": [
+      "alteração de marcha",
+      "dificuldade para andar"
+    ],
+    "cognition": [
+      "confusão persistente",
+      "amnésia"
+    ],
+    "movements": [
+      "movimentos involuntários",
+      "abalos",
+      "rigidez"
+    ],
+    "rule": "não interpretar etiologicamente nesta etapa"
+  },
+  "associated_systemic": {
+    "fever": [
+      "febre",
+      "febril"
+    ],
+    "vomiting": [
+      "vômitos",
+      "êmese"
+    ],
+    "diarrhea": [
+      "diarreia"
+    ],
+    "bleeding": {
+      "generic": [
+        "sangramento",
+        "hemorragia"
+      ],
+      "upper_gi": [
+        "hematêmese",
+        "vômito com sangue"
+      ],
+      "lower_gi": [
+        "melena",
+        "fezes pretas",
+        "hematoquezia",
+        "sangue nas fezes"
+      ],
+      "vaginal": [
+        "sangramento vaginal",
+        "metrorragia"
+      ]
+    },
+    "intake": [
+      "redução da ingestão alimentar",
+      "comeu pouco",
+      "baixa ingesta",
+      "bebeu pouca água"
+    ],
+    "fluid_loss": [
+      "perda de líquidos",
+      "desidratação",
+      "vômitos",
+      "diarreia",
+      "sudorese intensa"
+    ],
+    "general_weakness": [
+      "fraqueza generalizada",
+      "astenia",
+      "prostração"
+    ],
+    "recent_illness": [
+      "doença aguda recente",
+      "infecção recente",
+      "quadro recente"
+    ]
+  },
+  "orthostatic_relation": {
+    "terms": [
+      "ao levantar da cama",
+      "ao levantar da cadeira",
+      "após levantar",
+      "mudança rápida de posição",
+      "ortostase",
+      "ortostatismo",
+      "muito tempo em pé",
+      "em pé prolongadamente"
+    ],
+    "symptom_terms": [
+      "tontura ao levantar",
+      "escurecimento da visão ao levantar",
+      "fraqueza ao levantar"
+    ],
+    "question": "Os sintomas começaram ou pioraram ao ficar em pé ou logo após levantar?"
+  },
+  "exertional_relation": {
+    "during": [
+      "durante exercício",
+      "durante esforço",
+      "correndo",
+      "no meio do treino"
+    ],
+    "immediate_post": [
+      "imediatamente após exercício",
+      "logo após parar",
+      "assim que terminou"
+    ],
+    "delayed_post": [
+      "minutos após exercício",
+      "algum tempo após esforço"
+    ],
+    "explicit_none": [
+      "sem relação com esforço",
+      "não estava fazendo esforço"
+    ],
+    "rule": "não agrupar evento durante esforço com evento pós-esforço"
+  },
+  "precipitants": {
+    "heat": [
+      "calor",
+      "ambiente quente"
+    ],
+    "pain": [
+      "dor intensa"
+    ],
+    "emotion": [
+      "emoção",
+      "medo",
+      "estresse",
+      "ansiedade"
+    ],
+    "fasting": [
+      "jejum",
+      "sem comer"
+    ],
+    "food": [
+      "após alimentação",
+      "depois de comer"
+    ],
+    "dehydration": [
+      "desidratação",
+      "pouca ingestão de líquidos"
+    ],
+    "micturition": [
+      "micção",
+      "urinar"
+    ],
+    "defecation": [
+      "evacuação",
+      "defecar"
+    ],
+    "cough": [
+      "tosse"
+    ],
+    "vomiting": [
+      "vômitos"
+    ],
+    "exertion": [
+      "esforço",
+      "exercício"
+    ],
+    "posture_change": [
+      "mudança postural",
+      "ao levantar"
+    ],
+    "recent_medication": [
+      "medicação nova",
+      "remédio novo",
+      "iniciou medicamento"
+    ],
+    "dose_change": [
+      "aumento da dose",
+      "redução da dose",
+      "mudança da dose"
+    ],
+    "alcohol": [
+      "álcool",
+      "bebida alcoólica",
+      "etilismo recente"
+    ],
+    "other_substances": [
+      "droga",
+      "substância",
+      "uso recreativo",
+      "intoxicação referida"
+    ],
+    "rule": "registrar associação temporal; não estabelecer causalidade"
+  },
+  "previous_episodes": {
+    "terms": [
+      "episódio prévio",
+      "já aconteceu",
+      "desmaiou antes",
+      "outras vezes",
+      "recorrente"
+    ],
+    "attributes": [
+      "quantidade aproximada",
+      "data/idade do primeiro episódio",
+      "data do episódio mais recente",
+      "frequência",
+      "circunstâncias",
+      "pródromos",
+      "duração",
+      "recuperação",
+      "investigação prévia mencionada",
+      "explicação previamente atribuída no próprio texto"
+    ],
+    "rule": "não assumir etiologia comum entre episódios"
+  },
+  "phenomenologic_differentiation": {
+    "targets": [
+      "perda completa da consciência",
+      "pré-síncope",
+      "queda sem perda de consciência",
+      "alteração da responsividade",
+      "episódio com movimentos anormais",
+      "alteração metabólica/toxicológica explicitamente descrita",
+      "perda de consciência relacionada a trauma",
+      "outras alterações transitórias da consciência"
+    ],
+    "rule": "objetivo é documentar fenomenologia; não definir etiologia"
+  },
+  "timeline_model": {
+    "ordered_steps": [
+      "contexto",
+      "gatilho",
+      "prodromos",
+      "perda_consciencia",
+      "queda",
+      "manifestacoes_durante",
+      "duracao",
+      "recuperacao",
+      "sintomas_posteriores"
+    ],
+    "allowed_states": [
+      "documented",
+      "partial",
+      "absent",
+      "ambiguous",
+      "contradictory"
+    ],
+    "rule": "não preencher etapa ausente"
+  },
+  "negation": {
+    "markers": [
+      "nega",
+      "negou",
+      "sem",
+      "não apresentou",
+      "não teve",
+      "ausência de",
+      "não houve",
+      "não refere"
+    ],
+    "scope_rule": "aplicar negativa apenas ao conceito explicitamente abrangido pelo marcador",
+    "examples": [
+      {
+        "text": "nega dor torácica",
+        "extract": {
+          "dor_toracica": "explicit_negative"
+        },
+        "do_not_extract": {
+          "palpitacoes": "negative"
+        }
+      },
+      {
+        "text": "sem pródromos",
+        "extract": {
+          "prodromos": "explicit_negative"
+        }
+      },
+      {
+        "text": "não sabe dizer se desmaiou",
+        "extract": {
+          "perda_consciencia": "ambiguous"
+        }
+      }
+    ]
+  },
+  "ambiguity_patterns": {
+    "terms": [
+      "desmaio",
+      "apagão",
+      "deu um branco",
+      "tudo ficou preto",
+      "ficou mole",
+      "caiu",
+      "tontura",
+      "convulsão",
+      "passou mal"
+    ],
+    "rules": [
+      "termo isolado 'desmaio' não confirma perda completa de consciência",
+      "'tudo ficou preto' pode representar alteração visual sem perda da consciência",
+      "'caiu' não confirma perda da consciência",
+      "'convulsão' registrada sem descrição fenomenológica deve ser preservada como rótulo do texto, não como fato caracterizado",
+      "'tontura' não deve ser automaticamente normalizada como vertigem ou pré-síncope",
+      "'passou mal' é inespecífico e requer decomposição em sintomas"
+    ]
+  },
+  "contradiction_patterns": [
+    {
+      "concept": "consciousness",
+      "examples": [
+        [
+          "permaneceu consciente",
+          "ficou inconsciente"
+        ],
+        [
+          "não perdeu a consciência",
+          "desacordado por 2 minutos"
+        ]
+      ]
+    },
+    {
+      "concept": "duration",
+      "examples": [
+        [
+          "durou segundos",
+          "ficou inconsciente por 10 minutos"
+        ]
+      ]
+    },
+    {
+      "concept": "recovery",
+      "examples": [
+        [
+          "recuperação imediata",
+          "permaneceu confuso por longo período"
+        ]
+      ],
+      "rule": "pode não ser contradição se 'recuperação' se referir apenas à consciência; verificar escopo"
+    },
+    {
+      "concept": "trauma_timing",
+      "examples": [
+        [
+          "desmaiou e bateu a cabeça",
+          "perdeu a consciência após bater a cabeça"
+        ]
+      ]
+    }
+  ],
+  "critical_missingness": {
+    "tier_1": [
+      {
+        "field": "loss_of_consciousness",
+        "reason": "necessário para distinguir PTC de pré-síncope, queda ou alteração inespecífica",
+        "question": "Você chegou a perder completamente a consciência ou continuou percebendo o que acontecia?"
+      },
+      {
+        "field": "responsiveness",
+        "reason": "ajuda a caracterizar objetivamente alteração da consciência",
+        "question": "Durante o episódio, você respondia quando chamavam ou tocavam em você?"
+      },
+      {
+        "field": "duration",
+        "reason": "duração da perda da consciência/responsividade é componente essencial da fenomenologia",
+        "question": "Por aproximadamente quanto tempo ficou desacordado ou sem responder?"
+      },
+      {
+        "field": "recovery",
+        "reason": "permite caracterizar transitoriedade e retorno ao estado basal",
+        "question": "Quando voltou, ficou imediatamente como de costume ou permaneceu confuso/sonolento?"
+      },
+      {
+        "field": "pre_event_position_context",
+        "reason": "posição e circunstância imediata são dados essenciais do evento",
+        "question": "O que estava fazendo e em que posição estava imediatamente antes?"
+      }
+    ],
+    "tier_2": [
+      {
+        "field": "prodromes",
+        "question": "Sentiu algo antes, como náusea, suor, calor, visão escurecendo, palpitações, dor no peito ou falta de ar?"
+      },
+      {
+        "field": "witness",
+        "question": "Alguém presenciou o episódio e pode descrever o que aconteceu?"
+      },
+      {
+        "field": "abnormal_movements",
+        "question": "Quem presenciou percebeu rigidez, tremores ou abalos? Eles começaram antes ou depois da queda?"
+      },
+      {
+        "field": "exertion_relation",
+        "question": "O episódio aconteceu durante esforço, logo após esforço ou sem relação com esforço?"
+      },
+      {
+        "field": "trauma",
+        "question": "Houve queda ou trauma? A perda de consciência aconteceu antes ou depois da pancada?"
+      },
+      {
+        "field": "previous_episodes",
+        "question": "Já aconteceu algo semelhante antes?"
+      }
+    ]
+  },
+  "time_effective_question_order": [
+    "Você perdeu completamente a consciência ou continuou percebendo o que acontecia?",
+    "O que estava fazendo e em que posição estava imediatamente antes?",
+    "Sentiu algum aviso antes, como náusea, suor, calor, visão escurecendo ou palpitações?",
+    "Alguém viu o episódio? O que essa pessoa observou?",
+    "Por quanto tempo ficou desacordado ou sem responder?",
+    "Quando voltou, ficou imediatamente normal ou houve confusão/sonolência?",
+    "Teve dor no peito, palpitações, falta de ar, cefaleia ou algum déficit neurológico associado?",
+    "Aconteceu durante esforço ou logo depois?",
+    "Houve queda ou trauma? A perda de consciência veio antes ou depois?",
+    "Já teve episódios semelhantes?"
+  ],
+  "quality_review": {
+    "dimensions": {
+      "completeness": {
+        "description": "proporção de campos clinicamente relevantes documentados",
+        "do_not_score_negative_as_missing": true
+      },
+      "clarity": {
+        "description": "grau de precisão semântica e temporal",
+        "penalties": [
+          "termos vagos",
+          "fonte não identificada",
+          "duração imprecisa",
+          "cronologia indefinida"
+        ]
+      },
+      "internal_consistency": {
+        "description": "compatibilidade entre afirmações no texto",
+        "penalties": [
+          "contradições não resolvidas"
+        ]
+      },
+      "phenomenologic_specificity": {
+        "description": "capacidade do texto de diferenciar PTC, pré-síncope, queda e alteração inespecífica"
+      },
+      "temporal_coherence": {
+        "description": "capacidade de reconstruir antes → evento → durante → recuperação → após"
+      }
+    },
+    "classification": {
+      "sufficient": "elementos essenciais da fenomenologia e cronologia estão adequadamente documentados",
+      "partially_sufficient": "evento reconhecível, porém faltam elementos relevantes para caracterização completa",
+      "insufficient": "não é possível caracterizar adequadamente o evento ou distinguir perda de consciência de fenômenos semelhantes"
+    },
+    "rule": "não transformar escore de qualidade em diagnóstico ou estratificação de risco clínico"
+  },
+  "error_prevention_rules": [
+    {
+      "id": "E001",
+      "rule": "ausência de menção não equivale a negativa",
+      "example": "Se o texto não menciona palpitações, registrar como não documentado, não como 'nega palpitações'."
+    },
+    {
+      "id": "E002",
+      "rule": "não converter 'desmaiou' automaticamente em síncope confirmada"
+    },
+    {
+      "id": "E003",
+      "rule": "não converter 'tontura' automaticamente em vertigem ou pré-síncope"
+    },
+    {
+      "id": "E004",
+      "rule": "não converter 'convulsão' registrada sem descrição em crise epiléptica caracterizada"
+    },
+    {
+      "id": "E005",
+      "rule": "não concluir ausência de pródromos porque eles não foram mencionados"
+    },
+    {
+      "id": "E006",
+      "rule": "não agrupar perda da consciência e período pós-evento como uma única duração"
+    },
+    {
+      "id": "E007",
+      "rule": "não misturar observações de testemunha com lembranças do paciente"
+    },
+    {
+      "id": "E008",
+      "rule": "não assumir que a queda foi causada pela perda da consciência"
+    },
+    {
+      "id": "E009",
+      "rule": "se houver trauma, estabelecer ou marcar como ausente a ordem temporal trauma versus perda da consciência"
+    },
+    {
+      "id": "E010",
+      "rule": "não agrupar evento durante esforço com evento imediatamente após esforço"
+    },
+    {
+      "id": "E011",
+      "rule": "não atribuir etiologia a gatilhos; registrar apenas associação temporal"
+    },
+    {
+      "id": "E012",
+      "rule": "não utilizar AP, exame físico ou exames se estiverem fora do trecho QD/HMA definido"
+    },
+    {
+      "id": "E013",
+      "rule": "não usar incontinência, mordedura de língua ou movimentos anormais isoladamente como conclusão etiológica"
+    }
+  ],
+  "extraction_schema": {
+    "event": {
+      "loss_of_consciousness": null,
+      "responsiveness": null,
+      "postural_tone_loss": null,
+      "transient": null,
+      "spontaneous_recovery": null,
+      "complete_recovery": null,
+      "memory": null,
+      "witnessed": null
+    },
+    "time": {
+      "date_or_relative_time": null,
+      "onset_pattern": null,
+      "unresponsiveness_duration": null,
+      "duration_precision": null,
+      "episode_count": null,
+      "recurrence_frequency": null,
+      "first_episode": null,
+      "latest_episode": null
+    },
+    "before": {
+      "activity": null,
+      "position": null,
+      "posture_change": null,
+      "trigger": [],
+      "prodromes": []
+    },
+    "during": {
+      "fall": null,
+      "trauma": [],
+      "skin_color": null,
+      "eyes": null,
+      "movements": [],
+      "breathing": null,
+      "vocalization": null,
+      "salivation": null,
+      "tongue_bite": null,
+      "tongue_bite_location": null,
+      "urinary_incontinence": null,
+      "fecal_incontinence": null,
+      "vomiting": null
+    },
+    "recovery": {
+      "speed": null,
+      "spontaneous": null,
+      "time_to_baseline": null,
+      "confusion": null,
+      "somnolence": null,
+      "amnesia": null,
+      "agitation": null,
+      "neurologic_symptoms": [],
+      "headache": null,
+      "nausea_vomiting": null,
+      "myalgia": null,
+      "fatigue": null
+    },
+    "associated": {
+      "cardiovascular": [],
+      "neurologic": [],
+      "systemic": []
+    },
+    "relations": {
+      "orthostatic": null,
+      "exertional": null,
+      "trauma_vs_loc": null
+    },
+    "previous_episodes": {},
+    "source_attribution": [],
+    "ambiguities": [],
+    "contradictions": [],
+    "missing_critical": [],
+    "missing_other": []
+  },
+  "response_template": {
+    "A_evento_identificado": "Resumo objetivo exclusivamente do que está documentado.",
+    "B_linha_temporal": [
+      "Antes",
+      "Evento",
+      "Durante",
+      "Recuperação",
+      "Após"
+    ],
+    "C_documentadas": [],
+    "D_parcialmente_documentadas": [],
+    "E_ausentes_relevantes": [],
+    "F_ambiguidades_contradicoes": [],
+    "G_perguntas_complementares_prioritarias": [],
+    "H_sintese_completude": {
+      "allowed": [
+        "Caracterização suficiente",
+        "Caracterização parcialmente suficiente",
+        "Caracterização insuficiente"
+      ],
+      "require_short_justification": true
+    }
+  },
+  "compact_term_index": {
+    "abalos": [
+      "abnormal_movements.generic",
+      "associated_neurologic.movements",
+      "witness_report.features.body_movements"
+    ],
+    "abalos repetidos": [
+      "abnormal_movements.clonic"
+    ],
+    "abrupto": [
+      "temporality.onset_terms.sudden"
+    ],
+    "academia": [
+      "pre_event_context.activities.exercise"
+    ],
+    "acompanhante relata": [
+      "witness_report.source_markers"
+    ],
+    "acordou": [
+      "witness_report.features.recovery"
+    ],
+    "acordou com estímulo": [
+      "recovery.requires_stimulation"
+    ],
+    "acordou rapidamente": [
+      "recovery.rapid"
+    ],
+    "acordou sozinho": [
+      "recovery.spontaneous"
+    ],
+    "afasia": [
+      "associated_neurologic.speech"
+    ],
+    "agitado": [
+      "recovery.post_event_features.agitation"
+    ],
+    "agitação": [
+      "recovery.post_event_features.agitation"
+    ],
+    "aglomerado": [
+      "pre_event_context.situational_triggers.crowding"
+    ],
+    "ajoelhou antes": [
+      "fall_and_trauma.gradual_fall_terms"
+    ],
+    "algum tempo após esforço": [
+      "exertional_relation.delayed_post"
+    ],
+    "alguns segundos": [
+      "temporality.vague_duration_terms"
+    ],
+    "alteração de coordenação": [
+      "associated_neurologic.coordination",
+      "prodromes.neurologic"
+    ],
+    "alteração de marcha": [
+      "associated_neurologic.gait"
+    ],
+    "alteração respiratória": [
+      "during_event_manifestations.respiratory"
+    ],
+    "alteração sensitiva": [
+      "associated_neurologic.sensory",
+      "recovery.post_event_features.sensory"
+    ],
+    "alteração visual": [
+      "associated_neurologic.visual",
+      "prodromes.neurologic"
+    ],
+    "ambiente cheio": [
+      "pre_event_context.situational_triggers.crowding"
+    ],
+    "ambiente quente": [
+      "pre_event_context.situational_triggers.heat",
+      "precipitants.heat"
+    ],
+    "amnésia": [
+      "associated_neurologic.cognition",
+      "recovery.post_event_features.amnesia"
+    ],
+    "andando": [
+      "pre_event_context.activities.walking"
+    ],
+    "ansiedade": [
+      "precipitants.emotion"
+    ],
+    "ansiedade intensa": [
+      "pre_event_context.situational_triggers.emotion"
+    ],
+    "ao engolir": [
+      "pre_event_context.situational_triggers.swallowing"
+    ],
+    "ao evacuar": [
+      "pre_event_context.situational_triggers.defecation"
+    ],
+    "ao levantar": [
+      "pre_event_context.positions.rising",
+      "precipitants.posture_change"
+    ],
+    "ao levantar da cadeira": [
+      "orthostatic_relation.terms"
+    ],
+    "ao levantar da cama": [
+      "orthostatic_relation.terms"
+    ],
+    "ao urinar": [
+      "pre_event_context.situational_triggers.micturition"
+    ],
+    "aos poucos": [
+      "temporality.onset_terms.progressive"
+    ],
+    "apagou": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "apagou de repente sem aviso": [
+      "prodromes.explicit_no_prodrome_terms"
+    ],
+    "apaguei": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "apagão": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "aperto no peito": [
+      "prodromes.cardiopulmonary"
+    ],
+    "aperto torácico": [
+      "associated_cardiovascular.chest_pain"
+    ],
+    "apneia": [
+      "during_event_manifestations.respiratory"
+    ],
+    "apneia percebida": [
+      "witness_report.features.breathing"
+    ],
+    "apoiou-se": [
+      "fall_and_trauma.support_terms"
+    ],
+    "após alimentação": [
+      "precipitants.food"
+    ],
+    "após dor": [
+      "pre_event_context.situational_triggers.pain"
+    ],
+    "após esforço": [
+      "pre_event_context.activities.post_exertion"
+    ],
+    "após evacuar": [
+      "pre_event_context.situational_triggers.defecation"
+    ],
+    "após levantar": [
+      "orthostatic_relation.terms"
+    ],
+    "após tossir": [
+      "pre_event_context.situational_triggers.cough"
+    ],
+    "após urinar": [
+      "pre_event_context.situational_triggers.micturition"
+    ],
+    "arroxeado": [
+      "during_event_manifestations.color",
+      "witness_report.features.skin_color"
+    ],
+    "assim que terminou": [
+      "exertional_relation.immediate_post"
+    ],
+    "assimetria facial": [
+      "associated_neurologic.face"
+    ],
+    "astenia": [
+      "associated_systemic.general_weakness"
+    ],
+    "ataxia": [
+      "associated_neurologic.coordination"
+    ],
+    "atividade física": [
+      "pre_event_context.activities.exercise"
+    ],
+    "audição diminuindo": [
+      "prodromes.visual_auditory"
+    ],
+    "aumento da dose": [
+      "precipitants.dose_change"
+    ],
+    "automatismos": [
+      "abnormal_movements.automatisms"
+    ],
+    "baixa ingesta": [
+      "associated_systemic.intake"
+    ],
+    "baixa ingestão": [
+      "pre_event_context.situational_triggers.low_intake"
+    ],
+    "bateu a cabeça": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "batimento irregular": [
+      "associated_cardiovascular.palpitations",
+      "prodromes.cardiopulmonary"
+    ],
+    "bebeu pouca água": [
+      "associated_systemic.intake",
+      "pre_event_context.situational_triggers.low_intake"
+    ],
+    "bebida alcoólica": [
+      "precipitants.alcohol"
+    ],
+    "boca torta": [
+      "associated_neurologic.face"
+    ],
+    "borda lateral": [
+      "during_event_manifestations.tongue_bite.location_terms"
+    ],
+    "caiu": [
+      "fall_and_trauma.fall_terms"
+    ],
+    "caiu de repente": [
+      "fall_and_trauma.sudden_fall_terms",
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "caiu desacordado": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "calor": [
+      "pre_event_context.situational_triggers.heat",
+      "precipitants.heat"
+    ],
+    "calorão": [
+      "prodromes.autonomic"
+    ],
+    "caminhando": [
+      "pre_event_context.activities.walking"
+    ],
+    "cansaço ao esforço": [
+      "associated_cardiovascular.exercise_intolerance"
+    ],
+    "cansaço intenso": [
+      "recovery.post_event_features.fatigue"
+    ],
+    "cefaleia": [
+      "associated_neurologic.headache",
+      "prodromes.neurologic",
+      "recovery.post_event_features.headache"
+    ],
+    "cefaleia súbita": [
+      "associated_neurologic.headache"
+    ],
+    "cianose": [
+      "during_event_manifestations.color",
+      "witness_report.features.skin_color"
+    ],
+    "cianótico": [
+      "during_event_manifestations.color",
+      "witness_report.features.skin_color"
+    ],
+    "circunstâncias": [
+      "previous_episodes.attributes"
+    ],
+    "coleta de sangue": [
+      "pre_event_context.situational_triggers.procedure"
+    ],
+    "com dor": [
+      "pre_event_context.situational_triggers.pain"
+    ],
+    "comeu pouco": [
+      "associated_systemic.intake",
+      "pre_event_context.situational_triggers.low_intake"
+    ],
+    "comportamento antes": [
+      "witness_report.features.pre_event_behavior"
+    ],
+    "confuso": [
+      "recovery.post_event_features.confusion"
+    ],
+    "confusão": [
+      "recovery.post_event_features.confusion"
+    ],
+    "confusão persistente": [
+      "associated_neurologic.cognition"
+    ],
+    "conseguiram segurar": [
+      "fall_and_trauma.support_terms"
+    ],
+    "conseguiu se apoiar": [
+      "fall_and_trauma.gradual_fall_terms"
+    ],
+    "contrações repetitivas": [
+      "abnormal_movements.clonic"
+    ],
+    "contusão": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "convulsões": [
+      "witness_report.features.body_movements"
+    ],
+    "coração acelerado": [
+      "associated_cardiovascular.palpitations",
+      "prodromes.cardiopulmonary"
+    ],
+    "coração disparado": [
+      "associated_cardiovascular.palpitations"
+    ],
+    "coração irregular": [
+      "prodromes.cardiopulmonary"
+    ],
+    "correndo": [
+      "exertional_relation.during",
+      "pre_event_context.activities.exercise"
+    ],
+    "corrida": [
+      "pre_event_context.activities.exercise"
+    ],
+    "corte": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "data do episódio mais recente": [
+      "previous_episodes.attributes"
+    ],
+    "data/idade do primeiro episódio": [
+      "previous_episodes.attributes"
+    ],
+    "de pé": [
+      "pre_event_context.positions.standing"
+    ],
+    "de repente": [
+      "temporality.onset_terms.sudden"
+    ],
+    "decúbito": [
+      "pre_event_context.positions.supine"
+    ],
+    "defecar": [
+      "precipitants.defecation"
+    ],
+    "deglutição": [
+      "pre_event_context.situational_triggers.swallowing"
+    ],
+    "deitada": [
+      "pre_event_context.positions.supine"
+    ],
+    "deitado": [
+      "associated_cardiovascular.syncope_context",
+      "pre_event_context.positions.supine",
+      "witness_report.features.position"
+    ],
+    "demorou a voltar": [
+      "recovery.gradual"
+    ],
+    "demorou para voltar": [
+      "temporality.vague_duration_terms"
+    ],
+    "depois de comer": [
+      "precipitants.food"
+    ],
+    "depois do exercício": [
+      "pre_event_context.activities.post_exertion"
+    ],
+    "desabou": [
+      "fall_and_trauma.fall_terms",
+      "fall_and_trauma.sudden_fall_terms"
+    ],
+    "desconectou": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "desequilíbrio": [
+      "associated_neurologic.coordination"
+    ],
+    "desidratação": [
+      "associated_systemic.fluid_loss",
+      "pre_event_context.situational_triggers.fluid_loss",
+      "precipitants.dehydration"
+    ],
+    "desligou": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "desmaiei": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "desmaiou": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "desmaiou antes": [
+      "previous_episodes.terms"
+    ],
+    "desorientado": [
+      "recovery.post_event_features.confusion"
+    ],
+    "desorientação": [
+      "recovery.post_event_features.confusion"
+    ],
+    "desvio da cabeça": [
+      "abnormal_movements.head_eye_deviation"
+    ],
+    "desvio ocular": [
+      "abnormal_movements.head_eye_deviation",
+      "witness_report.features.eyes"
+    ],
+    "deu um branco": [
+      "semantic_classes.non_specific_altered_awareness.terms",
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "diarreia": [
+      "associated_systemic.diarrhea",
+      "associated_systemic.fluid_loss",
+      "pre_event_context.situational_triggers.fluid_loss"
+    ],
+    "dificuldade de fala": [
+      "recovery.post_event_features.speech"
+    ],
+    "dificuldade para andar": [
+      "associated_neurologic.gait"
+    ],
+    "dificuldade para engolir": [
+      "associated_neurologic.swallowing"
+    ],
+    "dificuldade para falar": [
+      "prodromes.neurologic"
+    ],
+    "dificuldade para respirar": [
+      "associated_cardiovascular.dyspnea"
+    ],
+    "diplopia": [
+      "associated_neurologic.visual"
+    ],
+    "disartria": [
+      "associated_neurologic.speech"
+    ],
+    "disfagia": [
+      "associated_neurologic.swallowing"
+    ],
+    "dispneia": [
+      "associated_cardiovascular.dyspnea",
+      "prodromes.cardiopulmonary"
+    ],
+    "doença aguda recente": [
+      "associated_systemic.recent_illness"
+    ],
+    "dor após queda": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "dor de cabeça": [
+      "associated_neurologic.headache",
+      "prodromes.neurologic",
+      "recovery.post_event_features.headache"
+    ],
+    "dor de cabeça súbita": [
+      "associated_neurologic.headache"
+    ],
+    "dor intensa": [
+      "pre_event_context.situational_triggers.pain",
+      "precipitants.pain"
+    ],
+    "dor muscular": [
+      "recovery.post_event_features.myalgia"
+    ],
+    "dor no peito": [
+      "associated_cardiovascular.chest_pain",
+      "prodromes.cardiopulmonary"
+    ],
+    "dor torácica": [
+      "associated_cardiovascular.chest_pain",
+      "prodromes.cardiopulmonary"
+    ],
+    "dormiu depois": [
+      "recovery.post_event_features.somnolence"
+    ],
+    "dormência": [
+      "associated_neurologic.sensory",
+      "prodromes.neurologic",
+      "recovery.post_event_features.sensory"
+    ],
+    "droga": [
+      "precipitants.other_substances"
+    ],
+    "durante caminhada": [
+      "pre_event_context.activities.walking"
+    ],
+    "durante esforço": [
+      "associated_cardiovascular.syncope_context",
+      "exertional_relation.during",
+      "pre_event_context.activities.during_exertion"
+    ],
+    "durante exercício": [
+      "exertional_relation.during"
+    ],
+    "duração": [
+      "abnormal_movements.attributes_to_extract",
+      "previous_episodes.attributes"
+    ],
+    "em esforço": [
+      "pre_event_context.activities.during_exertion"
+    ],
+    "em pé": [
+      "pre_event_context.positions.standing",
+      "witness_report.features.position"
+    ],
+    "em pé prolongadamente": [
+      "orthostatic_relation.terms"
+    ],
+    "em repouso": [
+      "associated_cardiovascular.syncope_context",
+      "pre_event_context.activities.rest"
+    ],
+    "em segundos estava bem": [
+      "recovery.rapid"
+    ],
+    "emoção": [
+      "pre_event_context.situational_triggers.emotion",
+      "precipitants.emotion"
+    ],
+    "encostou na parede": [
+      "fall_and_trauma.support_terms"
+    ],
+    "engolindo": [
+      "pre_event_context.situational_triggers.swallowing"
+    ],
+    "enjoo": [
+      "prodromes.autonomic",
+      "recovery.post_event_features.nausea_vomiting"
+    ],
+    "enrijeceu": [
+      "abnormal_movements.tonic"
+    ],
+    "episódio prévio": [
+      "previous_episodes.terms"
+    ],
+    "episódio único": [
+      "temporality.recurrence_terms"
+    ],
+    "episódios prévios": [
+      "temporality.recurrence_terms"
+    ],
+    "escureceu a visão": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "escurecimento da visão": [
+      "prodromes.visual_auditory"
+    ],
+    "escurecimento da visão ao levantar": [
+      "orthostatic_relation.symptom_terms"
+    ],
+    "esforço": [
+      "precipitants.exertion"
+    ],
+    "espasmos": [
+      "abnormal_movements.generic"
+    ],
+    "espuma pela boca": [
+      "during_event_manifestations.oral"
+    ],
+    "estava inconsciente": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "estresse": [
+      "precipitants.emotion"
+    ],
+    "estresse emocional": [
+      "pre_event_context.situational_triggers.emotion"
+    ],
+    "etilismo recente": [
+      "precipitants.alcohol"
+    ],
+    "evacuando": [
+      "pre_event_context.situational_triggers.defecation"
+    ],
+    "evacuação": [
+      "pre_event_context.situational_triggers.defecation",
+      "precipitants.defecation"
+    ],
+    "evacuou na roupa": [
+      "during_event_manifestations.incontinence.fecal"
+    ],
+    "exercício": [
+      "pre_event_context.activities.exercise",
+      "precipitants.exertion"
+    ],
+    "explicação previamente atribuída no próprio texto": [
+      "previous_episodes.attributes"
+    ],
+    "extensão dos membros": [
+      "abnormal_movements.tonic"
+    ],
+    "fadiga": [
+      "recovery.post_event_features.fatigue"
+    ],
+    "fala enrolada": [
+      "associated_neurologic.speech",
+      "prodromes.neurologic",
+      "recovery.post_event_features.speech"
+    ],
+    "falava normalmente": [
+      "witness_report.features.pre_event_behavior"
+    ],
+    "falta de ar": [
+      "associated_cardiovascular.dyspnea",
+      "prodromes.cardiopulmonary"
+    ],
+    "febre": [
+      "associated_systemic.fever"
+    ],
+    "febril": [
+      "associated_systemic.fever"
+    ],
+    "ferimento": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "fezes pretas": [
+      "associated_systemic.bleeding.lower_gi"
+    ],
+    "ficou aérea": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "ficou aéreo": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "ficou confuso": [
+      "semantic_classes.non_specific_altered_awareness.terms",
+      "witness_report.features.recovery"
+    ],
+    "ficou desacordado": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "ficou distante": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "ficou duro": [
+      "abnormal_movements.tonic"
+    ],
+    "ficou estranho": [
+      "witness_report.features.pre_event_behavior"
+    ],
+    "ficou fora do ar": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "ficou inconsciente": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "ficou irresponsivo": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "ficou mole": [
+      "semantic_classes.possible_tloc_colloquial.terms"
+    ],
+    "ficou parado": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "ficou sonolento": [
+      "witness_report.features.recovery"
+    ],
+    "flexão dos membros": [
+      "abnormal_movements.tonic"
+    ],
+    "foi ao chão": [
+      "fall_and_trauma.fall_terms",
+      "witness_report.features.fall_mode"
+    ],
+    "foi escorregando": [
+      "fall_and_trauma.gradual_fall_terms"
+    ],
+    "foi piorando": [
+      "temporality.onset_terms.progressive"
+    ],
+    "foi segurado": [
+      "fall_and_trauma.support_terms"
+    ],
+    "foi visto": [
+      "witness_report.source_markers"
+    ],
+    "foi voltando aos poucos": [
+      "recovery.gradual"
+    ],
+    "formigamento": [
+      "prodromes.neurologic"
+    ],
+    "fraqueza": [
+      "prodromes.autonomic",
+      "prodromes.neurologic",
+      "recovery.post_event_features.weakness"
+    ],
+    "fraqueza ao levantar": [
+      "orthostatic_relation.symptom_terms"
+    ],
+    "fraqueza de um lado": [
+      "associated_neurologic.motor"
+    ],
+    "fraqueza focal": [
+      "associated_neurologic.motor",
+      "recovery.post_event_features.weakness"
+    ],
+    "fraqueza generalizada": [
+      "associated_systemic.general_weakness"
+    ],
+    "fraqueza súbita": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "frequência": [
+      "previous_episodes.attributes"
+    ],
+    "gemido": [
+      "witness_report.features.vocalization"
+    ],
+    "gradualmente": [
+      "temporality.onset_terms.progressive"
+    ],
+    "grito": [
+      "witness_report.features.vocalization"
+    ],
+    "hematoma": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "hematoquezia": [
+      "associated_systemic.bleeding.lower_gi"
+    ],
+    "hematêmese": [
+      "associated_systemic.bleeding.upper_gi"
+    ],
+    "hemiparesia": [
+      "associated_neurologic.motor"
+    ],
+    "hemorragia": [
+      "associated_systemic.bleeding.generic"
+    ],
+    "hora": [
+      "temporality.duration_units"
+    ],
+    "horas": [
+      "temporality.duration_units"
+    ],
+    "ia desmaiar": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "imediatamente após exercício": [
+      "exertional_relation.immediate_post"
+    ],
+    "incontinência fecal": [
+      "during_event_manifestations.incontinence.fecal"
+    ],
+    "incontinência urinária": [
+      "during_event_manifestations.incontinence.urinary"
+    ],
+    "infecção recente": [
+      "associated_systemic.recent_illness"
+    ],
+    "ingeriu pouco líquido": [
+      "pre_event_context.situational_triggers.low_intake"
+    ],
+    "iniciou medicamento": [
+      "precipitants.recent_medication"
+    ],
+    "injeção": [
+      "pre_event_context.situational_triggers.procedure"
+    ],
+    "intolerância ao esforço": [
+      "associated_cardiovascular.exercise_intolerance"
+    ],
+    "intoxicação referida": [
+      "precipitants.other_substances"
+    ],
+    "investigação prévia mencionada": [
+      "previous_episodes.attributes"
+    ],
+    "início antes ou depois da queda": [
+      "abnormal_movements.attributes_to_extract"
+    ],
+    "jejum": [
+      "pre_event_context.situational_triggers.fasting",
+      "precipitants.fasting"
+    ],
+    "já aconteceu": [
+      "previous_episodes.terms",
+      "temporality.recurrence_terms"
+    ],
+    "laceração": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "lacuna de memória": [
+      "recovery.post_event_features.amnesia"
+    ],
+    "lateral da língua": [
+      "during_event_manifestations.tongue_bite.location_terms"
+    ],
+    "lesão na língua": [
+      "during_event_manifestations.tongue_bite.terms"
+    ],
+    "levantando": [
+      "pre_event_context.positions.rising"
+    ],
+    "levantou da cadeira": [
+      "pre_event_context.positions.rising"
+    ],
+    "levantou da cama": [
+      "pre_event_context.positions.rising"
+    ],
+    "lipotimia": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "local fechado": [
+      "pre_event_context.situational_triggers.crowding"
+    ],
+    "logo após exercício": [
+      "pre_event_context.activities.post_exertion"
+    ],
+    "logo após parar": [
+      "exertional_relation.immediate_post"
+    ],
+    "mal-estar": [
+      "prodromes.autonomic"
+    ],
+    "manipulação das mãos": [
+      "abnormal_movements.automatisms"
+    ],
+    "mastigação": [
+      "abnormal_movements.automatisms"
+    ],
+    "medicação nova": [
+      "precipitants.recent_medication"
+    ],
+    "medo": [
+      "pre_event_context.situational_triggers.fear",
+      "precipitants.emotion"
+    ],
+    "melena": [
+      "associated_systemic.bleeding.lower_gi"
+    ],
+    "metrorragia": [
+      "associated_systemic.bleeding.vaginal"
+    ],
+    "mialgia": [
+      "recovery.post_event_features.myalgia"
+    ],
+    "micção": [
+      "pre_event_context.situational_triggers.micturition",
+      "precipitants.micturition"
+    ],
+    "minuto": [
+      "temporality.duration_units"
+    ],
+    "minutos": [
+      "temporality.duration_units"
+    ],
+    "minutos após exercício": [
+      "exertional_relation.delayed_post"
+    ],
+    "mordedura de língua": [
+      "during_event_manifestations.tongue_bite.terms"
+    ],
+    "mordeu a língua": [
+      "during_event_manifestations.tongue_bite.terms"
+    ],
+    "movimentos assimétricos": [
+      "abnormal_movements.asymmetry"
+    ],
+    "movimentos involuntários": [
+      "abnormal_movements.generic",
+      "associated_neurologic.movements"
+    ],
+    "movimentos repetitivos": [
+      "witness_report.features.body_movements"
+    ],
+    "movimentos repetitivos da boca": [
+      "abnormal_movements.automatisms"
+    ],
+    "movimentos tônico-clônicos": [
+      "abnormal_movements.clonic"
+    ],
+    "mudança da dose": [
+      "precipitants.dose_change"
+    ],
+    "mudança postural": [
+      "pre_event_context.positions.rising",
+      "precipitants.posture_change"
+    ],
+    "mudança rápida de posição": [
+      "orthostatic_relation.terms"
+    ],
+    "muito quente": [
+      "pre_event_context.situational_triggers.heat"
+    ],
+    "muito tempo em pé": [
+      "orthostatic_relation.terms",
+      "pre_event_context.situational_triggers.prolonged_standing"
+    ],
+    "no meio do exercício": [
+      "pre_event_context.activities.during_exertion"
+    ],
+    "no meio do treino": [
+      "exertional_relation.during"
+    ],
+    "náusea": [
+      "prodromes.autonomic",
+      "recovery.post_event_features.nausea_vomiting"
+    ],
+    "não conseguia falar": [
+      "associated_neurologic.speech",
+      "recovery.post_event_features.speech"
+    ],
+    "não estava fazendo esforço": [
+      "exertional_relation.explicit_none"
+    ],
+    "não havia se alimentado": [
+      "pre_event_context.situational_triggers.fasting"
+    ],
+    "não lembra": [
+      "recovery.post_event_features.amnesia"
+    ],
+    "não lembra direito": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "não respirava": [
+      "witness_report.features.breathing"
+    ],
+    "não respondia": [
+      "semantic_classes.confirmed_tloc_expression.terms",
+      "witness_report.features.responsiveness"
+    ],
+    "não sei quanto tempo": [
+      "temporality.vague_duration_terms"
+    ],
+    "número aproximado de movimentos": [
+      "abnormal_movements.attributes_to_extract"
+    ],
+    "olhar fixo": [
+      "witness_report.features.eyes"
+    ],
+    "olhos abertos": [
+      "witness_report.features.eyes"
+    ],
+    "olhos desviados": [
+      "abnormal_movements.head_eye_deviation"
+    ],
+    "olhos fechados": [
+      "witness_report.features.eyes"
+    ],
+    "ortostase": [
+      "orthostatic_relation.terms",
+      "pre_event_context.positions.standing"
+    ],
+    "ortostatismo": [
+      "orthostatic_relation.terms",
+      "pre_event_context.positions.standing"
+    ],
+    "outras vezes": [
+      "previous_episodes.terms",
+      "temporality.recurrence_terms"
+    ],
+    "padrão descrito por testemunha": [
+      "abnormal_movements.attributes_to_extract"
+    ],
+    "palidez": [
+      "during_event_manifestations.color",
+      "prodromes.autonomic",
+      "witness_report.features.skin_color"
+    ],
+    "palpitação": [
+      "associated_cardiovascular.palpitations",
+      "prodromes.cardiopulmonary"
+    ],
+    "palpitações": [
+      "associated_cardiovascular.palpitations",
+      "prodromes.cardiopulmonary"
+    ],
+    "parado": [
+      "pre_event_context.activities.rest"
+    ],
+    "parecia que ia apagar": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "parestesia": [
+      "associated_neurologic.sensory",
+      "recovery.post_event_features.sensory"
+    ],
+    "parou de respirar": [
+      "during_event_manifestations.respiratory"
+    ],
+    "perda abrupta sem sintomas prévios": [
+      "prodromes.explicit_no_prodrome_terms"
+    ],
+    "perda de consciência": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "perda de força": [
+      "associated_neurologic.motor",
+      "recovery.post_event_features.weakness"
+    ],
+    "perda de líquidos": [
+      "associated_systemic.fluid_loss",
+      "pre_event_context.situational_triggers.fluid_loss"
+    ],
+    "perdeu a consciência": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "perdeu a responsividade": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "perdeu fezes": [
+      "during_event_manifestations.incontinence.fecal"
+    ],
+    "perdeu os sentidos": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "perdeu urina": [
+      "during_event_manifestations.incontinence.urinary"
+    ],
+    "permaneceu desacordado": [
+      "semantic_classes.confirmed_tloc_expression.terms"
+    ],
+    "permanência prolongada em pé": [
+      "pre_event_context.situational_triggers.prolonged_standing"
+    ],
+    "peso no peito": [
+      "associated_cardiovascular.chest_pain"
+    ],
+    "ponta da língua": [
+      "during_event_manifestations.tongue_bite.location_terms"
+    ],
+    "pontos pretos": [
+      "prodromes.visual_auditory"
+    ],
+    "por um tempo": [
+      "temporality.vague_duration_terms"
+    ],
+    "posição supina": [
+      "associated_cardiovascular.syncope_context",
+      "pre_event_context.positions.supine"
+    ],
+    "pouca ingestão de líquidos": [
+      "precipitants.dehydration"
+    ],
+    "pouco tempo": [
+      "temporality.vague_duration_terms"
+    ],
+    "precisou ser chamado": [
+      "recovery.requires_stimulation"
+    ],
+    "presenciou": [
+      "witness_report.source_markers"
+    ],
+    "pressão no peito": [
+      "prodromes.cardiopulmonary"
+    ],
+    "pressão torácica": [
+      "associated_cardiovascular.chest_pain"
+    ],
+    "presíncope": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "primeiro episódio": [
+      "temporality.recurrence_terms"
+    ],
+    "procedimento": [
+      "pre_event_context.situational_triggers.procedure"
+    ],
+    "progressivo": [
+      "temporality.onset_terms.progressive"
+    ],
+    "prostração": [
+      "associated_systemic.general_weakness",
+      "recovery.post_event_features.fatigue"
+    ],
+    "pré-síncope": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "pródromos": [
+      "previous_episodes.attributes"
+    ],
+    "punção": [
+      "pre_event_context.situational_triggers.procedure"
+    ],
+    "pálido": [
+      "during_event_manifestations.color",
+      "witness_report.features.skin_color"
+    ],
+    "qpa": [
+      "fall_and_trauma.height_terms"
+    ],
+    "quadro recente": [
+      "associated_systemic.recent_illness"
+    ],
+    "quantidade aproximada": [
+      "previous_episodes.attributes"
+    ],
+    "quase desmaiei": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "quase desmaiou": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "queda": [
+      "fall_and_trauma.fall_terms"
+    ],
+    "queda da própria altura": [
+      "fall_and_trauma.height_terms"
+    ],
+    "queda de altura": [
+      "fall_and_trauma.height_terms"
+    ],
+    "queda gradual": [
+      "witness_report.features.fall_mode"
+    ],
+    "queda súbita": [
+      "fall_and_trauma.sudden_fall_terms",
+      "witness_report.features.fall_mode"
+    ],
+    "quem viu": [
+      "witness_report.source_markers"
+    ],
+    "rapidinho": [
+      "temporality.vague_duration_terms"
+    ],
+    "reagia": [
+      "witness_report.features.responsiveness"
+    ],
+    "recorrente": [
+      "previous_episodes.terms",
+      "temporality.recurrence_terms"
+    ],
+    "recuperação": [
+      "previous_episodes.attributes"
+    ],
+    "recuperação completa": [
+      "recovery.complete"
+    ],
+    "recuperação gradual": [
+      "recovery.gradual"
+    ],
+    "recuperação rápida": [
+      "recovery.rapid"
+    ],
+    "recuperou espontaneamente": [
+      "recovery.spontaneous"
+    ],
+    "redução da audição": [
+      "prodromes.visual_auditory"
+    ],
+    "redução da dose": [
+      "precipitants.dose_change"
+    ],
+    "redução da ingestão alimentar": [
+      "associated_systemic.intake"
+    ],
+    "remédio novo": [
+      "precipitants.recent_medication"
+    ],
+    "repentino": [
+      "temporality.onset_terms.sudden"
+    ],
+    "repetiu": [
+      "temporality.recurrence_terms"
+    ],
+    "repouso": [
+      "pre_event_context.activities.rest"
+    ],
+    "respirava": [
+      "witness_report.features.breathing"
+    ],
+    "respiração ruidosa": [
+      "during_event_manifestations.respiratory",
+      "witness_report.features.breathing"
+    ],
+    "respondeu após estímulo": [
+      "recovery.requires_stimulation"
+    ],
+    "respondia": [
+      "witness_report.features.responsiveness"
+    ],
+    "retornou ao habitual": [
+      "recovery.complete"
+    ],
+    "rigidez": [
+      "abnormal_movements.tonic",
+      "associated_neurologic.movements",
+      "witness_report.features.body_movements"
+    ],
+    "roncos": [
+      "during_event_manifestations.respiratory",
+      "witness_report.features.breathing"
+    ],
+    "sacudidas": [
+      "abnormal_movements.generic"
+    ],
+    "salivação": [
+      "during_event_manifestations.oral"
+    ],
+    "sangramento": [
+      "associated_systemic.bleeding.generic",
+      "fall_and_trauma.trauma_terms"
+    ],
+    "sangramento vaginal": [
+      "associated_systemic.bleeding.vaginal"
+    ],
+    "sangue nas fezes": [
+      "associated_systemic.bleeding.lower_gi"
+    ],
+    "segundo": [
+      "temporality.duration_units"
+    ],
+    "segundo acompanhante": [
+      "witness_report.source_markers"
+    ],
+    "segundo esposa": [
+      "witness_report.source_markers"
+    ],
+    "segundo familiar": [
+      "witness_report.source_markers"
+    ],
+    "segundo marido": [
+      "witness_report.source_markers"
+    ],
+    "segundos": [
+      "temporality.duration_units"
+    ],
+    "sem aviso": [
+      "prodromes.explicit_no_prodrome_terms"
+    ],
+    "sem comer": [
+      "pre_event_context.situational_triggers.fasting",
+      "precipitants.fasting"
+    ],
+    "sem pródromos": [
+      "prodromes.explicit_no_prodrome_terms"
+    ],
+    "sem relação com esforço": [
+      "exertional_relation.explicit_none"
+    ],
+    "sem sintomas antes": [
+      "prodromes.explicit_no_prodrome_terms"
+    ],
+    "sensação de calor": [
+      "prodromes.autonomic"
+    ],
+    "sensação de desmaio": [
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "sentada": [
+      "pre_event_context.positions.sitting"
+    ],
+    "sentado": [
+      "pre_event_context.positions.sitting",
+      "witness_report.features.position"
+    ],
+    "sentou antes": [
+      "fall_and_trauma.gradual_fall_terms"
+    ],
+    "sialorreia": [
+      "during_event_manifestations.oral"
+    ],
+    "simetria": [
+      "abnormal_movements.attributes_to_extract"
+    ],
+    "sonolento": [
+      "recovery.post_event_features.somnolence"
+    ],
+    "sonolência": [
+      "recovery.post_event_features.somnolence"
+    ],
+    "subitamente": [
+      "temporality.onset_terms.sudden"
+    ],
+    "substância": [
+      "precipitants.other_substances"
+    ],
+    "sudorese": [
+      "during_event_manifestations.sweating",
+      "prodromes.autonomic"
+    ],
+    "sudorese intensa": [
+      "associated_systemic.fluid_loss",
+      "pre_event_context.situational_triggers.fluid_loss"
+    ],
+    "suor frio": [
+      "during_event_manifestations.sweating",
+      "prodromes.autonomic"
+    ],
+    "susto": [
+      "pre_event_context.situational_triggers.fear"
+    ],
+    "súbito": [
+      "temporality.onset_terms.sudden"
+    ],
+    "taquicardia percebida": [
+      "prodromes.cardiopulmonary"
+    ],
+    "tce": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "testemunha refere": [
+      "witness_report.source_markers"
+    ],
+    "tombou": [
+      "fall_and_trauma.fall_terms"
+    ],
+    "tontura": [
+      "associated_neurologic.vestibular",
+      "prodromes.neurologic"
+    ],
+    "tontura ao levantar": [
+      "orthostatic_relation.symptom_terms"
+    ],
+    "tosse": [
+      "pre_event_context.situational_triggers.cough",
+      "precipitants.cough"
+    ],
+    "tossindo": [
+      "pre_event_context.situational_triggers.cough"
+    ],
+    "trauma": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "trauma craniano": [
+      "fall_and_trauma.trauma_terms"
+    ],
+    "travou": [
+      "semantic_classes.non_specific_altered_awareness.terms"
+    ],
+    "tremores": [
+      "abnormal_movements.generic",
+      "witness_report.features.body_movements"
+    ],
+    "tudo ficou preto": [
+      "prodromes.visual_auditory",
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "um lado": [
+      "abnormal_movements.asymmetry"
+    ],
+    "um tempinho": [
+      "temporality.vague_duration_terms"
+    ],
+    "unilateral": [
+      "abnormal_movements.asymmetry"
+    ],
+    "urinando": [
+      "pre_event_context.situational_triggers.micturition"
+    ],
+    "urinar": [
+      "precipitants.micturition"
+    ],
+    "urinou na roupa": [
+      "during_event_manifestations.incontinence.urinary"
+    ],
+    "uso recreativo": [
+      "precipitants.other_substances"
+    ],
+    "vertigem": [
+      "associated_neurologic.vestibular",
+      "prodromes.neurologic"
+    ],
+    "virou a cabeça": [
+      "abnormal_movements.head_eye_deviation"
+    ],
+    "visão de sangue": [
+      "pre_event_context.situational_triggers.blood_sight"
+    ],
+    "visão dupla": [
+      "associated_neurologic.visual"
+    ],
+    "visão em túnel": [
+      "prodromes.visual_auditory"
+    ],
+    "visão embaçada": [
+      "prodromes.visual_auditory"
+    ],
+    "visão fechando": [
+      "prodromes.visual_auditory",
+      "semantic_classes.presyncope_possible.terms"
+    ],
+    "visão turva": [
+      "prodromes.visual_auditory"
+    ],
+    "viu sangue": [
+      "pre_event_context.situational_triggers.blood_sight"
+    ],
+    "vocalização": [
+      "witness_report.features.vocalization"
+    ],
+    "voltou": [
+      "witness_report.features.recovery"
+    ],
+    "voltou ao normal": [
+      "recovery.complete"
+    ],
+    "voltou logo": [
+      "recovery.rapid"
+    ],
+    "voltou sozinho": [
+      "recovery.spontaneous"
+    ],
+    "vomitou": [
+      "during_event_manifestations.vomiting"
+    ],
+    "vários episódios": [
+      "temporality.recurrence_terms"
+    ],
+    "vômito": [
+      "during_event_manifestations.vomiting"
+    ],
+    "vômito com sangue": [
+      "associated_systemic.bleeding.upper_gi"
+    ],
+    "vômitos": [
+      "associated_systemic.fluid_loss",
+      "associated_systemic.vomiting",
+      "pre_event_context.situational_triggers.fluid_loss",
+      "precipitants.vomiting",
+      "recovery.post_event_features.nausea_vomiting"
+    ],
+    "zumbido": [
+      "prodromes.visual_auditory"
+    ],
+    "álcool": [
+      "precipitants.alcohol"
+    ],
+    "êmese": [
+      "associated_systemic.vomiting",
+      "during_event_manifestations.vomiting"
+    ]
+  }
+}

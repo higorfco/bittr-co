@@ -1,0 +1,200 @@
+{
+  "metadata": {
+    "nome": "Banco de termos — Informação insuficiente para classificação",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Consulta algorítmica durante análise crítica de QD/HMA/HPMA para desambiguação, controle de qualidade e roteamento seguro e tempo-efetivo.",
+    "nao_finalidades": [
+      "diagnóstico",
+      "tratamento",
+      "solicitação de exames"
+    ]
+  },
+  "principios": [
+    "não inferir informações ausentes",
+    "não preencher lacunas com suposições",
+    "não considerar ausência de menção como negativa",
+    "não forçar classificação",
+    "preservar termos vagos quando não houver equivalência inequívoca",
+    "priorizar perguntas de alto poder discriminatório"
+  ],
+  "termos_inespecificos": [
+    "não estou bem",
+    "estou passando mal",
+    "estou estranho",
+    "estou ruim",
+    "não estou legal",
+    "estou diferente",
+    "estou fraco",
+    "estou mole",
+    "estou cansado",
+    "estou indisposto",
+    "estou com mal-estar",
+    "estou sentindo alguma coisa",
+    "estou esquisito",
+    "me deu um negócio",
+    "tive uma crise",
+    "comecei a passar mal",
+    "não sei explicar",
+    "estou piorando"
+  ],
+  "manifestacoes": [
+    "dor",
+    "mal-estar",
+    "fraqueza",
+    "cansaço",
+    "tontura",
+    "alteração da consciência",
+    "febre ou sensação febril",
+    "sintomas respiratórios",
+    "sintomas cardiovasculares",
+    "sintomas neurológicos",
+    "sintomas gastrointestinais",
+    "sintomas urinários",
+    "sintomas genitais/pélvicos",
+    "manifestações cutâneas",
+    "edema",
+    "sangramento",
+    "alterações musculoesqueléticas",
+    "sintomas sistêmicos ou metabólicos",
+    "intoxicação/exposição",
+    "reação alérgica"
+  ],
+  "motivos_insuficiencia": [
+    "ausência de descrição do sintoma principal",
+    "descrição excessivamente vaga",
+    "múltiplos sintomas sem predominância definida",
+    "informação insuficiente para diferenciar grupos",
+    "terminologia ambígua",
+    "relato fragmentado",
+    "informação contraditória",
+    "ausência de contexto temporal",
+    "ausência de localização quando necessária",
+    "interpretação de terceiros",
+    "sinais indiretos",
+    "dificuldade de comunicação",
+    "motivo da procura não estabelecido"
+  ],
+  "eixos": [
+    "sintoma predominante",
+    "início",
+    "duração",
+    "modo de início",
+    "sequência cronológica",
+    "padrão contínuo/episódico",
+    "recorrência",
+    "evolução",
+    "localização/sistema",
+    "natureza da alteração",
+    "intensidade",
+    "impacto funcional",
+    "contexto imediato"
+  ],
+  "roteadores_alto_poder": [
+    "dor torácica",
+    "dispneia",
+    "palpitações",
+    "síncope/perda de consciência",
+    "alteração do estado mental",
+    "déficit neurológico focal",
+    "cefaleia",
+    "vertigem/tontura",
+    "convulsão",
+    "febre",
+    "tosse/sintomas respiratórios",
+    "dor abdominal",
+    "náuseas/vômitos",
+    "diarreia/alteração intestinal",
+    "disfagia/odinofagia",
+    "sangramento",
+    "sintomas urinários",
+    "dor lombar/flanco",
+    "sintomas genitais/pélvicos",
+    "manifestações cutâneas",
+    "edema",
+    "dor/alteração musculoesquelética",
+    "reação alérgica",
+    "intoxicação/exposição/overdose",
+    "alterações metabólicas/sistêmicas"
+  ],
+  "alertas": [
+    "dificuldade respiratória importante",
+    "incapacidade de falar normalmente por falta de ar",
+    "cianose",
+    "perda ou alteração importante da consciência",
+    "déficit neurológico focal",
+    "convulsão",
+    "dor intensa ou de início abrupto",
+    "sangramento significativo",
+    "incapacidade súbita de caminhar",
+    "alteração súbita da fala ou visão",
+    "deterioração rápida",
+    "reação alérgica com comprometimento respiratório ou circulatório",
+    "possível intoxicação ou overdose",
+    "trauma relevante"
+  ],
+  "controle_qualidade": {
+    "ambiguidades": [
+      "termo com múltiplas interpretações",
+      "localização imprecisa",
+      "sintoma sem caracterização",
+      "expressão técnica potencialmente inadequada",
+      "interpretação do interlocutor"
+    ],
+    "contradicoes": [
+      "informações incompatíveis",
+      "mudança de descrição",
+      "cronologia inconsistente"
+    ],
+    "erros_a_evitar": [
+      "inferir diagnóstico de termo inespecífico",
+      "converter ausência de informação em negativa",
+      "escolher arbitrariamente sintoma predominante",
+      "confundir associação temporal com causalidade",
+      "manter rota genérica após haver informação suficiente"
+    ]
+  },
+  "prioridades": {
+    "P1": "essencial para classificação",
+    "P2": "importante para caracterização após direção inicial",
+    "P3": "complementar sem impedir roteamento"
+  },
+  "perguntas_desambiguacao": [
+    "O que exatamente você está sentindo?",
+    "Qual é o sintoma que mais está incomodando?",
+    "Onde você sente isso?",
+    "O que aconteceu primeiro?",
+    "Quando começou?",
+    "Começou de repente ou aos poucos?",
+    "Você está sentindo dor? Onde?",
+    "Está com falta de ar?",
+    "Teve desmaio ou perda de consciência?",
+    "Percebeu fraqueza ou alteração de sensibilidade em alguma parte do corpo?",
+    "Teve vômitos, diarreia ou dor abdominal?",
+    "Teve febre?",
+    "Houve sangramento?",
+    "Usou algum medicamento, droga ou outra substância antes de começar?"
+  ],
+  "estados_roteamento": {
+    "CLASSIFICACAO_POSSIVEL": "informação suficiente para algoritmo específico",
+    "CLASSIFICACAO_PROVISORIA": "grupo provável com ambiguidade relevante",
+    "INFORMACAO_INSUFICIENTE_PARA_CLASSIFICACAO": "base textual insuficiente; manter rota de exceção e obter perguntas mínimas"
+  },
+  "regra_saida": [
+    "identificação de sintoma/grupo suficientemente caracterizado",
+    "esclarecimento de termo ambíguo relevante",
+    "novas informações permitem selecionar algoritmo específico"
+  ],
+  "formato_saida": [
+    "informações identificadas",
+    "elementos vagos ou ambíguos",
+    "motivo da insuficiência",
+    "faltantes P1/P2/P3",
+    "perguntas prioritárias",
+    "status de roteamento",
+    "grupo recomendado/provisório",
+    "justificativa",
+    "alertas presentes"
+  ],
+  "fonte_integral_incluida": false
+}

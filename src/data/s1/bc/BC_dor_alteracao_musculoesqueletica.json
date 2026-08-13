@@ -1,0 +1,549 @@
+{
+  "metadata": {
+    "nome": "Banco de Termos — Dor / Alteração Musculoesquelética",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Consulta rápida durante análise crítica de QD e HMA/HPMA para extração, normalização semântica, detecção de lacunas, ambiguidades, contradições e elementos relevantes à segurança, sem diagnóstico, tratamento ou solicitação de exames."
+  },
+  "regras": {
+    "escopo": [
+      "QD",
+      "HMA",
+      "HPMA"
+    ],
+    "estados_permitidos": [
+      "presente",
+      "ausente_nao_informada",
+      "ambigua",
+      "contraditoria",
+      "insuficientemente_caracterizada"
+    ],
+    "principios": [
+      "Ausência de registro não equivale a achado negativo.",
+      "Não inferir informações não presentes.",
+      "Preservar termos coloquiais quando a normalização puder alterar o significado.",
+      "Não atribuir estrutura anatômica específica a uma descrição apenas regional.",
+      "Não diagnosticar, prescrever ou solicitar exames."
+    ]
+  },
+  "dominios": {
+    "natureza_queixa": {
+      "termos": [
+        "dor",
+        "desconforto",
+        "rigidez",
+        "limitação de movimento",
+        "dificuldade funcional",
+        "edema",
+        "inchaço",
+        "aumento de volume",
+        "deformidade",
+        "instabilidade",
+        "bloqueio articular",
+        "estalido",
+        "crepitação",
+        "fraqueza",
+        "incapacidade de apoiar",
+        "incapacidade de utilizar o segmento",
+        "alteração de marcha",
+        "trauma",
+        "lesão"
+      ],
+      "coloquiais": [
+        "dor nas juntas",
+        "dor nos ossos",
+        "dor muscular",
+        "músculo puxado",
+        "travou",
+        "deu um jeito",
+        "mau jeito",
+        "torceu",
+        "virou",
+        "deslocou",
+        "saiu do lugar",
+        "inchou",
+        "não consegue mexer",
+        "não consegue apoiar",
+        "perdeu a força",
+        "está duro",
+        "está preso",
+        "estala",
+        "falha",
+        "falseia"
+      ]
+    },
+    "tempo_e_inicio": {
+      "termos": [
+        "início súbito",
+        "início rápido",
+        "início progressivo",
+        "início insidioso",
+        "agudo",
+        "subagudo",
+        "crônico",
+        "recorrente"
+      ],
+      "vagos": [
+        "há algum tempo",
+        "esses dias",
+        "recentemente",
+        "faz tempo",
+        "começou do nada"
+      ],
+      "campos": [
+        "momento_inicio",
+        "duracao",
+        "modo_inicio",
+        "evento_relacionado",
+        "atividade_no_inicio",
+        "cronologia"
+      ]
+    },
+    "localizacao": {
+      "termos": [
+        "segmento corporal",
+        "direito",
+        "esquerdo",
+        "bilateral",
+        "anterior",
+        "posterior",
+        "medial",
+        "lateral",
+        "proximal",
+        "distal",
+        "articular",
+        "periarticular",
+        "muscular",
+        "tendínea",
+        "óssea",
+        "coluna",
+        "cintura escapular",
+        "cintura pélvica",
+        "membro superior",
+        "membro inferior"
+      ],
+      "qualificadores": [
+        "bem definida",
+        "difusa",
+        "multifocal",
+        "migratória",
+        "imprecisa",
+        "contraditória"
+      ]
+    },
+    "distribuicao": {
+      "termos": [
+        "unilateral",
+        "bilateral",
+        "simétrica",
+        "assimétrica",
+        "localizada",
+        "difusa",
+        "monoarticular",
+        "oligoarticular",
+        "poliarticular",
+        "axial",
+        "periférica",
+        "proximal",
+        "distal",
+        "multissegmentar"
+      ]
+    },
+    "qualidade_dor": {
+      "termos": [
+        "pontada",
+        "queimação",
+        "ardência",
+        "peso",
+        "pressão",
+        "aperto",
+        "latejamento",
+        "choque",
+        "fisgada",
+        "facada",
+        "dor surda",
+        "dolorimento",
+        "dor profunda",
+        "dor superficial",
+        "estiramento",
+        "rasgo",
+        "cólica",
+        "espasmo"
+      ]
+    },
+    "intensidade": {
+      "termos": [
+        "leve",
+        "moderada",
+        "intensa",
+        "muito intensa",
+        "incapacitante",
+        "insuportável"
+      ],
+      "expressoes_funcionais": [
+        "não aguenta",
+        "não consegue dormir",
+        "não consegue andar",
+        "não consegue mexer"
+      ],
+      "campos": [
+        "intensidade_atual",
+        "intensidade_maxima",
+        "escala_numerica",
+        "evolucao_intensidade"
+      ]
+    },
+    "padrao_e_evolucao": {
+      "termos": [
+        "contínua",
+        "intermitente",
+        "constante",
+        "episódica",
+        "piora progressiva",
+        "melhora progressiva",
+        "estável",
+        "recorrente",
+        "noturna",
+        "ao despertar",
+        "desperta do sono"
+      ],
+      "rigidez": [
+        "rigidez matinal",
+        "rigidez após repouso",
+        "duração da rigidez",
+        "melhora ao iniciar movimentos"
+      ]
+    },
+    "irradiacao_migracao": {
+      "termos": [
+        "localizada",
+        "irradia",
+        "irradiação",
+        "migra",
+        "migração",
+        "propagação",
+        "múltiplos locais dolorosos"
+      ],
+      "distincoes": [
+        "irradiação != migração",
+        "migração != múltiplos locais independentes"
+      ]
+    },
+    "trauma_mecanismo": {
+      "termos": [
+        "queda",
+        "colisão",
+        "impacto direto",
+        "torção",
+        "rotação",
+        "hiperextensão",
+        "hiperflexão",
+        "tração",
+        "compressão",
+        "esmagamento",
+        "desaceleração",
+        "movimento brusco",
+        "levantamento de peso",
+        "esforço físico",
+        "exercício",
+        "atividade esportiva",
+        "movimento repetitivo",
+        "sobrecarga",
+        "acidente automobilístico",
+        "acidente de trabalho"
+      ],
+      "campos": [
+        "momento",
+        "mecanismo",
+        "regiao_atingida",
+        "posicao_segmento",
+        "energia",
+        "altura_queda",
+        "funcao_imediata",
+        "evolucao_pos_trauma"
+      ]
+    },
+    "modificadores": {
+      "piora": [
+        "movimento",
+        "esforço",
+        "carga",
+        "apoio",
+        "marcha",
+        "atividade física",
+        "posição",
+        "imobilidade",
+        "movimento repetitivo"
+      ],
+      "melhora": [
+        "repouso",
+        "movimento",
+        "posição",
+        "alongamento",
+        "compressão",
+        "elevação",
+        "frio",
+        "calor",
+        "massagem",
+        "imobilização",
+        "medicação"
+      ]
+    },
+    "repercussao_funcional": {
+      "termos": [
+        "dificuldade para caminhar",
+        "incapacidade de deambular",
+        "claudicação",
+        "incapacidade de apoiar peso",
+        "dificuldade para movimentar",
+        "redução da amplitude de movimento",
+        "incapacidade de movimento específico",
+        "dificuldade para elevar membro",
+        "dificuldade para segurar objetos",
+        "perda de movimentos finos",
+        "dificuldade em escadas",
+        "dificuldade para sentar ou levantar",
+        "limitação de atividades habituais",
+        "limitação laboral",
+        "limitação esportiva",
+        "interferência no sono",
+        "auxílio para locomoção"
+      ],
+      "distincoes": [
+        "dor ao movimento",
+        "limitação por dor",
+        "limitação mecânica",
+        "fraqueza relatada",
+        "incapacidade funcional"
+      ]
+    },
+    "alteracoes_locais": {
+      "termos": [
+        "edema",
+        "inchaço",
+        "aumento de volume",
+        "calor local",
+        "vermelhidão",
+        "eritema",
+        "equimose",
+        "hematoma",
+        "deformidade",
+        "assimetria",
+        "alteração da pele",
+        "ferimento",
+        "secreção",
+        "aumento de temperatura",
+        "massa",
+        "abaulamento"
+      ],
+      "campos": [
+        "inicio",
+        "progressao",
+        "extensao",
+        "relacao_com_dor_ou_trauma"
+      ]
+    },
+    "articular": {
+      "termos": [
+        "dor articular",
+        "edema articular",
+        "rigidez",
+        "limitação de movimento",
+        "bloqueio",
+        "instabilidade",
+        "falseio",
+        "estalido",
+        "crepitação",
+        "saiu do lugar",
+        "luxação descrita",
+        "subluxação descrita",
+        "incapacidade de movimentar",
+        "incapacidade de apoiar"
+      ]
+    },
+    "neurologico_associado": {
+      "termos": [
+        "parestesia",
+        "formigamento",
+        "dormência",
+        "perda de sensibilidade",
+        "choque",
+        "fraqueza",
+        "perda de força",
+        "dificuldade motora",
+        "alteração de marcha",
+        "perda de destreza"
+      ],
+      "distincoes": [
+        "fraqueza subjetiva",
+        "limitação por dor",
+        "fadiga",
+        "perda objetiva de função"
+      ]
+    },
+    "vascular_perfusão": {
+      "termos": [
+        "extremidade fria",
+        "palidez",
+        "cianose",
+        "alteração de cor",
+        "edema importante",
+        "alteração súbita de temperatura",
+        "membro gelado"
+      ]
+    },
+    "sistemicos_associados": {
+      "termos": [
+        "febre",
+        "calafrios",
+        "mal-estar",
+        "fadiga",
+        "astenia",
+        "perda ponderal",
+        "sudorese",
+        "sintomas cutâneos",
+        "rash",
+        "sintomas oculares",
+        "sintomas gastrointestinais",
+        "sintomas geniturinários"
+      ]
+    },
+    "episodios_previos": {
+      "campos": [
+        "episodios_semelhantes",
+        "frequencia",
+        "duracao",
+        "mesma_localizacao",
+        "mesmo_padrao",
+        "resolucao_entre_episodios",
+        "desencadeantes_semelhantes",
+        "comparacao_com_episodios_previos"
+      ]
+    },
+    "medidas_previas": {
+      "termos": [
+        "repouso",
+        "gelo",
+        "calor",
+        "compressão",
+        "imobilização",
+        "alongamento",
+        "massagem",
+        "fisioterapia",
+        "analgésico",
+        "anti-inflamatório",
+        "outro medicamento",
+        "outra intervenção"
+      ],
+      "campos": [
+        "medida",
+        "momento",
+        "dose_se_descrita",
+        "resposta",
+        "duracao_melhora",
+        "sem_resposta",
+        "piora"
+      ]
+    }
+  },
+  "seguranca": {
+    "elementos_prioritarios": [
+      "trauma significativo",
+      "deformidade",
+      "incapacidade de movimentar",
+      "incapacidade de apoiar ou deambular",
+      "perda funcional súbita",
+      "déficit motor descrito",
+      "alteração sensitiva importante",
+      "alteração de perfusão",
+      "edema importante ou rapidamente progressivo",
+      "dor intensa ou rapidamente progressiva",
+      "febre associada à alteração localizada",
+      "sinais inflamatórios locais importantes",
+      "ferimento associado",
+      "dor noturna ou em repouso de destaque",
+      "sintomas sistêmicos associados",
+      "evolução rapidamente progressiva"
+    ],
+    "acao": "Verificar se o elemento foi esclarecido, permanece não informado, ambíguo, contraditório ou insuficientemente caracterizado; não determinar etiologia."
+  },
+  "distincoes_semanticas": [
+    [
+      "dor",
+      "fraqueza"
+    ],
+    [
+      "fraqueza",
+      "limitação por dor"
+    ],
+    [
+      "rigidez",
+      "bloqueio"
+    ],
+    [
+      "edema",
+      "deformidade"
+    ],
+    [
+      "parestesia",
+      "perda de sensibilidade"
+    ],
+    [
+      "dor muscular",
+      "dor articular"
+    ],
+    [
+      "dor regional",
+      "estrutura anatômica específica"
+    ],
+    [
+      "irradiação",
+      "migração"
+    ],
+    [
+      "instabilidade",
+      "fraqueza"
+    ],
+    [
+      "incapacidade funcional",
+      "dor intensa"
+    ],
+    [
+      "trauma",
+      "mecanismo traumático conhecido"
+    ]
+  ],
+  "controle_qualidade": {
+    "detectar": [
+      "contradições",
+      "lateralidade inconsistente",
+      "cronologia incompatível",
+      "localização variável sem explicação",
+      "termos vagos",
+      "expressões semanticamente ambíguas",
+      "conflito entre intensidade e funcionalidade",
+      "descrição anatômica imprecisa",
+      "mecanismo traumático mal caracterizado"
+    ],
+    "priorizacao_lacunas": "Priorizar somente lacunas capazes de alterar significativamente a caracterização ou segurança da queixa.",
+    "estrutura_lacuna": [
+      "informacao_faltante",
+      "relevancia",
+      "pergunta_objetiva_sugerida"
+    ]
+  },
+  "saida_recomendada": {
+    "blocos": [
+      "informacoes_identificadas",
+      "caracterizacao_estruturada",
+      "informacoes_faltantes_prioritarias",
+      "ambiguidades_ou_contradicoes",
+      "sintese_de_completude"
+    ],
+    "classificacao_completude": [
+      "adequadamente_caracterizada",
+      "parcialmente_caracterizada",
+      "insuficientemente_caracterizada"
+    ]
+  }
+}

@@ -1,0 +1,492 @@
+{
+  "metadata": {
+    "nome": "febre_sindrome_febril_termos_clinicos",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "finalidade": "Apoio algorítmico à análise crítica de QD/HMA em queixas de febre/síndrome febril, com foco em completude, clareza, segurança, ambiguidades, contradições e lacunas.",
+    "restricoes": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informações ausentes",
+      "não converter não informado em negado"
+    ]
+  },
+  "status_informacao": {
+    "presente": "explicitamente descrito",
+    "negado": "explicitamente negado",
+    "nao_informado": "não abordado",
+    "ambiguo": "mencionado sem caracterização suficiente",
+    "contraditorio": "informações incompatíveis no texto"
+  },
+  "categorias": {
+    "febre": {
+      "termos": [
+        "febre",
+        "febril",
+        "estado febril",
+        "febrícula",
+        "temperatura elevada",
+        "temperatura alta"
+      ],
+      "termos_nao_equivalentes_automaticamente": [
+        "hipertermia",
+        "corpo quente",
+        "está quente",
+        "sensação febril",
+        "sensação de febre",
+        "parece estar com febre",
+        "ardendo em febre"
+      ],
+      "campos": [
+        "aferida",
+        "valor_temperatura",
+        "temperatura_maxima",
+        "metodo",
+        "local_afericao",
+        "multiplas_afericoes",
+        "periodos_afebris"
+      ]
+    },
+    "tempo_e_evolucao": {
+      "termos": [
+        "início súbito",
+        "início insidioso",
+        "progressivo",
+        "persistente",
+        "intermitente",
+        "episódios",
+        "recorrente",
+        "periódico",
+        "diurno",
+        "noturno",
+        "afebril"
+      ],
+      "expressoes_vagas": [
+        "há alguns dias",
+        "essa semana",
+        "recentemente",
+        "faz um tempo",
+        "desde esses dias",
+        "há algum tempo"
+      ],
+      "campos": [
+        "inicio",
+        "duracao",
+        "frequencia",
+        "duracao_episodio",
+        "horario_predominante",
+        "tendencia",
+        "cronologia"
+      ]
+    },
+    "afericao": {
+      "locais": [
+        "axilar",
+        "oral",
+        "timpânica",
+        "temporal",
+        "retal"
+      ],
+      "contextos": [
+        "casa",
+        "serviço de saúde"
+      ],
+      "campos": [
+        "dispositivo",
+        "antes_ou_apos_antitermico",
+        "repeticao",
+        "confiabilidade"
+      ]
+    },
+    "calafrios_sudorese": {
+      "termos": [
+        "sentir frio",
+        "arrepio",
+        "calafrio",
+        "calafrios",
+        "tremor",
+        "tremores",
+        "tremor intenso",
+        "sudorese",
+        "suor excessivo",
+        "suor noturno",
+        "sudorese noturna"
+      ]
+    },
+    "sintomas_gerais": {
+      "termos": [
+        "mal-estar",
+        "prostração",
+        "fraqueza",
+        "astenia",
+        "fadiga",
+        "inapetência",
+        "redução da ingesta",
+        "mialgia",
+        "artralgia",
+        "cefaleia",
+        "sonolência",
+        "irritabilidade",
+        "perda ponderal",
+        "sudorese noturna"
+      ]
+    },
+    "respiratorio_otorrino": {
+      "termos": [
+        "tosse",
+        "expectoração",
+        "hemoptise",
+        "dispneia",
+        "dor torácica",
+        "dor ventilatório-dependente",
+        "coriza",
+        "congestão nasal",
+        "espirros",
+        "odinofagia",
+        "disfagia",
+        "rouquidão",
+        "dor de garganta",
+        "otalgia",
+        "otorreia",
+        "dor facial",
+        "pressão facial"
+      ]
+    },
+    "geniturinario": {
+      "termos": [
+        "disúria",
+        "polaciúria",
+        "urgência miccional",
+        "alteração da frequência urinária",
+        "hematúria",
+        "urina turva",
+        "alteração do odor urinário",
+        "dor suprapúbica",
+        "dor lombar",
+        "dor em flancos",
+        "corrimento genital",
+        "dor genital",
+        "lesões genitais",
+        "dor pélvica"
+      ]
+    },
+    "gastrointestinal": {
+      "termos": [
+        "dor abdominal",
+        "náuseas",
+        "vômitos",
+        "diarreia",
+        "alteração do hábito intestinal",
+        "sangue nas fezes",
+        "muco nas fezes",
+        "distensão abdominal",
+        "anorexia",
+        "inapetência",
+        "icterícia",
+        "alteração da coloração das fezes",
+        "alteração da coloração da urina"
+      ]
+    },
+    "neurologico": {
+      "termos": [
+        "cefaleia",
+        "rigidez cervical",
+        "dor cervical",
+        "alteração do nível de consciência",
+        "confusão mental",
+        "desorientação",
+        "sonolência",
+        "convulsão",
+        "fotofobia",
+        "déficit neurológico focal",
+        "alteração da fala",
+        "alteração da marcha",
+        "vertigem",
+        "desequilíbrio"
+      ],
+      "nao_equivalentes_automaticamente": [
+        "alteração do nível de consciência",
+        "confusão mental",
+        "sonolência",
+        "desorientação"
+      ]
+    },
+    "cutaneo_partes_moles": {
+      "termos": [
+        "exantema",
+        "manchas",
+        "petéquias",
+        "púrpura",
+        "vesículas",
+        "bolhas",
+        "úlceras",
+        "feridas",
+        "abscessos",
+        "secreção",
+        "hiperemia",
+        "edema",
+        "dor localizada",
+        "aumento de temperatura local",
+        "lesões cutâneas",
+        "picadas",
+        "mordeduras"
+      ],
+      "campos_lesao": [
+        "localização",
+        "início",
+        "evolução",
+        "extensão",
+        "dor",
+        "secreção",
+        "relação_temporal"
+      ]
+    },
+    "musculoesqueletico": {
+      "termos": [
+        "mialgia",
+        "artralgia",
+        "dor articular",
+        "edema articular",
+        "hiperemia articular",
+        "limitação funcional",
+        "dor óssea",
+        "dor lombar",
+        "dificuldade para caminhar"
+      ]
+    },
+    "portas_entrada_contexto": {
+      "termos": [
+        "feridas",
+        "úlceras",
+        "abscessos",
+        "incisão cirúrgica",
+        "curativo",
+        "dispositivo invasivo",
+        "acesso vascular",
+        "sonda",
+        "cateter",
+        "dreno",
+        "prótese",
+        "lesão odontológica",
+        "dor dentária",
+        "procedimento odontológico"
+      ]
+    },
+    "epidemiologia": {
+      "termos": [
+        "contato com pessoas doentes",
+        "quadro semelhante",
+        "surto familiar",
+        "surto escolar",
+        "surto institucional",
+        "surto profissional",
+        "viagem recente",
+        "contato com animais",
+        "picada de inseto",
+        "carrapato",
+        "mordedura",
+        "água de enchente",
+        "água doce",
+        "lama",
+        "solo",
+        "exposição ocupacional",
+        "consumo alimentar incomum",
+        "água de procedência duvidosa",
+        "ambiente rural",
+        "mata",
+        "caverna",
+        "internação recente",
+        "instituição de saúde"
+      ],
+      "campos": [
+        "exposicao",
+        "local",
+        "periodo",
+        "relacao_temporal"
+      ]
+    },
+    "procedimentos_recentes": {
+      "termos": [
+        "cirurgia recente",
+        "internação recente",
+        "procedimento invasivo",
+        "acesso vascular",
+        "cateter urinário",
+        "sonda",
+        "dreno",
+        "procedimento odontológico",
+        "transfusão",
+        "vacinação recente"
+      ]
+    },
+    "medicacoes": {
+      "termos": [
+        "antitérmico",
+        "antitermico",
+        "antibiótico",
+        "antibiotico"
+      ],
+      "campos": [
+        "medicamento",
+        "dose",
+        "horario",
+        "frequencia",
+        "inicio",
+        "resposta_termica",
+        "resposta_sintomatica",
+        "duracao_resposta",
+        "retorno_febre",
+        "prescrito_ou_automedicacao"
+      ]
+    },
+    "impacto_funcional": {
+      "termos": [
+        "redução da atividade habitual",
+        "prostração",
+        "incapacidade de trabalhar",
+        "dificuldade para caminhar",
+        "redução da alimentação",
+        "redução da ingestão de líquidos",
+        "incapacidade de hidratação",
+        "redução da diurese",
+        "dificuldade para dormir",
+        "piora do estado geral"
+      ]
+    },
+    "sinais_gravidade": {
+      "termos": [
+        "alteração importante do nível de consciência",
+        "confusão mental",
+        "síncope",
+        "convulsão",
+        "dispneia importante",
+        "cianose",
+        "dor torácica importante",
+        "cefaleia intensa",
+        "cefaleia de início abrupto",
+        "rigidez cervical",
+        "déficit neurológico focal",
+        "petéquias",
+        "púrpura",
+        "sangramento",
+        "vômitos persistentes",
+        "incapacidade de ingerir líquidos",
+        "redução importante da diurese",
+        "prostração intensa",
+        "deterioração rápida do estado geral",
+        "dor intensa",
+        "dor progressiva",
+        "progressão rápida"
+      ]
+    },
+    "recorrencia": {
+      "termos": [
+        "episódio semelhante",
+        "episódios semelhantes",
+        "recorrência",
+        "recorrente"
+      ],
+      "campos": [
+        "episodios_previos",
+        "quando",
+        "quantidade",
+        "padrao",
+        "semelhanca",
+        "investigacao_previa",
+        "diferenca_quadro_atual"
+      ]
+    }
+  },
+  "regras_criticas": [
+    {
+      "id": "R01",
+      "regra": "sensação subjetiva de febre não equivale automaticamente a febre objetivamente aferida"
+    },
+    {
+      "id": "R02",
+      "regra": "calafrios, tremores e sudorese não equivalem automaticamente a febre"
+    },
+    {
+      "id": "R03",
+      "regra": "temperatura isolada normal não exclui episódios febris prévios"
+    },
+    {
+      "id": "R04",
+      "regra": "sintoma isolado não deve ser convertido automaticamente em foco infeccioso"
+    },
+    {
+      "id": "R05",
+      "regra": "resposta a antitérmico ou outro medicamento não confirma nem exclui etiologia"
+    },
+    {
+      "id": "R06",
+      "regra": "preservar valores de temperatura exatamente como documentados"
+    },
+    {
+      "id": "R07",
+      "regra": "não inferir método de aferição"
+    },
+    {
+      "id": "R08",
+      "regra": "não corrigir contradições por inferência"
+    },
+    {
+      "id": "R09",
+      "regra": "não informado não significa negado"
+    },
+    {
+      "id": "R10",
+      "regra": "preservar a descrição original quando termos não forem semanticamente equivalentes"
+    }
+  ],
+  "gatilhos_qualidade": {
+    "ambiguidade": [
+      "febre sem aferição",
+      "termo subjetivo sem temperatura",
+      "cronologia vaga",
+      "método de aferição ausente quando necessário",
+      "sintoma sem caracterização"
+    ],
+    "contradicao": [
+      "temperaturas incompatíveis sem contexto temporal",
+      "presente e negado simultaneamente",
+      "febre contínua com períodos afebris sem esclarecimento",
+      "cronologia incompatível",
+      "mudança de versão"
+    ],
+    "prioridade_alta": [
+      "caracterização objetiva/subjetiva",
+      "temperatura máxima",
+      "início e duração",
+      "padrão/evolução",
+      "sinais de gravidade",
+      "principais sintomas associados",
+      "capacidade de hidratação",
+      "estado geral"
+    ],
+    "prioridade_intermediaria": [
+      "método de aferição",
+      "calafrios/sudorese",
+      "medicações e resposta",
+      "exposições epidemiológicas",
+      "episódios prévios"
+    ],
+    "prioridade_baixa": [
+      "detalhes complementares sem impacto imediato na caracterização"
+    ]
+  },
+  "saida_esperada": [
+    "resumo_estruturado",
+    "informacoes_adequadamente_documentadas",
+    "informacoes_faltantes_por_prioridade",
+    "informacoes_ambiguas_ou_insuficientes",
+    "contradicoes",
+    "cronologia",
+    "pontos_criticos_para_completar_hma"
+  ],
+  "fonte_compilada": {
+    "arquivo": "Markdown(6).md colado",
+    "observacao": "Estrutura compilada a partir do prompt fornecido pelo usuário; otimizada para consulta algorítmica sem adicionar diagnóstico, tratamento ou solicitação de exames."
+  }
+}

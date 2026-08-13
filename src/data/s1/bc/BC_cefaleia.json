@@ -1,0 +1,551 @@
+{
+  "meta": {
+    "name": "cefaleia_qd_hma_critical_analysis_terms",
+    "version": "1.0.0",
+    "language": "pt-BR",
+    "scope": "QD/HMA exclusivamente",
+    "purpose": "Extração, normalização, verificação de completude, ambiguidades, contradições e elementos de alerta em queixas de cefaleia, sem diagnóstico, tratamento ou solicitação de exames.",
+    "core_rule": "ausente != negado",
+    "status_values": [
+      "PRESENTE",
+      "NEGADA",
+      "AUSENTE",
+      "INCOMPLETA",
+      "AMBÍGUA",
+      "CONTRADITÓRIA",
+      "NÃO APLICÁVEL"
+    ]
+  },
+  "complaint": {
+    "canonical": "cefaleia",
+    "synonyms": [
+      "dor de cabeça",
+      "cabeça doendo",
+      "dor na cabeça",
+      "cefaleia"
+    ],
+    "colloquial_related": [
+      "pressão na cabeça",
+      "peso na cabeça",
+      "aperto na cabeça",
+      "pontada na cabeça",
+      "pulsação na cabeça",
+      "latejamento na cabeça",
+      "cabeça pesada",
+      "dor atrás dos olhos",
+      "dor na testa",
+      "dor na nuca"
+    ]
+  },
+  "domains": {
+    "onset_timing": {
+      "fields": [
+        "inicio_data_hora",
+        "duracao_total",
+        "primeiro_episodio",
+        "inicio_tipo",
+        "tempo_ate_pico",
+        "evento_temporal_associado",
+        "cronologia_coerente"
+      ],
+      "terms": {
+        "sudden": [
+          "súbito",
+          "de repente",
+          "abrupto",
+          "instantâneo",
+          "em segundos",
+          "de uma hora para outra"
+        ],
+        "rapid_progression": [
+          "rapidamente progressivo",
+          "piorou rapidamente",
+          "aumentou em minutos"
+        ],
+        "gradual": [
+          "gradual",
+          "aos poucos",
+          "foi aumentando",
+          "progressivo"
+        ],
+        "insidious": [
+          "insidioso",
+          "devagar",
+          "começou leve",
+          "foi aparecendo"
+        ]
+      },
+      "vague_time_terms": [
+        "há algum tempo",
+        "esses dias",
+        "recentemente",
+        "faz um tempo",
+        "começou hoje",
+        "há dias",
+        "há semanas"
+      ],
+      "critical_flags": [
+        "início súbito",
+        "pico imediato",
+        "pior dor da vida",
+        "primeiro episódio"
+      ]
+    },
+    "location": {
+      "fields": [
+        "topografia",
+        "lateralidade",
+        "fixa_ou_variavel",
+        "migra",
+        "extensao"
+      ],
+      "canonical_terms": [
+        "frontal",
+        "temporal",
+        "parietal",
+        "occipital",
+        "retro-orbitária",
+        "periorbitária",
+        "facial",
+        "cervical",
+        "nucal",
+        "hemicraniana",
+        "unilateral",
+        "bilateral",
+        "difusa",
+        "holocraniana"
+      ],
+      "laterality": [
+        "direita",
+        "esquerda",
+        "bilateral",
+        "alternante"
+      ],
+      "colloquial_map": {
+        "testa": "frontal",
+        "têmpora": "temporal",
+        "nuca": "occipital/nucal",
+        "atrás do olho": "retro-orbitária/periorbitária",
+        "metade da cabeça": "hemicraniana"
+      }
+    },
+    "quality": {
+      "fields": [
+        "qualidade_dor"
+      ],
+      "terms": [
+        "pulsátil",
+        "latejante",
+        "pressão",
+        "aperto",
+        "peso",
+        "pontada",
+        "facada",
+        "choque",
+        "queimação",
+        "explosiva",
+        "lancinante",
+        "surda",
+        "contínua"
+      ],
+      "preserve_colloquial": true
+    },
+    "intensity": {
+      "fields": [
+        "intensidade_atual",
+        "intensidade_maxima",
+        "escala_0_10",
+        "limitacao_funcional",
+        "evolucao_intensidade"
+      ],
+      "qualitative": [
+        "leve",
+        "moderada",
+        "intensa",
+        "muito intensa",
+        "insuportável",
+        "incapacitante"
+      ],
+      "high_value_phrases": [
+        "pior dor de cabeça da vida",
+        "pior dor da vida",
+        "10/10",
+        "incapacitante"
+      ]
+    },
+    "pattern_evolution": {
+      "fields": [
+        "continua_intermitente",
+        "crises",
+        "duracao_episodio",
+        "frequencia",
+        "periodos_sem_dor",
+        "numero_episodios",
+        "tendencia",
+        "mudanca_padrao",
+        "aumento_frequencia",
+        "aumento_duracao",
+        "aumento_intensidade"
+      ],
+      "terms": [
+        "contínua",
+        "constante",
+        "intermitente",
+        "em crises",
+        "episódica",
+        "recorrente",
+        "diária",
+        "progressiva",
+        "estável",
+        "melhorando",
+        "piorando"
+      ]
+    },
+    "radiation_extension": {
+      "fields": [
+        "irradia",
+        "migra",
+        "estende"
+      ],
+      "targets": [
+        "face",
+        "olhos",
+        "mandíbula",
+        "ouvido",
+        "região cervical",
+        "nuca",
+        "ombros"
+      ]
+    },
+    "triggers_context": {
+      "fields": [
+        "desencadeantes",
+        "contexto_inicio"
+      ],
+      "terms": [
+        "esforço físico",
+        "tosse",
+        "espirro",
+        "Valsalva",
+        "atividade sexual",
+        "mudança de posição",
+        "ortostatismo",
+        "sono",
+        "despertar",
+        "privação de sono",
+        "estresse",
+        "jejum",
+        "alimentação",
+        "luz",
+        "ruído",
+        "odores",
+        "trauma craniano",
+        "trauma cervical",
+        "movimento cervical",
+        "desidratação",
+        "uso de substância",
+        "retirada de substância",
+        "uso de medicação",
+        "interrupção de medicação"
+      ]
+    },
+    "worsening_factors": {
+      "terms": [
+        "esforço",
+        "atividade física",
+        "tosse",
+        "espirro",
+        "Valsalva",
+        "movimento",
+        "movimentação cervical",
+        "luz",
+        "ruído",
+        "odores",
+        "decúbito",
+        "ortostatismo",
+        "posição",
+        "horário específico"
+      ]
+    },
+    "relieving_factors": {
+      "terms": [
+        "repouso",
+        "sono",
+        "ambiente escuro",
+        "silêncio",
+        "alimentação",
+        "hidratação",
+        "mudança de posição",
+        "compressa",
+        "medicamento",
+        "analgésico"
+      ],
+      "medication_subfields": [
+        "nome",
+        "dose",
+        "horário",
+        "resposta",
+        "duração_resposta",
+        "recorrência"
+      ]
+    },
+    "associated_symptoms": {
+      "gastrointestinal": [
+        "náusea",
+        "náuseas",
+        "vômito",
+        "vômitos"
+      ],
+      "sensory": [
+        "fotofobia",
+        "fonofobia",
+        "osmofobia"
+      ],
+      "visual": [
+        "visão turva",
+        "diplopia",
+        "perda visual",
+        "escotoma",
+        "escotomas",
+        "fenômenos luminosos",
+        "alteração de campo visual"
+      ],
+      "neurologic": [
+        "fraqueza",
+        "paresia",
+        "paralisia",
+        "dormência",
+        "parestesia",
+        "parestesias",
+        "alteração da fala",
+        "disartria",
+        "afasia",
+        "desequilíbrio",
+        "ataxia",
+        "vertigem",
+        "confusão",
+        "alteração do nível de consciência",
+        "síncope",
+        "convulsão"
+      ],
+      "systemic_infectious": [
+        "febre",
+        "calafrios",
+        "mal-estar",
+        "perda ponderal",
+        "sudorese",
+        "infecção recente"
+      ],
+      "cervical_meningeal": [
+        "cervicalgia",
+        "rigidez cervical",
+        "dor ao movimentar o pescoço",
+        "dificuldade para movimentar o pescoço"
+      ],
+      "ocular_autonomic": [
+        "lacrimejamento",
+        "hiperemia ocular",
+        "olho vermelho",
+        "edema palpebral",
+        "ptose",
+        "congestão nasal",
+        "rinorreia",
+        "sudorese facial"
+      ]
+    },
+    "preceding_or_transient_phenomena": {
+      "terms": [
+        "fenômeno visual",
+        "escotoma cintilante",
+        "flashes",
+        "luzes",
+        "parestesia transitória",
+        "alteração sensitiva",
+        "alteração da linguagem",
+        "alteração motora",
+        "tontura",
+        "vertigem",
+        "sintoma neurológico transitório"
+      ],
+      "fields": [
+        "fenomeno",
+        "timing_relativo",
+        "duracao",
+        "reversibilidade",
+        "relacao_com_dor"
+      ],
+      "rule": "não rotular automaticamente como aura"
+    },
+    "previous_episodes": {
+      "fields": [
+        "episodios_previos",
+        "tempo_de_historia",
+        "frequencia_habitual",
+        "semelhanca_com_atual",
+        "intensidade_habitual",
+        "duracao_habitual",
+        "localizacao_habitual",
+        "qualidade_habitual",
+        "caracteristica_nova"
+      ]
+    },
+    "pattern_change": {
+      "terms": [
+        "cefaleia nova",
+        "mais frequente",
+        "mais intensa",
+        "mais duradoura",
+        "mudou de lado",
+        "mudou de localização",
+        "mudou o tipo da dor",
+        "novo sintoma",
+        "analgésico não funciona mais",
+        "resposta reduzida"
+      ]
+    },
+    "clinical_context_in_hma": {
+      "terms": [
+        "trauma recente",
+        "gestação",
+        "grávida",
+        "puerpério",
+        "pós-parto",
+        "infecção recente",
+        "procedimento recente",
+        "anticoagulante",
+        "imunossupressão",
+        "câncer",
+        "neoplasia",
+        "exposição a substância",
+        "intoxicação",
+        "atividade física intensa"
+      ],
+      "rule": "não buscar fora da QD/HMA"
+    }
+  },
+  "red_flags_documentation": {
+    "must_be_characterized": [
+      "início súbito",
+      "tempo até intensidade máxima",
+      "primeira ou pior cefaleia da vida",
+      "cefaleia nova ou diferente do padrão habitual",
+      "progressão recente",
+      "déficit neurológico associado",
+      "alteração de consciência",
+      "convulsão",
+      "síncope",
+      "febre",
+      "rigidez ou dor cervical relevante",
+      "trauma",
+      "desencadeada por esforço/tosse/Valsalva/atividade sexual",
+      "padrão postural",
+      "sintomas visuais importantes",
+      "vômitos relevantes",
+      "gestação/puerpério quando pertinente e mencionado",
+      "contexto clínico de maior risco explicitamente descrito"
+    ]
+  },
+  "ambiguity_and_error_detection": {
+    "contradictions": [
+      [
+        "contínua",
+        "intermitente"
+      ],
+      [
+        "lado direito",
+        "lado esquerdo"
+      ],
+      [
+        "nega vômitos",
+        "apresenta vômitos"
+      ],
+      [
+        "nega déficit neurológico",
+        "apresenta fraqueza/parestesia/afasia"
+      ],
+      [
+        "dor leve",
+        "dor 10/10"
+      ],
+      [
+        "sem episódios prévios",
+        "cefaleia semelhante às anteriores"
+      ]
+    ],
+    "vagueness_terms": [
+      "forte",
+      "muito forte",
+      "há um tempo",
+      "esses dias",
+      "às vezes",
+      "de vez em quando",
+      "normal",
+      "igual de sempre",
+      "piora muito",
+      "melhora um pouco"
+    ],
+    "common_documentation_errors": [
+      "assumir ausência quando não informado",
+      "converter linguagem coloquial em termo técnico sem segurança",
+      "registrar analgésico como fator de melhora sem resposta documentada",
+      "não registrar tempo até pico em início súbito",
+      "não comparar episódio atual com padrão habitual",
+      "misturar irradiação, migração e extensão",
+      "omitir lateralidade em dor unilateral",
+      "omitir duração/frequência em cefaleia episódica",
+      "não separar sintoma atual de histórico pregresso"
+    ]
+  },
+  "normalization": {
+    "examples": {
+      "dor na testa": "localização=frontal",
+      "dor na nuca": "localização=occipital/nucal",
+      "dor atrás do olho": "localização=retro-orbitária/periorbitária",
+      "metade da cabeça": "localização=hemicraniana; lateralidade=indefinida se lado não citado",
+      "latejando": "qualidade=pulsátil/latejante",
+      "apertando": "qualidade=aperto/pressão",
+      "do nada": "início=súbito/abrupto somente se contexto textual sustentar",
+      "aos poucos": "início=gradual",
+      "vai e volta": "padrão=intermitente/episódico",
+      "não passa": "padrão=contínuo, se semanticamente inequívoco"
+    },
+    "rule": "preservar texto original e armazenar normalização separadamente"
+  },
+  "output_schema": {
+    "summary": "síntese factual sem inferência",
+    "well_characterized": [],
+    "missing_or_incomplete": [],
+    "ambiguities_or_contradictions": [],
+    "unclear_red_flags": [],
+    "priority_questions": []
+  },
+  "priority_question_templates": [
+    "Quando exatamente essa dor começou?",
+    "Ela começou de repente ou foi aumentando aos poucos?",
+    "Quanto tempo levou para atingir a intensidade máxima?",
+    "Onde exatamente dói e de que lado?",
+    "Como você descreveria essa dor: pressão, pontada, latejamento ou outro tipo?",
+    "Qual a intensidade de 0 a 10 agora e qual foi a pior intensidade?",
+    "A dor é contínua ou vai e volta? Quanto dura cada episódio?",
+    "É a primeira vez ou você já teve algo semelhante?",
+    "Esta dor está diferente das suas dores de cabeça habituais?",
+    "A dor começou após esforço, tosse, relação sexual, trauma ou mudança de posição?",
+    "Há náusea, vômito, sensibilidade à luz ou ao som?",
+    "Houve alteração de visão, fala, força, sensibilidade, equilíbrio ou consciência?",
+    "Há febre, rigidez no pescoço ou dor cervical importante?",
+    "O que piora e o que melhora a dor?",
+    "Usou algum medicamento? Qual, quanto e qual foi o efeito?"
+  ],
+  "processing_rules": [
+    "Extrair somente conteúdo explícito da QD/HMA.",
+    "Não realizar diagnóstico ou inferir etiologia.",
+    "Não recomendar tratamento ou exames.",
+    "Não preencher lacunas por conhecimento clínico externo.",
+    "Não converter AUSENTE em NEGADA.",
+    "Manter trecho original para auditoria.",
+    "Registrar normalização em campo separado do texto-fonte.",
+    "Sinalizar contradições em vez de corrigi-las automaticamente.",
+    "Priorizar lacunas capazes de alterar segurança e qualidade da caracterização da queixa.",
+    "Evitar perguntas redundantes quando a informação já estiver claramente documentada."
+  ]
+}

@@ -1,80 +1,126 @@
-import s1Db from "@/data/s1/s1pain_history_qp_hpma_database.json";
+import s1Pack from "@/data/s1/s1_bc_pack.json";
 import { classifyPanda93, PANDA93_MAX, toPanda93 } from "./panda93";
 import { normalize, termMatches } from "./terminologia";
 import { blurPersonalData } from "./privacy/blur";
 import type { CiqBand } from "./types";
 
-/** Banco exclusivo do modelo S1 (QP + HPMA · dor). */
-export type S1Database = {
-  module: string;
-  version: number;
-  fields: {
-    pain: { positive: string[]; negative: string[] };
-    onset: { sudden: string[]; insidious: string[] };
-    location: Record<string, string[]>;
-    duration_units: string[];
-    pattern: { continuous: string[]; intermittent: string[] };
-    radiation: string[];
-    associated_symptoms: string[];
-    relief: string[];
-    aggravation: string[];
-    previous_episodes: string[];
-    analgesic_response: {
-      improved: string[];
-      partial: string[];
-      none: string[];
-    };
-  };
+type CriterionTier = "CORE" | "EXPECTED" | "CONDITIONAL" | "OPTIONAL" | "NOT_APPLICABLE";
+
+type BankCriterion = {
+  id: string;
+  label: string;
+  tier: CriterionTier | string;
+  terms: string[];
 };
 
-export const S1_DB = s1Db as S1Database;
+type Bank = {
+  id: string;
+  file: string;
+  label: string;
+  fallback: boolean;
+  generic: boolean;
+  routing_terms: string[];
+  routing_norm: string[];
+  criteria: BankCriterion[];
+  negation_markers: string[];
+  vague_markers: string[];
+  safety_terms: string[];
+};
 
-/** Marcadores de escopo (lei do prompt — não fazem parte do léxico de dor). */
-const SECTION_MARKERS = {
-  qp_start: [
-    "queixa principal",
-    "queixa-principal",
-    "qp:",
-    "qp ",
-    "qd:",
-    "qd ",
-    "motivo da consulta",
-    "motivo do atendimento",
-    "motivo da procura",
+type S1Pack = {
+  v: string;
+  mode: string;
+  law: string;
+  bank_count: number;
+  banks: Bank[];
+};
+
+const PACK = s1Pack as S1Pack;
+
+/** Sinônimos de roteamento complementares por id de BC (sem inventar diagnóstico). */
+const ROUTING_ALIASES: Record<string, string[]> = {
+  dor_toracica: [
+    "dor torácica",
+    "dor toracica",
+    "dor no peito",
+    "dor no tórax",
+    "dor no torax",
+    "precordialgia",
+    "aperto no peito",
   ],
-  hpma_start: [
+  dor_abdominal: [
+    "dor abdominal",
+    "dor na barriga",
+    "dor no abdômen",
+    "dor no abdomen",
+    "dor no abdome",
+    "dor epigástrica",
+    "dor epigastrica",
+    "dor pélvica",
+    "dor pelvica",
+    "hipogástrio",
+    "hipogastrio",
+  ],
+  cefaleia: ["cefaleia", "dor de cabeça", "dor de cabeca", "dor na cabeça", "dor na cabeca"],
+  dispneia_dificuldade_respiratoria: [
+    "dispneia",
+    "falta de ar",
+    "dificuldade respiratória",
+    "dificuldade respiratoria",
+    "cansaço para respirar",
+    "cansaco para respirar",
+  ],
+  "síncope": ["síncope", "sincope", "desmaio", "apagou", "perdeu a consciência", "perdeu a consciencia"],
+  nauseas_vomitos: ["náusea", "nausea", "vômito", "vomito", "vômitos", "vomitos", "enjoo"],
+  febre_sindrome_febril: ["febre", "febril", "hipertermia", "estado febril"],
+  sintomas_urinarios: ["disúria", "disuria", "ardência para urinar", "ardencia para urinar", "polaciúria", "polaciuria", "hematúria", "hematuria"],
+  sintomas_genitais_pelvicos: ["sangramento vaginal", "corrimento", "dor pélvica", "dor pelvica"],
+  tosse_sintomas_respiratorios: ["tosse", "expectoração", "expectoracao", "chiado"],
+  vertigem_tontura_desequilibrio: ["vertigem", "tontura", "desequilíbrio", "desequilibrio", "labirintite"],
+  palpitacoes_ritmo_cardiaco: ["palpitação", "palpitacao", "palpitações", "palpitacoes", "coração disparado", "coracao disparado"],
+  convulsao: ["convulsão", "convulsao", "crise convulsiva", "abalo", "tonico-clonico"],
+  reacao_alergica_anafilaxia: ["alergia", "anafilaxia", "urticária", "urticaria", "angioedema", "inchaço de língua", "inchaco de lingua"],
+  edema_analise_clinica: ["edema", "inchaço", "inchaco", "inchado"],
+  manifestacoes_cutaneas: ["rash", "erupção", "erupcao", "lesão de pele", "lesao de pele", "manchas na pele", "prurido"],
+  manifestacoes_hemorragicas: ["sangramento", "hemorragia", "hematêmese", "hematemese", "melena", "epistaxe"],
+  dor_lombar_flanco: ["dor lombar", "lombalgia", "dor no flanco", "dor nas costas"],
+  dor_alteracao_musculoesqueletica: ["dor muscular", "dor articular", "dor no joelho", "dor no ombro", "mialgia"],
+  diarreia_alteracao_habito_intestinal: ["diarreia", "diarréia", "fezes líquidas", "fezes liquidas", "evacuações", "evacuacoes"],
+  disfagia_odinofagia_degluticao: ["disfagia", "odinofagia", "dor ao engolir", "dificuldade para engolir"],
+  alteracao_nivel_consciencia_confusao_mental: [
+    "confusão",
+    "confusao",
+    "rebaixamento",
+    "sonolento",
+    "desorientado",
+    "alteração do nível",
+    "alteracao do nivel",
+  ],
+  intoxicacao_exposicao_overdose: ["intoxicação", "intoxicacao", "overdose", "ingestão de", "ingestao de", "envenenamento"],
+};
+
+const SECTION_MARKERS = {
+  start: [
+    "queixa principal",
+    "queixa e duração",
+    "queixa e duracao",
+    "qp:",
+    "qd:",
+    "hma:",
+    "hpma:",
     "história da moléstia atual",
     "historia da molestia atual",
     "história da doença atual",
     "historia da doenca atual",
-    "hpma",
-    "hma:",
-    "hma ",
-    "hda:",
-    "hda ",
   ],
   stop: [
     "antecedentes pessoais",
-    "antecedentes patológicos",
-    "antecedentes patologicos",
     "antecedentes familiares",
-    "antecedentes cirúrgicos",
-    "antecedentes cirurgicos",
     "medicações em uso",
     "medicacoes em uso",
-    "medicamentos em uso",
-    "medicamentos de uso contínuo",
-    "medicamentos de uso continuo",
     "alergias",
-    "alergia:",
     "exame físico",
     "exame fisico",
-    "ef:",
-    "interrogatório sintomatológico",
-    "interrogatorio sintomatologico",
-    "revisão de sistemas",
-    "revisao de sistemas",
-    "exames complementares",
     "resultado de exames",
     "hipótese diagnóstica",
     "hipotese diagnostica",
@@ -82,31 +128,48 @@ const SECTION_MARKERS = {
     "ap:",
     "af:",
     "muc:",
-    "app:",
   ],
 };
 
-const MISSING_EXAMPLES: Record<string, string> = {
-  Início: "Dor iniciou de forma súbita há 30 minutos.",
-  Localização: "Dor localizada em epigástrio.",
-  Tempo: "Dor com evolução de 3 horas.",
-  Padrão: "Dor contínua desde o início.",
-  Irradiação: "Dor irradiando para mandíbula.",
-  "Sintomas associados": "Associada a náusea e sudorese.",
-  "Fatores de melhora": "Melhora parcialmente após dipirona.",
-  "Fatores de piora": "Piora à inspiração profunda.",
-  "Episódios prévios": "Nega episódios prévios semelhantes.",
-  "Resposta aos analgésicos": "Sem melhora após dipirona.",
+const TIER_WEIGHT: Record<string, number> = {
+  CORE: 3,
+  EXPECTED: 2,
+  CONDITIONAL: 2,
+  OPTIONAL: 0.5,
+  NOT_APPLICABLE: 0,
 };
 
-const LAW = "Interpretação Lógica da Dor na Queixa Principal (QP + HPMA)";
+const QUALITY_COEF: Record<string, number> = {
+  PRESENTE_ADEQUADO: 1,
+  PRESENTE_PARCIAL: 0.6,
+  PRESENTE_VAGO: 0.4,
+  PRESENTE_AMBIGUO: 0.3,
+  PRESENTE_CONTRADITORIO: 0.1,
+  AUSENTE_RELEVANTE: 0,
+  NEGATIVA_EXPLICITA: 1,
+  CONDICIONAL_NAO_ATIVADO: 0,
+  NAO_APLICAVEL: 0,
+};
 
-export type PainPresence = "SIM" | "NÃO" | "INDETERMINADO";
+export type FieldStatus =
+  | "PRESENTE_ADEQUADO"
+  | "PRESENTE_PARCIAL"
+  | "PRESENTE_VAGO"
+  | "PRESENTE_AMBIGUO"
+  | "PRESENTE_CONTRADITORIO"
+  | "AUSENTE_RELEVANTE"
+  | "CONDICIONAL_NAO_ATIVADO"
+  | "NAO_APLICAVEL"
+  | "NEGATIVA_EXPLICITA";
 
-export type S1Attribute = {
-  key: string;
-  found: boolean;
-  value: string | null;
+export type S1CriterionResult = {
+  id: string;
+  label: string;
+  bank: string;
+  tier: string;
+  status: FieldStatus;
+  weight: number;
+  evidence?: string;
 };
 
 export type S1Result = {
@@ -116,11 +179,39 @@ export type S1Result = {
   privacyRedactions: number;
   law: string;
   sourcePack: string;
-  painPresence: PainPresence;
   scopeNote: string;
-  attributes: S1Attribute[];
-  completeness: Array<{ key: string; found: boolean }>;
-  missingBlocks: string[];
+  routing: {
+    queixa_principal_identificada: string;
+    conceitos_secundarios: string[];
+    json_primario: string;
+    json_secundarios: string[];
+    arquivos_descartados_relevantes: string[];
+    confianca: number;
+    classificacao_insegura: boolean;
+    motivo_selecao: string;
+  };
+  informacoes_presentes: string[];
+  informacoes_parciais: string[];
+  informacoes_vagas: string[];
+  ambiguidades: string[];
+  contradicoes: string[];
+  informacoes_ausentes_relevantes: string[];
+  campos_condicionais_nao_ativados: string[];
+  campos_nao_aplicaveis: string[];
+  negativas_pertinentes_documentadas: string[];
+  pontos_de_melhoria_prioritarios: Array<{
+    nivel: "CRÍTICO" | "ALTO" | "MODERADO" | "BAIXO";
+    texto: string;
+  }>;
+  avaliacao: {
+    completude: number;
+    clareza: number;
+    relevancia: number;
+    coerencia: number;
+    seguranca_documental: number;
+    score_global: number;
+  };
+  criteria: S1CriterionResult[];
 };
 
 function toBand(band: string): CiqBand {
@@ -138,271 +229,497 @@ function toBand(band: string): CiqBand {
   }
 }
 
-function findEarliestIndex(haystack: string, markers: string[]): number {
+function findEarliest(haystack: string, markers: string[]): number {
   let best = -1;
-  for (const marker of markers) {
-    const n = normalize(marker);
-    if (!n) continue;
+  for (const m of markers) {
+    const n = normalize(m);
     const idx = haystack.indexOf(n);
     if (idx >= 0 && (best < 0 || idx < best)) best = idx;
   }
   return best;
 }
 
-function findNextStop(haystack: string, from: number, stops: string[]): number {
-  let best = haystack.length;
-  for (const stop of stops) {
-    const n = normalize(stop);
-    if (!n) continue;
-    const idx = haystack.indexOf(n, from + 1);
-    if (idx >= 0 && idx < best) best = idx;
-  }
-  return best;
-}
-
-export function extractQpHpma(text: string): { scope: string; note: string } {
+function extractScope(text: string): { scope: string; note: string } {
   const haystack = normalize(text.trim());
   if (!haystack) return { scope: "", note: "Texto vazio." };
-
-  const { qp_start, hpma_start, stop } = SECTION_MARKERS;
-  const qpIdx = findEarliestIndex(haystack, qp_start);
-  const hpmaIdx = findEarliestIndex(haystack, hpma_start);
-
-  if (qpIdx < 0 && hpmaIdx < 0) {
+  const start = findEarliest(haystack, SECTION_MARKERS.start);
+  if (start < 0) {
     return {
       scope: haystack,
-      note: "Sem marcadores explícitos de QP/HPMA — analisado o texto integral (escopo presumido).",
+      note: "Sem marcadores explícitos de QD/QP/HMA — analisado o texto integral (escopo presumido).",
+    };
+  }
+  let end = haystack.length;
+  for (const stop of SECTION_MARKERS.stop) {
+    const n = normalize(stop);
+    const idx = haystack.indexOf(n, start + 1);
+    if (idx >= 0 && idx < end) end = idx;
+  }
+  return {
+    scope: haystack.slice(start, end).trim() || haystack,
+    note: "Análise restrita a QD/QP/HMA (HPMA).",
+  };
+}
+
+function countMatches(haystack: string, terms: string[]): { count: number; hits: string[] } {
+  const hits: string[] = [];
+  const sorted = [...terms].sort((a, b) => b.length - a.length);
+  for (const term of sorted) {
+    if (!term || term.length < 2) continue;
+    if (termMatches(haystack, term)) {
+      const n = normalize(term);
+      if (!hits.some((h) => normalize(h) === n)) hits.push(term);
+    }
+  }
+  return { count: hits.length, hits };
+}
+
+function nearNegation(haystack: string, term: string, markers: string[]): boolean {
+  const nTerm = normalize(term);
+  const idx = haystack.indexOf(nTerm);
+  if (idx < 0) return false;
+  const window = haystack.slice(Math.max(0, idx - 36), idx + nTerm.length + 12);
+  return markers.some((m) => termMatches(window, m));
+}
+
+function scoreBank(haystack: string, bank: Bank): number {
+  const alias = ROUTING_ALIASES[bank.id] ?? [];
+  const routing = [...bank.routing_terms, ...alias];
+  const { count, hits } = countMatches(haystack, routing);
+  if (count === 0) return 0;
+
+  // Prefer longer / more specific hits
+  const specificity =
+    hits.reduce((acc, h) => acc + Math.min(1, normalize(h).length / 18), 0) /
+    Math.max(1, hits.length);
+
+  let score = Math.min(1, count / 4) * 0.55 + specificity * 0.25;
+
+  // Centrality: early mention boost
+  const firstIdx = Math.min(
+    ...hits.map((h) => {
+      const i = haystack.indexOf(normalize(h));
+      return i < 0 ? haystack.length : i;
+    }),
+  );
+  const early = 1 - Math.min(1, firstIdx / Math.max(80, haystack.length));
+  score += early * 0.15;
+
+  if (bank.generic) score *= 0.55;
+  if (bank.fallback) score *= 0.35;
+
+  // Mild penalty if only very generic single token
+  if (count === 1 && normalize(hits[0] || "").length < 6) score *= 0.7;
+
+  return Math.max(0, Math.min(1, score));
+}
+
+function classifyApplicability(
+  score: number,
+  bank: Bank,
+  primaryScore: number,
+): "PRIMÁRIO" | "SECUNDÁRIO" | "CONDICIONAL" | "NÃO APLICÁVEL" {
+  if (bank.fallback) return "NÃO APLICÁVEL";
+  if (score < 0.18) return "NÃO APLICÁVEL";
+  if (score >= primaryScore - 0.02 && score >= 0.34) return "PRIMÁRIO";
+  if (score >= 0.28) return "SECUNDÁRIO";
+  if (score >= 0.18) return "CONDICIONAL";
+  return "NÃO APLICÁVEL";
+}
+
+function evaluateCriterion(
+  haystack: string,
+  criterion: BankCriterion,
+  bank: Bank,
+  isPrimary: boolean,
+): S1CriterionResult {
+  let tier = String(criterion.tier || "EXPECTED");
+  // Secondary banks: demote CORE→EXPECTED to avoid checklist blindness across domains
+  if (!isPrimary && tier === "CORE") tier = "EXPECTED";
+  if (!isPrimary && tier === "EXPECTED") tier = "OPTIONAL";
+
+  // Conditional fields require a trigger term family present
+  if (tier === "CONDITIONAL") {
+    const trigger = countMatches(haystack, criterion.terms).count > 0;
+    if (!trigger) {
+      return {
+        id: criterion.id,
+        label: criterion.label,
+        bank: bank.file,
+        tier,
+        status: "CONDICIONAL_NAO_ATIVADO",
+        weight: 0,
+      };
+    }
+  }
+
+  const seeds =
+    criterion.terms.length > 0
+      ? criterion.terms
+      : [criterion.label, criterion.id.replace(/_/g, " ")];
+  const { count, hits } = countMatches(haystack, seeds);
+  const vagueHit = bank.vague_markers.some((v) => termMatches(haystack, v));
+  const negated = hits.some((h) => nearNegation(haystack, h, bank.negation_markers));
+
+  if (negated) {
+    return {
+      id: criterion.id,
+      label: criterion.label,
+      bank: bank.file,
+      tier,
+      status: "NEGATIVA_EXPLICITA",
+      weight: TIER_WEIGHT[tier] ?? 1,
+      evidence: hits[0],
     };
   }
 
-  const chunks: string[] = [];
-  if (qpIdx >= 0) {
-    const end = findNextStop(haystack, qpIdx, [...hpma_start, ...stop]);
-    chunks.push(haystack.slice(qpIdx, end).trim());
+  if (count === 0) {
+    // Optional absence is not a relevant gap
+    if (tier === "OPTIONAL") {
+      return {
+        id: criterion.id,
+        label: criterion.label,
+        bank: bank.file,
+        tier,
+        status: "NAO_APLICAVEL",
+        weight: 0,
+      };
+    }
+    return {
+      id: criterion.id,
+      label: criterion.label,
+      bank: bank.file,
+      tier,
+      status: "AUSENTE_RELEVANTE",
+      weight: TIER_WEIGHT[tier] ?? 1,
+    };
   }
-  if (hpmaIdx >= 0) {
-    const end = findNextStop(haystack, hpmaIdx, stop);
-    chunks.push(haystack.slice(hpmaIdx, end).trim());
-  }
+
+  let status: FieldStatus = "PRESENTE_ADEQUADO";
+  if (vagueHit && count <= 1) status = "PRESENTE_VAGO";
+  else if (count === 1) status = "PRESENTE_PARCIAL";
 
   return {
-    scope: chunks.filter(Boolean).join(" ").trim() || haystack,
-    note: "Análise restrita a Queixa Principal (QP) e História da Moléstia Atual (HPMA).",
+    id: criterion.id,
+    label: criterion.label,
+    bank: bank.file,
+    tier,
+    status,
+    weight: TIER_WEIGHT[tier] ?? 1,
+    evidence: hits.slice(0, 3).join(", "),
   };
 }
 
-function firstMatchLabel(
-  haystack: string,
-  groups: Record<string, string[]>,
-): string | null {
-  for (const [label, terms] of Object.entries(groups)) {
-    if (terms.some((t) => termMatches(haystack, t))) return label;
+function detectContradictions(haystack: string): string[] {
+  const out: string[] = [];
+  if (
+    termMatches(haystack, "hoje") &&
+    (termMatches(haystack, "há três dias") ||
+      termMatches(haystack, "ha tres dias") ||
+      termMatches(haystack, "há 3 dias") ||
+      termMatches(haystack, "ha 3 dias"))
+  ) {
+    out.push('Possível contradição temporal: menção a "hoje" e duração em dias.');
   }
-  return null;
-}
-
-function collectMatches(haystack: string, terms: string[]): string[] {
-  const found: string[] = [];
-  const sorted = [...terms].sort((a, b) => b.length - a.length);
-  for (const term of sorted) {
-    if (!termMatches(haystack, term)) continue;
-    const n = normalize(term);
-    const already = found.some(
-      (f) => normalize(f).includes(n) || n.includes(normalize(f)),
-    );
-    if (!already) found.push(term);
+  if (
+    (termMatches(haystack, "contínua") || termMatches(haystack, "continua")) &&
+    (termMatches(haystack, "uma vez por semana") ||
+      termMatches(haystack, "intermitente"))
+  ) {
+    out.push("Possível contradição de padrão: contínua vs intermitente/episódica.");
   }
-  return found;
-}
-
-function flattenLocations(): string[] {
-  return Object.values(S1_DB.fields.location).flat();
-}
-
-function extractTempo(haystack: string): string | null {
-  const units = S1_DB.fields.duration_units;
-  const unitPattern = units.map(escapeRe).join("|");
-  const re = new RegExp(`(\\d+(?:[.,]\\d+)?)\\s*(${unitPattern})\\b`, "iu");
-  const m = haystack.match(re);
-  if (!m) return null;
-  const num = m[1]!.replace(",", ".");
-  const unit = m[2]!.toLowerCase();
-  return `${num.replace(/\.0$/, "")} ${unit}`;
-}
-
-function escapeRe(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function detectPain(haystack: string): PainPresence {
-  const { positive, negative } = S1_DB.fields.pain;
-  const denied = negative.some((t) => termMatches(haystack, t));
-  const hasPain = positive.some((t) => termMatches(haystack, t));
-
-  if (denied && !hasPain) return "NÃO";
-  if (denied && hasPain) {
-    const posCount = positive.filter((t) => termMatches(haystack, t)).length;
-    return posCount >= 2 ? "SIM" : "NÃO";
+  if (
+    (termMatches(haystack, "nega vômitos") ||
+      termMatches(haystack, "nega vomitos") ||
+      termMatches(haystack, "sem vômitos") ||
+      termMatches(haystack, "sem vomitos")) &&
+    (termMatches(haystack, "episódios de vômito") ||
+      termMatches(haystack, "episodios de vomito") ||
+      /\b\d+\s+episodios?\s+de\s+vomit/i.test(haystack))
+  ) {
+    out.push("Contradição: nega vômitos e descreve episódios de vômito.");
   }
-  if (hasPain) return "SIM";
-  return "INDETERMINADO";
+  return out;
 }
 
-function attr(key: string, found: boolean, value: string | null): S1Attribute {
-  return { key, found, value: found ? value : null };
+function dedupeCriteria(items: S1CriterionResult[]): S1CriterionResult[] {
+  const map = new Map<string, S1CriterionResult>();
+  for (const item of items) {
+    const key = normalize(item.id) || normalize(item.label);
+    const prev = map.get(key);
+    if (!prev) {
+      map.set(key, item);
+      continue;
+    }
+    // Keep the better-documented / higher-weight instance
+    const prevScore = (QUALITY_COEF[prev.status] ?? 0) * prev.weight;
+    const nextScore = (QUALITY_COEF[item.status] ?? 0) * item.weight;
+    if (nextScore > prevScore) map.set(key, item);
+    else if (
+      prev.status === "AUSENTE_RELEVANTE" &&
+      item.status !== "AUSENTE_RELEVANTE" &&
+      item.status !== "NAO_APLICAVEL"
+    ) {
+      map.set(key, item);
+    }
+  }
+  return [...map.values()];
 }
 
-/** S1 — Interpretação lógica da dor (somente QP + HPMA), banco exclusivo. */
+function improvementLevel(
+  item: S1CriterionResult,
+): "CRÍTICO" | "ALTO" | "MODERADO" | "BAIXO" {
+  if (item.tier === "CORE") return "CRÍTICO";
+  if (item.tier === "EXPECTED") return "ALTO";
+  if (item.tier === "CONDITIONAL") return "MODERADO";
+  return "BAIXO";
+}
+
+/** S1 — análise crítica contextual QD/QP/HMA com routing entre BCs. */
 export function evaluatePainS1(content: string): S1Result {
   const { sanitized, changes } = blurPersonalData(content.trim());
-  const { scope, note } = extractQpHpma(sanitized);
+  const { scope, note } = extractScope(sanitized);
   const haystack = normalize(scope);
-  const f = S1_DB.fields;
 
-  const painPresence = detectPain(haystack);
+  const scored = PACK.banks
+    .map((bank) => ({ bank, score: scoreBank(haystack, bank) }))
+    .sort((a, b) => b.score - a.score);
 
-  const onsetMap = {
-    súbito: f.onset.sudden,
-    insidioso: f.onset.insidious,
-  };
-  const inicioRaw =
-    painPresence === "SIM" ? firstMatchLabel(haystack, onsetMap) : null;
-  const inicio = inicioRaw ?? (painPresence === "SIM" ? "desconhecido" : null);
+  const top = scored[0];
+  const primaryScore = top?.score ?? 0;
+  const fallback =
+    PACK.banks.find((b) => b.fallback) ??
+    PACK.banks.find((b) => b.id.includes("informacao_insuficiente"));
 
-  const locs =
-    painPresence === "SIM" ? collectMatches(haystack, flattenLocations()) : [];
-  const localizacao = locs.length ? locs.slice(0, 4).join(", ") : null;
+  let primary = top?.bank;
+  let confidence = primaryScore;
+  let classificacaoInsegura = false;
 
-  const tempo = painPresence === "SIM" ? extractTempo(haystack) : null;
+  if (!primary || primaryScore < 0.22) {
+    primary = fallback ?? top?.bank;
+    confidence = Math.min(primaryScore, 0.35);
+    classificacaoInsegura = true;
+  } else if (primary.generic && primaryScore < 0.45) {
+    // Prefer a more specific bank if close
+    const specific = scored.find((s) => !s.bank.generic && s.score >= 0.22);
+    if (specific) {
+      primary = specific.bank;
+      confidence = specific.score;
+    }
+  }
 
-  const patternMap = {
-    contínua: f.pattern.continuous,
-    intermitente: f.pattern.intermittent,
-  };
-  const padraoRaw =
-    painPresence === "SIM" ? firstMatchLabel(haystack, patternMap) : null;
-  const padrao = padraoRaw ?? (painPresence === "SIM" ? "desconhecido" : null);
+  // Near-tie primary candidates → lower confidence
+  const near = scored.filter(
+    (s) =>
+      !s.bank.generic &&
+      s.score >= primaryScore - 0.08 &&
+      s.score >= 0.22 &&
+      s.bank.file !== primary?.file,
+  );
+  if (near.length > 0) confidence = Math.min(confidence, 0.62);
 
-  let irradiacao: string | null = null;
-  let irradiacaoFound = false;
-  if (painPresence === "SIM") {
-    if (f.radiation.some((t) => termMatches(haystack, t))) {
-      const dest = collectMatches(haystack, flattenLocations()).filter(
-        (loc) => !locs.includes(loc),
+  const secondary = scored
+    .filter(
+      (s) =>
+        s.bank.file !== primary?.file &&
+        !s.bank.fallback &&
+        classifyApplicability(s.score, s.bank, primaryScore) === "SECUNDÁRIO",
+    )
+    .slice(0, 2)
+    .map((s) => s.bank);
+
+  const discarded = scored
+    .filter((s) => {
+      const cls = classifyApplicability(s.score, s.bank, primaryScore);
+      return (
+        s.score >= 0.12 &&
+        s.bank.file !== primary?.file &&
+        !secondary.some((x) => x.file === s.bank.file) &&
+        (cls === "NÃO APLICÁVEL" || cls === "CONDICIONAL")
       );
-      irradiacao = dest.length
-        ? `presente → ${dest.slice(0, 3).join(", ")}`
-        : "presente";
-      irradiacaoFound = true;
-    } else {
-      irradiacao = "desconhecida";
-    }
-  }
-
-  const sintomas =
-    painPresence === "SIM"
-      ? collectMatches(haystack, f.associated_symptoms)
-      : [];
-  const melhoraList =
-    painPresence === "SIM" ? collectMatches(haystack, f.relief) : [];
-  const pioraList =
-    painPresence === "SIM" ? collectMatches(haystack, f.aggravation) : [];
-
-  let episodios: string | null = null;
-  let episodiosFound = false;
-  if (painPresence === "SIM") {
-    if (f.previous_episodes.some((t) => termMatches(haystack, t))) {
-      episodios = "sim";
-      episodiosFound = true;
-    } else {
-      episodios = "desconhecido";
-    }
-  }
-
-  const responseMap = {
-    melhora: f.analgesic_response.improved,
-    parcial: f.analgesic_response.partial,
-    "sem melhora": f.analgesic_response.none,
-  };
-  const respostaRaw =
-    painPresence === "SIM" ? firstMatchLabel(haystack, responseMap) : null;
-  const resposta =
-    respostaRaw ?? (painPresence === "SIM" ? "desconhecido" : null);
-
-  const attributes: S1Attribute[] = [
-    attr("Dor", true, painPresence),
-    attr("Início", Boolean(inicioRaw), inicio),
-    attr("Localização", Boolean(localizacao), localizacao),
-    attr("Tempo", Boolean(tempo), tempo),
-    attr("Padrão", Boolean(padraoRaw), padrao),
-    attr("Irradiação", irradiacaoFound, irradiacao),
-    attr(
-      "Sintomas associados",
-      sintomas.length > 0,
-      sintomas.length ? sintomas.join(", ") : null,
-    ),
-    attr(
-      "Fatores de melhora",
-      melhoraList.length > 0,
-      melhoraList.length ? melhoraList.join(", ") : null,
-    ),
-    attr(
-      "Fatores de piora",
-      pioraList.length > 0,
-      pioraList.length ? pioraList.join(", ") : null,
-    ),
-    attr("Episódios prévios", episodiosFound, episodios),
-    attr("Resposta aos analgésicos", Boolean(respostaRaw), resposta),
-  ];
-
-  const completeness = attributes.map((a) => ({
-    key: a.key,
-    found:
-      a.key === "Dor"
-        ? painPresence !== "INDETERMINADO"
-        : painPresence === "NÃO"
-          ? true
-          : a.found &&
-            a.value !== "desconhecido" &&
-            a.value !== "desconhecida",
-  }));
-
-  const missingBlocks: string[] = [];
-  if (painPresence === "SIM") {
-    for (const item of completeness) {
-      if (item.key === "Dor" || item.found) continue;
-      const example = MISSING_EXAMPLES[item.key];
-      if (!example) continue;
-      missingBlocks.push(`• ${item.key}\nEx.: "${example}"`);
-    }
-  } else if (painPresence === "INDETERMINADO") {
-    missingBlocks.push(
-      `• Dor\nEx.: "Paciente refere dor torácica há 2 horas."`,
+    })
+    .slice(0, 6)
+    .map(
+      (s) =>
+        `${s.bank.file} (${clsLabel(classifyApplicability(s.score, s.bank, primaryScore))}; score=${s.score.toFixed(2)})`,
     );
+
+  const motivo = classificacaoInsegura
+    ? `CLASSIFICACAO_INSEGURA — correspondência insuficiente; fallback ${primary?.file ?? "n/a"}.`
+    : `JSON selecionado: ${primary?.file}. Motivo: maior SCORE_DE_APLICABILIDADE (${confidence.toFixed(2)}) para a queixa dominante inferida do texto.`;
+
+  // Build contextual schema from primary + secondaries
+  const rawCriteria: S1CriterionResult[] = [];
+  if (primary) {
+    for (const c of primary.criteria) {
+      rawCriteria.push(evaluateCriterion(haystack, c, primary, true));
+    }
+  }
+  for (const bank of secondary) {
+    for (const c of bank.criteria.slice(0, 8)) {
+      rawCriteria.push(evaluateCriterion(haystack, c, bank, false));
+    }
   }
 
-  const applicable = completeness.filter((c) =>
-    painPresence === "NÃO" ? c.key === "Dor" : true,
+  const criteria = dedupeCriteria(rawCriteria);
+  const contradictions = detectContradictions(haystack);
+
+  // Safety documentation dimension
+  const safetyTerms = [
+    ...(primary?.safety_terms ?? []),
+    ...secondary.flatMap((b) => b.safety_terms),
+  ];
+  const safetyHits = countMatches(haystack, safetyTerms).count;
+  const safetyGap =
+    safetyTerms.length > 0 && safetyHits === 0 && !classificacaoInsegura;
+
+  const applicable = criteria.filter(
+    (c) =>
+      c.status !== "NAO_APLICAVEL" &&
+      c.status !== "CONDICIONAL_NAO_ATIVADO" &&
+      c.weight > 0,
   );
-  const foundCount = applicable.filter((c) => c.found).length;
-  const ratio = applicable.length === 0 ? 0 : foundCount / applicable.length;
-  const panda93 = Math.max(
+  const weightedDoc = applicable.reduce(
+    (acc, c) => acc + c.weight * (QUALITY_COEF[c.status] ?? 0),
     0,
-    Math.min(PANDA93_MAX, toPanda93(ratio * 100)),
   );
+  const weightedMax = applicable.reduce((acc, c) => acc + c.weight, 0) || 1;
+  const completude = Math.round((weightedDoc / weightedMax) * 100);
+
+  const present = applicable.filter((c) =>
+    c.status.startsWith("PRESENTE") || c.status === "NEGATIVA_EXPLICITA",
+  );
+  const clareza = Math.round(
+    (present.filter((c) => c.status === "PRESENTE_ADEQUADO" || c.status === "NEGATIVA_EXPLICITA")
+      .length /
+      Math.max(1, present.length || applicable.length)) *
+      100,
+  );
+  const relevancia = Math.round(
+    Math.min(
+      100,
+      (1 - criteria.filter((c) => c.status === "NAO_APLICAVEL").length / Math.max(1, criteria.length)) *
+        100 *
+        (confidence || 0.4),
+    ),
+  );
+  const coerencia = Math.max(
+    0,
+    Math.round(100 - contradictions.length * 25 - (criteria.filter((c) => c.status === "PRESENTE_AMBIGUO").length * 8)),
+  );
+  const seguranca = Math.max(
+    0,
+    Math.round(
+      100 -
+        (safetyGap ? 28 : 0) -
+        criteria.filter((c) => c.status === "AUSENTE_RELEVANTE" && c.tier === "CORE").length * 10,
+    ),
+  );
+
+  const scoreGlobal = Math.round(
+    completude * 0.35 +
+      clareza * 0.15 +
+      relevancia * 0.15 +
+      coerencia * 0.15 +
+      seguranca * 0.2,
+  );
+
+  const panda93 = Math.max(0, Math.min(PANDA93_MAX, toPanda93(scoreGlobal)));
   const classified = classifyPanda93(panda93);
+
+  const informacoes_presentes = criteria
+    .filter((c) => c.status === "PRESENTE_ADEQUADO" || c.status === "NEGATIVA_EXPLICITA")
+    .map((c) => `${c.label}${c.evidence ? ` (${c.evidence})` : ""}`);
+  const informacoes_parciais = criteria
+    .filter((c) => c.status === "PRESENTE_PARCIAL")
+    .map((c) => c.label);
+  const informacoes_vagas = criteria
+    .filter((c) => c.status === "PRESENTE_VAGO")
+    .map((c) => c.label);
+  const ambiguidades = criteria
+    .filter((c) => c.status === "PRESENTE_AMBIGUO")
+    .map((c) => c.label);
+  const ausentes = criteria
+    .filter((c) => c.status === "AUSENTE_RELEVANTE")
+    .map((c) => `${c.label} [${c.tier}]`);
+  const condicionais = criteria
+    .filter((c) => c.status === "CONDICIONAL_NAO_ATIVADO")
+    .map((c) => c.label);
+  const naoAplicaveis = criteria
+    .filter((c) => c.status === "NAO_APLICAVEL")
+    .map((c) => c.label);
+  const negativas = criteria
+    .filter((c) => c.status === "NEGATIVA_EXPLICITA")
+    .map((c) => c.label);
+
+  const melhorias = criteria
+    .filter((c) => c.status === "AUSENTE_RELEVANTE" || c.status === "PRESENTE_VAGO" || c.status === "PRESENTE_PARCIAL")
+    .map((c) => ({
+      nivel: improvementLevel(c),
+      texto:
+        c.status === "AUSENTE_RELEVANTE"
+          ? `Documentar ${c.label.toLowerCase()} (pertinente ao domínio ${c.bank}).`
+          : `Melhorar especificidade de ${c.label.toLowerCase()}.`,
+    }))
+    .sort((a, b) => rankNivel(a.nivel) - rankNivel(b.nivel))
+    .slice(0, 8);
+
+  if (safetyGap) {
+    melhorias.unshift({
+      nivel: "CRÍTICO",
+      texto:
+        "Registrar presença/ausência explícita de elementos de alerta pertinentes à queixa (sem inferir negatividade).",
+    });
+  }
+
+  const conceitosSecundarios = secondary.map((b) => b.label);
 
   return {
     panda93,
     band: toBand(classified.band),
     bandLabel: classified.label,
     privacyRedactions: changes,
-    law: LAW,
-    sourcePack: `${S1_DB.module} v${S1_DB.version}`,
-    painPresence,
+    law: PACK.law,
+    sourcePack: `S1 BC pack v${PACK.v} (${PACK.bank_count} bancos)`,
     scopeNote: note,
-    attributes,
-    completeness,
-    missingBlocks,
+    routing: {
+      queixa_principal_identificada: primary?.label ?? "",
+      conceitos_secundarios: conceitosSecundarios,
+      json_primario: primary?.file ?? "",
+      json_secundarios: secondary.map((b) => b.file),
+      arquivos_descartados_relevantes: discarded,
+      confianca: Number(confidence.toFixed(2)),
+      classificacao_insegura: classificacaoInsegura,
+      motivo_selecao: motivo,
+    },
+    informacoes_presentes,
+    informacoes_parciais,
+    informacoes_vagas,
+    ambiguidades,
+    contradicoes: contradictions,
+    informacoes_ausentes_relevantes: ausentes,
+    campos_condicionais_nao_ativados: condicionais,
+    campos_nao_aplicaveis: naoAplicaveis,
+    negativas_pertinentes_documentadas: negativas,
+    pontos_de_melhoria_prioritarios: melhorias,
+    avaliacao: {
+      completude,
+      clareza,
+      relevancia,
+      coerencia,
+      seguranca_documental: seguranca,
+      score_global: scoreGlobal,
+    },
+    criteria,
   };
+}
+
+function clsLabel(
+  c: "PRIMÁRIO" | "SECUNDÁRIO" | "CONDICIONAL" | "NÃO APLICÁVEL",
+): string {
+  return c;
+}
+
+function rankNivel(n: "CRÍTICO" | "ALTO" | "MODERADO" | "BAIXO"): number {
+  return { CRÍTICO: 0, ALTO: 1, MODERADO: 2, BAIXO: 3 }[n];
 }

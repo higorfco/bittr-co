@@ -1,0 +1,418 @@
+{
+  "metadata": {
+    "name": "vertigem_tontura_desequilibrio_lexicon",
+    "version": "1.0",
+    "language": "pt-BR",
+    "scope": "QD e HMA/HPMA",
+    "purpose": "Apoio à análise crítica e tempo-efetiva da documentação de vertigem, tontura, desequilíbrio e instabilidade.",
+    "constraints": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "informação não mencionada não equivale a negativa",
+      "preservar descrições originais quando clinicamente relevantes"
+    ]
+  },
+  "phenomena": {
+    "vertigem_rotatoria": {
+      "terms": [
+        "vertigem",
+        "giro",
+        "rotação",
+        "rodando",
+        "tudo gira",
+        "quarto rodando",
+        "ambiente girando",
+        "estou rodando"
+      ],
+      "interpretation": "Sensação rotatória; não atribuir etiologia periférica ou central automaticamente."
+    },
+    "desequilibrio_instabilidade": {
+      "terms": [
+        "desequilíbrio",
+        "instabilidade",
+        "bambo",
+        "andar torto",
+        "não andar reto",
+        "perder o equilíbrio",
+        "parece que vou cair",
+        "oscilação",
+        "balanço",
+        "flutuação"
+      ],
+      "interpretation": "Caracterizar postura, marcha, direção de queda e necessidade de apoio."
+    },
+    "pre_sincope": {
+      "terms": [
+        "pré-síncope",
+        "sensação de desmaio",
+        "vou desmaiar",
+        "cabeça leve",
+        "vista escurece",
+        "escurecimento da visão"
+      ],
+      "interpretation": "Não tratar como sinônimo de vertigem ou síncope."
+    },
+    "tontura_inespecifica": {
+      "terms": [
+        "tontura",
+        "tonto",
+        "zonzo",
+        "cabeça estranha",
+        "vazio na cabeça"
+      ],
+      "interpretation": "Descrição insuficiente até caracterização fenomenológica adicional."
+    }
+  },
+  "domains": {
+    "onset_timing": {
+      "positive_terms": [
+        "súbito",
+        "repentino",
+        "abrupto",
+        "rápido",
+        "progressivo",
+        "insidioso",
+        "desde hoje",
+        "desde ontem",
+        "há horas",
+        "há dias"
+      ],
+      "vague_terms": [
+        "há algum tempo",
+        "esses dias",
+        "recentemente",
+        "faz um tempo",
+        "desde cedo"
+      ],
+      "required_fields": [
+        "momento de início",
+        "tempo de evolução",
+        "modo de início",
+        "cronologia"
+      ]
+    },
+    "temporal_pattern": {
+      "terms": [
+        "contínuo",
+        "persistente",
+        "intermitente",
+        "episódico",
+        "recorrente",
+        "flutuante",
+        "crises",
+        "episódios"
+      ],
+      "required_fields": [
+        "duração de cada episódio",
+        "frequência",
+        "intervalo",
+        "retorno ao basal",
+        "duração total"
+      ]
+    },
+    "evolution": {
+      "terms": [
+        "melhorando",
+        "piorando",
+        "estável",
+        "mais frequente",
+        "mais prolongado",
+        "intensidade variável"
+      ],
+      "required_fields": [
+        "tendência evolutiva",
+        "mudança de característica"
+      ]
+    },
+    "positional_motion_triggers": {
+      "terms": [
+        "mexer a cabeça",
+        "virar a cabeça",
+        "olhar para cima",
+        "olhar para baixo",
+        "deitar",
+        "levantar da cama",
+        "virar na cama",
+        "mudar de posição",
+        "sentar",
+        "levantar",
+        "caminhar"
+      ],
+      "critical_distinction": "Diferenciar sintoma desencadeado pelo movimento de sintoma contínuo apenas exacerbado pelo movimento."
+    },
+    "orthostasis": {
+      "terms": [
+        "ao levantar",
+        "ficar em pé",
+        "ortostatismo",
+        "posição em pé",
+        "melhora ao deitar",
+        "melhora ao sentar",
+        "vista escurece",
+        "vou desmaiar"
+      ],
+      "required_fields": [
+        "relação postural",
+        "pré-síncope",
+        "perda de consciência"
+      ]
+    },
+    "functional_impact_gait": {
+      "terms": [
+        "não consegue ficar em pé",
+        "não consegue andar",
+        "precisa se apoiar",
+        "queda",
+        "lateropulsão",
+        "ataxia",
+        "andar torto",
+        "instabilidade postural"
+      ],
+      "required_fields": [
+        "capacidade de sentar",
+        "ortostatismo",
+        "marcha independente",
+        "necessidade de apoio",
+        "quedas"
+      ]
+    },
+    "neurovegetative": {
+      "terms": [
+        "náusea",
+        "náuseas",
+        "vômito",
+        "vômitos",
+        "sudorese"
+      ],
+      "required_fields": [
+        "relação temporal",
+        "frequência dos vômitos",
+        "persistência"
+      ]
+    },
+    "auditory_otologic": {
+      "terms": [
+        "hipoacusia",
+        "perda auditiva",
+        "redução da audição",
+        "zumbido",
+        "tinnitus",
+        "ouvido tampado",
+        "plenitude auricular",
+        "pressão no ouvido",
+        "otalgia",
+        "otorreia"
+      ],
+      "required_fields": [
+        "lateralidade",
+        "início",
+        "relação temporal",
+        "mudança em relação ao basal"
+      ]
+    },
+    "focal_neurologic": {
+      "terms": [
+        "fraqueza",
+        "paresia",
+        "plegia",
+        "dormência",
+        "formigamento",
+        "hipoestesia",
+        "assimetria facial",
+        "fala enrolada",
+        "disartria",
+        "afasia",
+        "diplopia",
+        "perda visual",
+        "disfagia",
+        "engasgos",
+        "disfonia",
+        "ataxia",
+        "incoordenação"
+      ],
+      "required_fields": [
+        "manifestação",
+        "lateralidade",
+        "início",
+        "relação temporal",
+        "duração",
+        "persistência/resolução"
+      ],
+      "safety_priority": "alta"
+    },
+    "headache_neck_pain": {
+      "terms": [
+        "cefaleia",
+        "dor de cabeça",
+        "cervicalgia",
+        "dor cervical",
+        "dor na nuca"
+      ],
+      "required_fields": [
+        "novo ou habitual",
+        "início",
+        "intensidade",
+        "localização",
+        "relação temporal"
+      ]
+    },
+    "consciousness": {
+      "terms": [
+        "perda de consciência",
+        "desmaio",
+        "síncope",
+        "pré-síncope",
+        "não responsivo",
+        "sonolência",
+        "confusão",
+        "desorientação",
+        "amnésia"
+      ],
+      "critical_distinction": "Não utilizar perda de consciência, pré-síncope, síncope, sonolência e confusão como equivalentes."
+    },
+    "cardiopulmonary": {
+      "terms": [
+        "palpitação",
+        "palpitações",
+        "coração acelerado",
+        "ritmo irregular",
+        "dor torácica",
+        "desconforto torácico",
+        "dispneia",
+        "falta de ar"
+      ],
+      "required_fields": [
+        "ocorrência antes/durante/depois da tontura"
+      ]
+    },
+    "trauma_context": {
+      "terms": [
+        "queda",
+        "trauma",
+        "trauma craniano",
+        "trauma cervical",
+        "manipulação cervical"
+      ],
+      "required_fields": [
+        "sequência temporal",
+        "perda de consciência",
+        "início dos sintomas após evento"
+      ]
+    },
+    "preceding_context": {
+      "terms": [
+        "infecção recente",
+        "febre",
+        "diarreia",
+        "vômitos",
+        "desidratação",
+        "baixa ingesta",
+        "jejum",
+        "calor",
+        "esforço",
+        "viagem",
+        "repouso prolongado",
+        "álcool"
+      ],
+      "rule": "Registrar associação temporal sem atribuir causalidade."
+    },
+    "medications_substances": {
+      "terms": [
+        "medicação nova",
+        "novo medicamento",
+        "mudança de dose",
+        "aumento de dose",
+        "redução de dose",
+        "suspensão",
+        "duplicidade",
+        "álcool",
+        "substância"
+      ],
+      "rule": "Associação temporal não confirma causalidade."
+    }
+  },
+  "ambiguity_rules": [
+    {
+      "pattern": "tontura isolada",
+      "flag": "fenômeno não caracterizado"
+    },
+    {
+      "pattern": "vertigem + sensação de desmaio tratadas como equivalentes",
+      "flag": "fenômenos distintos potencialmente misturados"
+    },
+    {
+      "pattern": "contínuo + episódico sem explicação",
+      "flag": "padrão temporal contraditório/ambíguo"
+    },
+    {
+      "pattern": "súbito + progressivo sem sequência",
+      "flag": "modo de início ambíguo"
+    },
+    {
+      "pattern": "presença e ausência do mesmo sintoma",
+      "flag": "contradição documental"
+    },
+    {
+      "pattern": "lateralidades divergentes",
+      "flag": "contradição de lateralidade"
+    }
+  ],
+  "do_not_infer": [
+    "etiologia periférica por sintomas posicionais",
+    "etiologia central por desequilíbrio isolado",
+    "vertigem a partir de tontura inespecífica",
+    "síncope a partir de sensação de desmaio",
+    "déficit neurológico ausente quando não mencionado",
+    "lateralidade, duração, intensidade, gatilhos ou relação temporal não documentados"
+  ],
+  "critical_missing_fields_priority": {
+    "high": [
+      "descrição exata da sensação",
+      "momento e modo de início",
+      "padrão contínuo versus episódico",
+      "duração",
+      "gatilhos e relação com movimento/posição",
+      "ortostatismo",
+      "capacidade de permanecer em pé e caminhar",
+      "sintomas neurológicos focais",
+      "perda de consciência/pré-síncope"
+    ],
+    "moderate": [
+      "sintomas auditivos",
+      "cefaleia/cervicalgia",
+      "náuseas/vômitos",
+      "episódios prévios",
+      "evolução"
+    ],
+    "low": [
+      "detalhes complementares de fatores de melhora/piora",
+      "intervenções prévias e resposta quando não essenciais à caracterização inicial"
+    ]
+  },
+  "analysis_output_schema": {
+    "A_informacoes_identificadas": [],
+    "B_caracterizacao_fenomeno": [
+      "vertigem",
+      "desequilíbrio/instabilidade",
+      "pré-síncope",
+      "tontura inespecífica",
+      "fenômenos combinados",
+      "não caracterizável com segurança"
+    ],
+    "C_informacoes_ausentes_insuficientes": [],
+    "D_ambiguidades_contradicoes": [],
+    "E_prioridade_complementacao": {
+      "alta": [],
+      "moderada": [],
+      "baixa": []
+    }
+  },
+  "source_prompt": {
+    "description": "Estrutura compilada a partir do prompt fornecido pelo usuário.",
+    "sections_detected": [
+      "OBJETIVO"
+    ]
+  }
+}

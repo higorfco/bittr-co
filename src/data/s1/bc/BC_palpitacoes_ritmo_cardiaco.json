@@ -1,0 +1,239 @@
+{
+  "metadata": {
+    "name": "palpitacoes_percepcao_alteracao_ritmo_cardiaco",
+    "language": "pt-BR",
+    "version": "1.0",
+    "purpose": "Banco terminológico para análise crítica e tempo-efetiva de QD/HMA em palpitações.",
+    "scope": "Extração, normalização, lacunas, ambiguidades, contradições e segurança; sem diagnóstico, prescrição ou exames."
+  },
+  "termos_queixa": [
+    "palpitação",
+    "palpitações",
+    "coração acelerado",
+    "coração disparado",
+    "coração correndo",
+    "coração batendo rápido",
+    "coração batendo forte",
+    "coração pulando",
+    "coração falhando",
+    "coração dando umas pausadas",
+    "batimento irregular",
+    "coração descompassado",
+    "coração fora do ritmo",
+    "coração saindo pela boca",
+    "tremedeira no peito",
+    "pulsação no peito",
+    "pulsação no pescoço",
+    "sensação de batimentos extras"
+  ],
+  "padrao_percebido": [
+    "rápido",
+    "lento",
+    "regular",
+    "irregular",
+    "forte",
+    "fraco",
+    "alternante",
+    "falhas",
+    "pausas",
+    "batimentos extras",
+    "início abrupto",
+    "aceleração progressiva"
+  ],
+  "temporalidade": {
+    "inicio": [
+      "súbito",
+      "abrupto",
+      "rápido",
+      "progressivo",
+      "insidioso",
+      "indeterminado"
+    ],
+    "termino": [
+      "súbito",
+      "abrupto",
+      "gradual",
+      "indeterminado"
+    ],
+    "duracao": [
+      "segundos",
+      "minutos",
+      "horas",
+      "dias"
+    ],
+    "recorrencia": [
+      "único",
+      "recorrente",
+      "várias vezes ao dia",
+      "diariamente",
+      "semanalmente",
+      "esporadicamente"
+    ]
+  },
+  "fontes_medida_fc": [
+    "pulso contado",
+    "relógio inteligente",
+    "wearable",
+    "oxímetro",
+    "aparelho de pressão",
+    "monitor cardíaco"
+  ],
+  "contexto": [
+    "repouso",
+    "sono",
+    "despertar",
+    "mudança de posição",
+    "ortostatismo",
+    "caminhada",
+    "esforço físico",
+    "exercício",
+    "pós-exercício",
+    "alimentação",
+    "estresse emocional",
+    "ansiedade",
+    "susto",
+    "dor",
+    "febre",
+    "privação de sono",
+    "desidratação",
+    "jejum"
+  ],
+  "desencadeantes": [
+    "exercício",
+    "esforço",
+    "estresse",
+    "emoções intensas",
+    "cafeína",
+    "café",
+    "chá",
+    "energéticos",
+    "nicotina",
+    "tabaco",
+    "álcool",
+    "drogas recreativas",
+    "estimulantes",
+    "descongestionantes",
+    "broncodilatadores",
+    "medicamento novo",
+    "mudança de dose",
+    "suspensão de medicamento",
+    "suplementos",
+    "produtos para emagrecimento"
+  ],
+  "sintomas_associados": {
+    "cardiorrespiratorios": [
+      "dor torácica",
+      "desconforto torácico",
+      "pressão torácica",
+      "aperto torácico",
+      "dispneia",
+      "falta de ar",
+      "intolerância ao esforço",
+      "sudorese",
+      "palidez",
+      "náusea"
+    ],
+    "neurologicos_hemodinamicos": [
+      "tontura",
+      "sensação de desmaio",
+      "pré-síncope",
+      "síncope",
+      "perda da consciência",
+      "fraqueza intensa",
+      "alteração do nível de consciência"
+    ],
+    "outros": [
+      "tremores",
+      "sensação de calor",
+      "febre",
+      "ansiedade",
+      "medo",
+      "cefaleia"
+    ]
+  },
+  "sincope_presincope": [
+    "desmaio",
+    "perda da consciência",
+    "quase desmaio",
+    "escurecimento da visão",
+    "sensação de desfalecimento",
+    "queda",
+    "perda de responsividade"
+  ],
+  "seguranca_alta_relevancia": [
+    "palpitação associada à síncope",
+    "pré-síncope importante",
+    "sintomas durante esforço",
+    "dor torácica associada",
+    "dispneia importante",
+    "alteração do nível de consciência",
+    "instabilidade clínica",
+    "deterioração clínica",
+    "início abrupto e persistente",
+    "FC extremamente elevada documentada",
+    "FC extremamente baixa documentada",
+    "episódio prolongado sem resolução",
+    "novos sintomas neurológicos"
+  ],
+  "nao_equivalencias": [
+    "palpitação != taquicardia",
+    "palpitação != arritmia",
+    "coração acelerado != taquicardia documentada",
+    "irregularidade percebida != arritmia confirmada",
+    "coração batendo forte != FC aumentada",
+    "coração falhando != pausa cardíaca documentada",
+    "palpitação != dor torácica",
+    "tontura != pré-síncope",
+    "pré-síncope != síncope",
+    "ansiedade durante episódio != causa ansiosa",
+    "wearable alterado != diagnóstico eletrocardiográfico"
+  ],
+  "prioridade_lacunas": {
+    "alta": [
+      "relação com síncope",
+      "relação com esforço",
+      "dor torácica",
+      "dispneia importante",
+      "duração do episódio atual",
+      "persistência dos sintomas",
+      "contexto de início",
+      "alteração do nível de consciência"
+    ],
+    "moderada": [
+      "início/término abrupto ou gradual",
+      "regularidade percebida",
+      "frequência dos episódios",
+      "desencadeantes",
+      "FC durante sintomas",
+      "evolução temporal"
+    ],
+    "baixa": [
+      "detalhes complementares de refinamento"
+    ]
+  },
+  "regras": [
+    "não inferir",
+    "não preencher lacunas",
+    "ausência de menção não é negativa",
+    "preservar descrição original relevante",
+    "distinguir subjetivo de objetivo",
+    "associação temporal não implica causalidade",
+    "não converter coloquialismo em diagnóstico",
+    "identificar ambiguidades e contradições",
+    "máximo ganho informacional com mínima redundância"
+  ],
+  "campos_saida": [
+    "informacoes_identificadas",
+    "caracterizacao_semiologica",
+    "lacunas_alta",
+    "lacunas_moderada",
+    "lacunas_baixa",
+    "ambiguidades",
+    "contradicoes",
+    "seguranca_presentes",
+    "seguranca_negados_explicitamente",
+    "seguranca_nao_avaliaveis",
+    "perguntas_prioritarias",
+    "completude"
+  ]
+}

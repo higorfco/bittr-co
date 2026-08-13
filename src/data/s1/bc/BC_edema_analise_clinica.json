@@ -1,0 +1,565 @@
+{
+  "metadata": {
+    "name": "edema_clinical_text_analysis_db",
+    "version": "1.0",
+    "language": "pt-BR",
+    "scope": "QD/HMA/HPMA",
+    "complaint": [
+      "edema",
+      "inchaço",
+      "aumento de volume"
+    ],
+    "purpose": [
+      "extração de informações clínicas",
+      "avaliação de completude",
+      "detecção de lacunas",
+      "detecção de ambiguidades",
+      "detecção de contradições",
+      "priorização de informações faltantes",
+      "apoio à análise crítica tempo-efetiva"
+    ],
+    "prohibited_actions": [
+      "diagnosticar",
+      "definir tratamento",
+      "solicitar exames",
+      "inferir informação ausente",
+      "preencher lacunas por suposição",
+      "converter não informado em negativo",
+      "atribuir etiologia automaticamente"
+    ]
+  },
+  "core_terms": {
+    "canonical": "edema",
+    "synonyms_and_patient_terms": [
+      "edema",
+      "inchaço",
+      "inchado",
+      "inchada",
+      "aumento de volume",
+      "retenção de líquido",
+      "retenção de líquidos",
+      "juntando líquido",
+      "pernas inchadas",
+      "pés inchados",
+      "tornozelos inchados",
+      "mãos inchadas",
+      "rosto inchado",
+      "pálpebras inchadas",
+      "barriga inchada",
+      "corpo inchado",
+      "marca da meia",
+      "sapato apertado",
+      "anel não sai",
+      "acorda inchado"
+    ],
+    "normalization_warning": "Não assumir que todo inchaço/aumento de volume corresponda a edema."
+  },
+  "domains": {
+    "confirmation": {
+      "fields": [
+        "edema_explicit",
+        "patient_term",
+        "reported_or_observed",
+        "distinguishable_from_other_volume_increase",
+        "weight_sensation",
+        "tension",
+        "stretched_skin",
+        "shoe_clothing_ring_difficulty"
+      ]
+    },
+    "onset_timing": {
+      "fields": [
+        "onset_date_time",
+        "duration",
+        "onset_mode",
+        "triggering_event",
+        "chronology",
+        "new_or_recurrent"
+      ],
+      "onset_mode_terms": [
+        "súbito",
+        "abrupto",
+        "rápido",
+        "progressivo",
+        "insidioso"
+      ],
+      "vague_time_terms": [
+        "há algum tempo",
+        "faz uns dias",
+        "recentemente",
+        "de uns tempos para cá"
+      ]
+    },
+    "location_distribution": {
+      "locations": [
+        "membros inferiores",
+        "pés",
+        "tornozelos",
+        "pernas",
+        "coxas",
+        "membros superiores",
+        "mãos",
+        "braços",
+        "face",
+        "periorbitário",
+        "pálpebras",
+        "genital",
+        "sacral",
+        "parede abdominal",
+        "outra"
+      ],
+      "distribution_terms": [
+        "localizado",
+        "generalizado",
+        "unilateral",
+        "bilateral",
+        "simétrico",
+        "assimétrico",
+        "distal",
+        "proximal",
+        "disseminado"
+      ]
+    },
+    "temporal_pattern_evolution": {
+      "fields": [
+        "continuous_or_intermittent",
+        "all_day",
+        "time_of_day",
+        "morning_predominance",
+        "evening_predominance",
+        "spontaneous_improvement",
+        "trend",
+        "spread",
+        "edema_free_periods",
+        "previous_similar_episodes"
+      ],
+      "trend_terms": [
+        "aumentando",
+        "piorando",
+        "diminuindo",
+        "melhorando",
+        "estável"
+      ]
+    },
+    "laterality": {
+      "terms": [
+        "direito",
+        "esquerdo",
+        "bilateral",
+        "simétrico",
+        "assimétrico"
+      ],
+      "fields": [
+        "initial_side",
+        "contralateral_progression"
+      ]
+    },
+    "extent_progression": {
+      "fields": [
+        "initial_site",
+        "current_extent",
+        "distal_to_proximal",
+        "proximal_to_distal",
+        "feet_ankles_only",
+        "legs_thighs",
+        "hands_face_other",
+        "progressive_dissemination"
+      ]
+    },
+    "local_characteristics": {
+      "terms": [
+        "consistência",
+        "depressibilidade",
+        "cacifo",
+        "Godet",
+        "sinal de Godet",
+        "sem cacifo",
+        "não depressível",
+        "tensão da pele",
+        "endurecimento",
+        "espessamento",
+        "alteração de textura",
+        "calor",
+        "frialdade",
+        "hiperemia",
+        "eritema",
+        "palidez",
+        "cianose",
+        "alterações tróficas",
+        "descamação",
+        "lesões cutâneas",
+        "secreção",
+        "ulceração"
+      ],
+      "rule": "Preservar graduação do cacifo/Godet se explicitamente informada; não inferir se ausente."
+    },
+    "pain_local_symptoms": {
+      "terms": [
+        "dor",
+        "peso",
+        "tensão",
+        "queimação",
+        "parestesia",
+        "prurido",
+        "calor local",
+        "vermelhidão",
+        "hipersensibilidade",
+        "limitação funcional"
+      ],
+      "pain_fields": [
+        "localização",
+        "intensidade",
+        "início",
+        "caráter",
+        "evolução",
+        "relação temporal com edema"
+      ]
+    },
+    "modifiers": {
+      "worsening_or_association": [
+        "ortostatismo prolongado",
+        "sentado por tempo prolongado",
+        "repouso",
+        "decúbito",
+        "elevação dos membros",
+        "caminhada",
+        "atividade física",
+        "imobilização",
+        "horário do dia",
+        "calor",
+        "alimentação",
+        "sal",
+        "ingestão hídrica",
+        "ciclo menstrual",
+        "viagem prolongada",
+        "trauma",
+        "procedimento recente"
+      ],
+      "improvement": [
+        "repouso",
+        "elevação dos membros",
+        "dormir",
+        "movimentação",
+        "compressão"
+      ]
+    },
+    "weight_volume": {
+      "terms": [
+        "ganho de peso",
+        "perda de peso",
+        "ganho ponderal",
+        "perda ponderal",
+        "retenção hídrica",
+        "aumento da circunferência abdominal",
+        "roupa apertada",
+        "calçado apertado",
+        "anel apertado"
+      ],
+      "fields": [
+        "magnitude",
+        "time_interval",
+        "units"
+      ]
+    },
+    "respiratory_associated": {
+      "terms": [
+        "dispneia",
+        "falta de ar",
+        "dispneia aos esforços",
+        "dispneia em repouso",
+        "ortopneia",
+        "dispneia paroxística noturna",
+        "DPN",
+        "tosse",
+        "expectoração",
+        "dor torácica",
+        "sufocamento",
+        "redução da tolerância aos esforços"
+      ]
+    },
+    "cardiovascular_associated": {
+      "terms": [
+        "dor torácica",
+        "desconforto torácico",
+        "palpitações",
+        "síncope",
+        "pré-síncope",
+        "intolerância ao esforço",
+        "fadiga",
+        "sensação de desmaio",
+        "cianose"
+      ]
+    },
+    "urinary_associated": {
+      "terms": [
+        "redução da diurese",
+        "aumento da diurese",
+        "oligúria",
+        "anúria",
+        "poliúria",
+        "alteração da frequência urinária",
+        "noctúria",
+        "urina espumosa",
+        "hematúria",
+        "urina escura",
+        "alteração da cor da urina",
+        "disúria"
+      ],
+      "rule": "Não converter descrição subjetiva em classificação quantitativa sem dados suficientes."
+    },
+    "abdominal_hepatobiliary": {
+      "terms": [
+        "aumento do volume abdominal",
+        "distensão abdominal",
+        "líquido abdominal",
+        "dor abdominal",
+        "icterícia",
+        "urina escura",
+        "alteração da cor das fezes",
+        "náusea",
+        "náuseas",
+        "vômito",
+        "vômitos",
+        "redução do apetite",
+        "saciedade precoce"
+      ],
+      "ambiguity": "barriga inchada pode representar distensão, edema de parede ou aumento inespecífico de volume."
+    },
+    "systemic": {
+      "terms": [
+        "febre",
+        "calafrios",
+        "fadiga",
+        "astenia",
+        "mal-estar",
+        "perda ponderal",
+        "ganho ponderal",
+        "sudorese",
+        "alteração do apetite",
+        "redução da capacidade funcional"
+      ]
+    },
+    "facial_periorbital": {
+      "terms": [
+        "edema facial",
+        "rosto inchado",
+        "edema periorbitário",
+        "pálpebras inchadas",
+        "edema de lábios",
+        "lábios inchados",
+        "edema de língua",
+        "língua inchada",
+        "urticária",
+        "prurido",
+        "eritema",
+        "alteração da voz",
+        "disfagia",
+        "dificuldade para engolir",
+        "dificuldade respiratória"
+      ],
+      "rule": "Não assumir automaticamente reação alérgica ou angioedema."
+    },
+    "context_exposures": {
+      "terms": [
+        "imobilização prolongada",
+        "repouso prolongado",
+        "viagem longa",
+        "internação recente",
+        "cirurgia recente",
+        "trauma",
+        "procedimento no membro",
+        "redução da mobilidade",
+        "dispositivo compressivo",
+        "compressão local"
+      ]
+    },
+    "medications_substances": {
+      "fields": [
+        "drug_name",
+        "recent_start",
+        "dose_change",
+        "discontinuation",
+        "temporal_relationship",
+        "change_after_medication_change",
+        "hormones",
+        "supplements"
+      ],
+      "rule": "Registrar relação temporal sem atribuir causalidade."
+    },
+    "previous_episodes": {
+      "fields": [
+        "present",
+        "location",
+        "similarity",
+        "duration",
+        "frequency",
+        "associated_context",
+        "spontaneous_or_post_intervention_resolution"
+      ]
+    },
+    "functional_impact": {
+      "terms": [
+        "dificuldade para caminhar",
+        "dificuldade para ficar em pé",
+        "limitação de movimento",
+        "limitação de atividades habituais",
+        "dificuldade para calçar",
+        "dificuldade para vestir",
+        "dificuldade com anéis",
+        "interfere no sono",
+        "interfere no trabalho",
+        "interfere em atividade física"
+      ]
+    }
+  },
+  "red_flag_text_markers": [
+    "início abrupto",
+    "edema unilateral",
+    "dor importante",
+    "hiperemia",
+    "calor local",
+    "dispneia",
+    "dor torácica",
+    "síncope",
+    "edema de língua",
+    "edema de lábios",
+    "dificuldade respiratória",
+    "dificuldade para engolir",
+    "redução importante da diurese",
+    "progressão rápida",
+    "aumento rápido de peso",
+    "edema generalizado",
+    "febre com alterações locais"
+  ],
+  "information_quality_labels": [
+    "PRESENTE_E_ADEQUADAMENTE_CARACTERIZADA",
+    "PRESENTE_MAS_INCOMPLETA",
+    "AUSENTE_NAO_INFORMADA",
+    "AMBIGUA",
+    "CONTRADITORIA",
+    "NAO_APLICAVEL"
+  ],
+  "ambiguity_patterns": [
+    {
+      "pattern": "está inchado",
+      "missing": "localização"
+    },
+    {
+      "pattern": "pernas inchadas",
+      "missing": "lateralidade/simetria"
+    },
+    {
+      "pattern": "muito inchado",
+      "missing": "intensidade/extensão objetiva"
+    },
+    {
+      "pattern": "incha de vez em quando",
+      "missing": "frequência/duração"
+    },
+    {
+      "pattern": "retenção de líquido",
+      "missing": "descrição objetiva"
+    },
+    {
+      "pattern": "piora durante o dia",
+      "missing": "horário/magnitude"
+    },
+    {
+      "pattern": "urina pouco",
+      "missing": "comparação com basal/quantificação"
+    },
+    {
+      "pattern": "barriga inchada",
+      "missing": "distensão vs edema vs aumento inespecífico de volume"
+    }
+  ],
+  "contradiction_checks": [
+    [
+      "unilateral",
+      "bilateral"
+    ],
+    [
+      "súbito",
+      "progressivo"
+    ],
+    [
+      "contínuo",
+      "resolução completa diária"
+    ],
+    [
+      "localizações incompatíveis"
+    ],
+    [
+      "duração/cronologia conflitantes"
+    ]
+  ],
+  "missing_information_priority": {
+    "high": [
+      "início",
+      "duração",
+      "localização",
+      "lateralidade",
+      "extensão",
+      "velocidade de progressão",
+      "dor",
+      "hiperemia/calor local quando edema de membro",
+      "dispneia",
+      "dor torácica",
+      "comprometimento de via aérea quando edema facial",
+      "alterações importantes da diurese"
+    ],
+    "intermediate": [
+      "padrão ao longo do dia",
+      "fatores de melhora/piora",
+      "progressão",
+      "ganho de peso",
+      "episódios prévios",
+      "sintomas urinários",
+      "sintomas sistêmicos",
+      "repercussão funcional"
+    ],
+    "complementary": [
+      "detalhes adicionais que refinam a caracterização sem impedir a caracterização inicial"
+    ]
+  },
+  "analysis_rules": {
+    "negation": "Somente registrar ausência de sintoma quando houver negativa explícita.",
+    "missing_data": "Não informado não equivale a negado.",
+    "preserve_patient_language": true,
+    "preserve_numeric_value_and_unit": true,
+    "avoid_duplicate_gaps": true,
+    "prioritize_high_information_gain": true,
+    "strict_text_grounding": true
+  },
+  "output_schema": {
+    "A_resumo_estruturado": [
+      "início_duração",
+      "localização",
+      "distribuição",
+      "lateralidade",
+      "extensão",
+      "padrão_evolução",
+      "características",
+      "sintomas_associados",
+      "fatores_melhora_piora",
+      "repercussão_funcional",
+      "episódios_prévios"
+    ],
+    "B_adequadamente_documentadas": [],
+    "C_faltantes_incompletas": {
+      "format": "informação faltante -> relevância -> exemplo objetivo de registro",
+      "ordered_by_priority": true
+    },
+    "D_ambiguas_contraditorias": {
+      "format": "trecho/ideia -> problema -> informação necessária"
+    },
+    "E_pontos_de_atencao": [],
+    "F_perguntas_maior_valor": {
+      "goal": "máximo ganho de informação com o menor número possível de perguntas",
+      "do_not_repeat_already_documented": true
+    }
+  },
+  "source_prompt": {
+    "embedded_full_text": "Assuma o papel de um sistema especializado em **semiologia médica, medicina de emergência, clínica médica, cardiologia, nefrologia, hepatologia, angiologia, endocrinologia, raciocínio clínico e processamento de linguagem natural aplicado à saúde**.\n\n# OBJETIVO\n\nAnalisar **exclusivamente o texto referente à Queixa e Duração (QD) e História da Moléstia Atual (HMA/HPMA)** e identificar as informações disponíveis e faltantes necessárias para caracterizar adequadamente uma queixa de **EDEMA / INCHAÇO / AUMENTO DE VOLUME**.\n\nNesta etapa:\n\n* **NÃO realizar diagnóstico**;\n* **NÃO definir tratamento**;\n* **NÃO solicitar exames**;\n* **NÃO inferir informações não presentes no texto**;\n* **NÃO preencher lacunas com suposições**;\n* **NÃO considerar informação ausente como negativa**;\n* **NÃO assumir automaticamente que todo “inchaço” corresponde a edema**;\n* **NÃO assumir etiologia cardíaca, renal, hepática, vascular, linfática, medicamentosa ou outra apenas pela presença de edema**.\n\nO objetivo é exclusivamente **extrair, organizar e verificar a completude das informações clínicas relevantes**, identificando lacunas, ambiguidades, contradições e descrições insuficientes que possam comprometer a caracterização adequada da queixa.\n\n---\n\n# 1. CONFIRMAÇÃO E CARACTERIZAÇÃO DA QUEIXA\n\nIdentifique:\n\n* Há descrição explícita de edema?\n* O paciente refere inchaço, aumento de volume ou sensação equivalente?\n* O achado é referido pelo paciente ou observado por terceiros?\n* O texto permite distinguir edema de outras causas de aumento de volume?\n* Há sensação de peso, tensão, pele esticada ou dificuldade para calçar sapatos, vestir roupas ou retirar anéis?\n\nReconheça expressões potencialmente relacionadas, como:\n\n* edema;\n* inchaço;\n* inchado;\n* retenção de líquido;\n* pernas inchadas;\n* pés inchados;\n* tornozelos inchados;\n* mãos inchadas;\n* rosto inchado;\n* pálpebras inchadas;\n* barriga inchada;\n* corpo inchado;\n* “está juntando líquido”;\n* “marca da meia”;\n* “sapato está apertado”;\n* “anel não sai”;\n* “acorda inchado”.\n\n**Preserve a descrição original** quando o termo empregado não permitir determinar com segurança a natureza do aumento de volume.\n\n---\n\n# 2. INÍCIO E TEMPO DE EVOLUÇÃO\n\nIdentifique:\n\n* Quando o edema começou?\n* Há quanto tempo está presente?\n* O início foi **súbito, rápido, progressivo ou insidioso**?\n* Houve evento específico associado ao início?\n* O texto permite estabelecer uma sequência cronológica?\n* É um episódio novo ou recorrente?\n\nConsidere incompletas expressões temporais vagas, como:\n\n* “há algum tempo”;\n* “faz uns dias”;\n* “recentemente”;\n* “de uns tempos para cá”.\n\n---\n\n# 3. LOCALIZAÇÃO E DISTRIBUIÇÃO\n\nDetermine com a maior precisão disponível onde ocorre o edema.\n\nConsidere:\n\n* membros inferiores;\n* pés;\n* tornozelos;\n* pernas;\n* coxas;\n* membros superiores;\n* mãos;\n* braços;\n* face;\n* região periorbitária/pálpebras;\n* região genital;\n* região sacral;\n* parede abdominal;\n* outra localização.\n\nIdentifique se o edema é:\n\n* **localizado ou generalizado**;\n* **unilateral ou bilateral**;\n* **simétrico ou assimétrico**;\n* predominantemente **distal ou proximal**;\n* restrito a determinada região ou progressivamente disseminado.\n\nNão assumir que termos como **“corpo inchado”** representem edema generalizado sem caracterização adicional.\n\n---\n\n# 4. PADRÃO TEMPORAL E EVOLUÇÃO\n\nIdentifique:\n\n* O edema é contínuo ou intermitente?\n* Permanece durante todo o dia?\n* Surge ou piora em determinado horário?\n* É mais intenso pela manhã?\n* É mais intenso ao final do dia?\n* Desaparece ou diminui espontaneamente?\n* Está aumentando, diminuindo ou permanecendo estável?\n* Houve progressão para outras regiões?\n* Existem períodos completamente sem edema?\n* Já ocorreram episódios semelhantes?\n\nQuando recorrente:\n\n* frequência;\n* duração dos episódios;\n* intervalo entre episódios;\n* padrão de recorrência.\n\n---\n\n# 5. LATERALIDADE E ASSIMETRIA\n\nQuando houver acometimento de membros, identifique explicitamente:\n\n* direito;\n* esquerdo;\n* bilateral;\n* simétrico;\n* assimétrico;\n* lado inicialmente acometido;\n* eventual progressão para o membro contralateral.\n\n**A ausência de descrição da lateralidade deve ser considerada uma lacuna relevante quando aplicável.**\n\n---\n\n# 6. EXTENSÃO E PROGRESSÃO\n\nIdentifique:\n\n* Onde o edema começou?\n* Até onde se estende?\n* Houve progressão distal → proximal ou proximal → distal?\n* Está restrito aos pés/tornozelos?\n* Atinge pernas ou coxas?\n* Envolve mãos, face ou outras regiões?\n* Houve disseminação progressiva?\n\nPreserve a sequência temporal quando descrita.\n\n---\n\n# 7. CARACTERÍSTICAS LOCAIS\n\nVerifique se o texto descreve:\n\n* consistência;\n* depressibilidade;\n* presença de cacifo/Godet;\n* ausência de cacifo;\n* tensão da pele;\n* endurecimento;\n* espessamento;\n* alterações de textura;\n* aumento de temperatura;\n* redução de temperatura;\n* hiperemia/eritema;\n* palidez;\n* cianose;\n* alterações tróficas;\n* descamação;\n* lesões cutâneas;\n* secreção;\n* ulceração.\n\nQuando houver descrição de **cacifo/Godet**, preservar sua caracterização e graduação, se informada.\n\nNão inferir presença ou ausência de cacifo quando não mencionada.\n\n---\n\n# 8. DOR E SINTOMAS LOCAIS ASSOCIADOS\n\nIdentifique presença ou ausência explicitamente registrada de:\n\n* dor;\n* sensação de peso;\n* tensão;\n* queimação;\n* parestesia;\n* prurido;\n* calor local;\n* vermelhidão;\n* hipersensibilidade;\n* limitação funcional.\n\nQuando houver dor, identificar, se disponível:\n\n* localização;\n* intensidade;\n* início;\n* caráter;\n* evolução;\n* relação temporal com o edema.\n\n---\n\n# 9. FATORES DE MELHORA E PIORA\n\nIdentifique relação com:\n\n* posição ortostática prolongada;\n* permanecer sentado por períodos prolongados;\n* repouso;\n* decúbito;\n* elevação dos membros;\n* caminhada;\n* atividade física;\n* imobilização;\n* horário do dia;\n* calor;\n* alimentação;\n* ingestão de sal;\n* ingestão hídrica;\n* ciclo menstrual, quando mencionado;\n* viagens prolongadas;\n* trauma;\n* procedimentos recentes.\n\nDetermine se o paciente relata melhora após:\n\n* repouso;\n* elevação dos membros;\n* dormir;\n* movimentação;\n* compressão;\n* outras medidas descritas.\n\nNão inferir mecanismo fisiopatológico a partir desses fatores nesta etapa.\n\n---\n\n# 10. ALTERAÇÃO DE PESO E VOLUME CORPORAL\n\nIdentifique:\n\n* ganho recente de peso;\n* perda recente de peso;\n* magnitude da alteração;\n* intervalo de tempo;\n* percepção de retenção hídrica;\n* aumento de circunferência abdominal;\n* mudança no tamanho de roupas, calçados ou acessórios.\n\nQuando houver números, preserve **valor e unidade** exatamente como registrados.\n\n---\n\n# 11. SINTOMAS RESPIRATÓRIOS ASSOCIADOS\n\nIdentifique se o texto menciona:\n\n* dispneia;\n* dispneia aos esforços;\n* dispneia em repouso;\n* ortopneia;\n* dispneia paroxística noturna;\n* tosse;\n* expectoração;\n* dor torácica;\n* sensação de sufocamento;\n* redução da tolerância aos esforços.\n\n**Não diagnosticar a causa da associação entre edema e sintomas respiratórios.**\n\n---\n\n# 12. SINTOMAS CARDIOVASCULARES ASSOCIADOS\n\nIdentifique:\n\n* dor ou desconforto torácico;\n* palpitações;\n* síncope;\n* pré-síncope;\n* intolerância ao esforço;\n* fadiga;\n* sensação de desmaio;\n* cianose.\n\nRegistre apenas o que estiver explicitamente presente no texto.\n\n---\n\n# 13. SINTOMAS URINÁRIOS E ALTERAÇÕES DA DIURESE\n\nIdentifique:\n\n* redução do volume urinário;\n* aumento do volume urinário;\n* oligúria referida;\n* anúria referida;\n* alteração da frequência urinária;\n* noctúria;\n* urina espumosa;\n* alteração da coloração da urina;\n* hematúria referida;\n* disúria;\n* outras alterações urinárias temporalmente associadas.\n\nNão converter descrições subjetivas em classificações quantitativas sem dados suficientes.\n\n---\n\n# 14. SINTOMAS ABDOMINAIS E HEPATOBILIARES ASSOCIADOS\n\nIdentifique:\n\n* aumento do volume abdominal;\n* distensão abdominal;\n* sensação de líquido abdominal;\n* dor abdominal;\n* icterícia;\n* alteração da coloração da urina;\n* alteração da coloração das fezes;\n* náuseas;\n* vômitos;\n* redução do apetite;\n* saciedade precoce.\n\nDiferencie, quando possível, **“barriga inchada”** de edema de parede abdominal, distensão abdominal ou aumento do volume abdominal sem caracterização definida.\n\n---\n\n# 15. SINTOMAS SISTÊMICOS ASSOCIADOS\n\nIdentifique:\n\n* febre;\n* calafrios;\n* fadiga;\n* astenia;\n* mal-estar;\n* perda ponderal;\n* ganho ponderal;\n* sudorese;\n* alterações do apetite;\n* redução da capacidade funcional.\n\n---\n\n# 16. EDEMA FACIAL / PERIORBITÁRIO\n\nQuando houver edema de face ou pálpebras, identifique:\n\n* localização exata;\n* unilateral ou bilateral;\n* horário de maior intensidade;\n* início súbito ou progressivo;\n* associação com edema em outras regiões;\n* prurido;\n* urticária;\n* eritema;\n* dor;\n* edema de lábios ou língua;\n* alteração da voz;\n* dificuldade para engolir;\n* dificuldade respiratória.\n\nNão assumir que edema facial represente automaticamente reação alérgica ou angioedema.\n\n---\n\n# 17. CONTEXTO DE IMOBILIZAÇÃO, VIAGEM, TRAUMA OU PROCEDIMENTOS\n\nIdentifique se há relação temporal com:\n\n* imobilização prolongada;\n* repouso prolongado;\n* viagem longa;\n* internação recente;\n* cirurgia recente;\n* trauma;\n* manipulação ou procedimento no membro;\n* redução recente da mobilidade;\n* uso de dispositivos ou compressões locais.\n\nRegistre apenas quando essas informações estiverem contidas na QD/HMA.\n\n---\n\n# 18. MEDICAÇÕES E SUBSTÂNCIAS MENCIONADAS NA HMA\n\nQuando o próprio texto da HMA relacionar o início ou agravamento do edema ao uso, suspensão ou mudança de alguma substância, identifique:\n\n* medicamento;\n* início recente;\n* alteração de dose;\n* suspensão;\n* relação temporal com o edema;\n* melhora ou piora após mudança da medicação;\n* uso de hormônios, quando mencionado;\n* uso de suplementos ou outras substâncias.\n\n**Não atribuir causalidade automaticamente.**\n\n---\n\n# 19. EPISÓDIOS PRÉVIOS\n\nIdentifique:\n\n* já apresentou edema anteriormente?\n* localização dos episódios anteriores;\n* características semelhantes ou diferentes;\n* duração;\n* frequência;\n* circunstâncias associadas;\n* resolução espontânea ou após alguma intervenção mencionada.\n\nNão utilizar antecedentes fora da HMA nesta etapa, salvo quando explicitamente integrados à narrativa atual.\n\n---\n\n# 20. REPERCUSSÃO FUNCIONAL\n\nIdentifique se o edema interfere em:\n\n* caminhar;\n* permanecer em pé;\n* movimentar o membro;\n* realizar atividades habituais;\n* calçar sapatos;\n* vestir roupas;\n* utilizar anéis ou acessórios;\n* dormir;\n* trabalhar;\n* realizar atividades físicas.\n\n---\n\n# 21. SINAIS DE ALERTA DESCRITOS NA HISTÓRIA\n\nSem estabelecer diagnóstico, identifique se o texto contém situações que mereçam destaque por potencial relevância clínica, como:\n\n* edema de início abrupto;\n* edema unilateral de membro;\n* edema associado a dor importante;\n* edema associado a hiperemia ou calor local;\n* edema associado a dispneia;\n* edema associado a dor torácica;\n* edema associado a síncope;\n* edema facial associado a edema de língua ou lábios;\n* dificuldade respiratória ou de deglutição;\n* redução importante da diurese;\n* progressão rápida do edema;\n* aumento rápido de peso;\n* edema generalizado;\n* febre associada a alterações locais importantes.\n\n**A identificação desses elementos não deve ser convertida em diagnóstico.**\n\n---\n\n# 22. QUALIDADE DA INFORMAÇÃO\n\nPara cada domínio relevante, classifique a informação como:\n\n* **PRESENTE E ADEQUADAMENTE CARACTERIZADA**\n* **PRESENTE, MAS INCOMPLETA**\n* **AUSENTE / NÃO INFORMADA**\n* **AMBÍGUA**\n* **CONTRADITÓRIA**\n* **NÃO APLICÁVEL**\n\nImportante:\n\n> **“Não informado” não significa “ausente”.**\n\nExemplo:\n\n“Não há informação sobre dispneia” ≠ “nega dispneia”.\n\n---\n\n# 23. IDENTIFICAÇÃO DE AMBIGUIDADES\n\nSinalize expressões insuficientemente caracterizadas, como:\n\n* “está inchado” → onde?\n* “pernas inchadas” → bilateral ou unilateral?\n* “muito inchado” → intensidade ou extensão?\n* “incha de vez em quando” → frequência e duração?\n* “retenção de líquido” → descrição objetiva disponível?\n* “piora durante o dia” → em qual horário e magnitude?\n* “urina pouco” → redução comparada ao habitual ou volume quantificado?\n* “barriga inchada” → distensão, edema ou aumento inespecífico do volume?\n\nNão corrigir essas expressões por inferência. **Apontar a necessidade de esclarecimento.**\n\n---\n\n# 24. CONTRADIÇÕES INTERNAS\n\nProcure inconsistências, como:\n\n* edema descrito inicialmente como unilateral e posteriormente como bilateral;\n* início descrito como súbito em um trecho e progressivo em outro;\n* relato de edema contínuo seguido de descrição de resolução completa diária;\n* localização incompatível entre diferentes trechos;\n* duração ou cronologia conflitantes.\n\nApresente as informações conflitantes lado a lado sem escolher arbitrariamente uma delas.\n\n---\n\n# 25. PRIORIZAÇÃO DAS LACUNAS\n\nClassifique as informações faltantes em:\n\n### PRIORIDADE ALTA\n\nInformações cuja ausência compromete significativamente a caracterização clínica ou a identificação de situações potencialmente graves.\n\nExemplos:\n\n* início e duração;\n* localização;\n* unilateralidade/bilateralidade;\n* extensão;\n* velocidade de progressão;\n* dor;\n* hiperemia/calor local quando edema de membro;\n* dispneia;\n* dor torácica;\n* edema facial com comprometimento de vias aéreas;\n* alterações importantes da diurese.\n\n### PRIORIDADE INTERMEDIÁRIA\n\nInformações importantes para melhor caracterização:\n\n* padrão ao longo do dia;\n* fatores de melhora/piora;\n* progressão;\n* ganho de peso;\n* episódios prévios;\n* sintomas urinários;\n* sintomas sistêmicos;\n* repercussão funcional.\n\n### PRIORIDADE COMPLEMENTAR\n\nDetalhes úteis que refinam a descrição, mas cuja ausência isolada não impede a caracterização inicial.\n\n---\n\n# 26. FORMATO OBRIGATÓRIO DA RESPOSTA\n\nApós analisar a QD/HMA fornecida, apresentar:\n\n## A. RESUMO ESTRUTURADO DO EDEMA\n\nSintetize exclusivamente as informações presentes:\n\n* início/duração;\n* localização;\n* distribuição;\n* lateralidade;\n* extensão;\n* padrão/evolução;\n* características;\n* sintomas associados;\n* fatores de melhora/piora;\n* repercussão funcional;\n* episódios prévios.\n\nNão adicionar informações não documentadas.\n\n## B. INFORMAÇÕES ADEQUADAMENTE DOCUMENTADAS\n\nListe brevemente os elementos que já permitem caracterização satisfatória.\n\n## C. INFORMAÇÕES FALTANTES OU INCOMPLETAS\n\nApresente apenas as lacunas clinicamente relevantes, ordenadas por prioridade.\n\nPara cada lacuna, utilizar:\n\n**Informação faltante → por que precisa ser esclarecida → exemplo objetivo de como poderia ser registrada.**\n\nExemplo:\n\n**Lateralidade →** não está claro se o edema acomete um ou ambos os membros → *“Edema bilateral de membros inferiores, simétrico.”*\n\n## D. INFORMAÇÕES AMBÍGUAS OU CONTRADITÓRIAS\n\nListe apenas quando existirem.\n\nApresente:\n\n**Trecho/ideia problemática → problema identificado → informação necessária para esclarecimento.**\n\n## E. PONTOS DE ATENÇÃO\n\nListe elementos já presentes na narrativa que mereçam destaque pela potencial relevância clínica, **sem estabelecer diagnóstico ou conduta**.\n\n## F. PERGUNTAS DE MAIOR VALOR PARA COMPLETAR A HMA\n\nProduza uma lista curta e priorizada das perguntas que forneceriam o **maior ganho de informação clínica com o menor número possível de perguntas**.\n\nEvite perguntas sobre informações que já estejam adequadamente documentadas.\n\n---\n\n# REGRA FINAL\n\nA análise deve ser **conservadora, objetiva, tempo-efetiva e estritamente baseada no texto fornecido**.\n\nPriorize informações capazes de modificar significativamente a interpretação da queixa.\n\nNão transformar ausência de documentação em negativa.\n\nNão repetir a mesma lacuna em categorias diferentes.\n\nNão produzir diagnóstico diferencial, hipótese diagnóstica, solicitação de exames, tratamento ou conduta.\n\nO objetivo final é responder:\n\n> **“A descrição do edema está suficientemente caracterizada na QD/HMA? Se não, quais são as informações de maior valor que faltam para torná-la clinicamente clara, segura e completa?”**\n\n\n\ncrie um banco de dados de termos relevantes a essa queixa, de modo a ser consultado durante a analise critica do texto enviado, para identificar pontos de melhora, correçao e prevenir erros de modo a garantir o melhor cuidado possível, de modo tempo-efetivo\n\nagora compile todas essas informações em um arquivo .json e disponibilize o mesmo para download"
+  }
+}

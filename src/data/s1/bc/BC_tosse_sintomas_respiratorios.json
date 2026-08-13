@@ -1,0 +1,431 @@
+{
+  "metadata": {
+    "nome": "tosse_sintomas_respiratorios_terminologia",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "escopo": "QD e HMA/HPMA",
+    "finalidade": [
+      "extração estruturada de informações",
+      "identificação de lacunas",
+      "detecção de ambiguidades e contradições",
+      "normalização terminológica",
+      "priorização tempo-efetiva da complementação"
+    ],
+    "restricoes": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "não considerar ausência de informação como negativa"
+    ]
+  },
+  "regras_globais": {
+    "estados": [
+      "presente_adequadamente_caracterizada",
+      "presente_incompleta",
+      "ambigua",
+      "contraditoria",
+      "negada_explicitamente",
+      "nao_informada",
+      "nao_aplicavel"
+    ],
+    "principios": [
+      "informação presente não implica informação completa",
+      "informação ausente não implica negativa",
+      "negativa exige documentação explícita",
+      "preservar expressão original quando houver ambiguidade",
+      "não inferir diagnóstico ou causalidade",
+      "preservar cronologia e valores objetivos"
+    ]
+  },
+  "dominios": {
+    "tosse": {
+      "termos": [
+        "tosse",
+        "tossindo"
+      ],
+      "variantes": [
+        "tosse seca",
+        "tosse com catarro",
+        "tosse produtiva",
+        "tosse carregada",
+        "tosse persistente",
+        "tosse irritativa",
+        "tosse rouca",
+        "tosse metálica",
+        "tosse em acessos",
+        "tosse paroxística",
+        "tosse sufocante",
+        "tosse noturna",
+        "tosse diurna",
+        "tosse pós-prandial",
+        "tosse associada a engasgo",
+        "tosse com vômitos"
+      ],
+      "atributos": [
+        "inicio",
+        "duracao",
+        "seca_ou_produtiva",
+        "intensidade",
+        "frequencia",
+        "duracao_dos_episodios",
+        "continua_ou_intermitente",
+        "paroxismos",
+        "predominio_diurno_noturno",
+        "relacao_decubito",
+        "relacao_sono",
+        "relacao_alimentacao",
+        "relacao_exercicio",
+        "gatilhos",
+        "evolucao"
+      ]
+    },
+    "expectoracao": {
+      "termos": [
+        "expectoração",
+        "escarro",
+        "catarro",
+        "secreção",
+        "catarro no peito"
+      ],
+      "cores": [
+        "clara",
+        "branca",
+        "amarelada",
+        "esverdeada",
+        "acastanhada",
+        "sanguinolenta"
+      ],
+      "consistencia": [
+        "espessa",
+        "fluida",
+        "mucosa",
+        "purulenta"
+      ],
+      "atributos": [
+        "inicio",
+        "quantidade",
+        "frequencia",
+        "aspecto",
+        "consistencia",
+        "cor",
+        "odor",
+        "sangue",
+        "mudanca_evolutiva"
+      ],
+      "alerta_semantico": "não inferir etiologia pela cor ou aspecto"
+    },
+    "hemoptise_sangue": {
+      "termos": [
+        "hemoptise",
+        "sangue ao tossir",
+        "catarro com sangue",
+        "escarro com sangue",
+        "raias de sangue",
+        "estrias de sangue",
+        "sangue pela boca"
+      ],
+      "atributos": [
+        "relacao_com_tosse",
+        "misturado_ao_escarro",
+        "quantidade",
+        "frequencia",
+        "numero_episodios",
+        "duracao",
+        "recorrencia",
+        "coagulos",
+        "aspecto",
+        "progressao"
+      ],
+      "origens_a_diferenciar": [
+        "respiratoria",
+        "nasal",
+        "oral_orofaringea",
+        "gastrointestinal",
+        "indeterminada"
+      ],
+      "alerta_semantico": "sangue pela boca não equivale automaticamente a hemoptise"
+    },
+    "dispneia": {
+      "termos": [
+        "dispneia",
+        "falta de ar",
+        "dificuldade para respirar",
+        "respiração curta",
+        "respiração pesada",
+        "respiração ofegante",
+        "cansaço para respirar",
+        "sem fôlego",
+        "não consigo puxar o ar",
+        "não consigo encher o pulmão",
+        "parece que o ar não entra"
+      ],
+      "atributos": [
+        "inicio",
+        "duracao",
+        "intensidade",
+        "evolucao",
+        "repouso_ou_esforco",
+        "limiar_esforco",
+        "limitacao_funcional",
+        "decubito",
+        "piora_noturna",
+        "episodios_subitos",
+        "relacao_tosse"
+      ],
+      "nao_equivalentes": [
+        "fadiga",
+        "fraqueza",
+        "cansaço geral"
+      ]
+    },
+    "sibilancia": {
+      "termos": [
+        "sibilância",
+        "chiado",
+        "peito chiando",
+        "ruído ao respirar",
+        "peito fechado",
+        "barulho no peito"
+      ],
+      "atributos": [
+        "inicio",
+        "duracao",
+        "frequencia",
+        "relacao_esforco",
+        "relacao_exposicao",
+        "relacao_tosse",
+        "episodios_previos",
+        "evolucao"
+      ],
+      "alerta_semantico": "barulho no peito não equivale automaticamente a sibilância"
+    },
+    "dor_respiratoria_toracica": {
+      "termos": [
+        "dor torácica",
+        "dor no peito",
+        "dor ao tossir",
+        "dor ao respirar",
+        "dor à inspiração",
+        "dor à expiração"
+      ],
+      "atributos": [
+        "localizacao",
+        "intensidade",
+        "caracteristica",
+        "duracao",
+        "irradiacao",
+        "relacao_tosse",
+        "relacao_respiracao",
+        "melhora",
+        "piora"
+      ]
+    },
+    "vias_aereas_superiores": {
+      "termos": [
+        "coriza",
+        "congestão nasal",
+        "obstrução nasal",
+        "nariz entupido",
+        "nariz escorrendo",
+        "espirros",
+        "secreção nasal",
+        "dor de garganta",
+        "odinofagia",
+        "garganta irritada",
+        "rouquidão",
+        "alteração da voz",
+        "pigarro",
+        "secreção escorrendo pela garganta",
+        "dor facial",
+        "pressão facial",
+        "alteração do olfato"
+      ],
+      "atributos": [
+        "inicio",
+        "duracao",
+        "intensidade",
+        "evolucao",
+        "relacao_temporal_tosse"
+      ]
+    },
+    "sintomas_sistemicos": {
+      "termos": [
+        "febre",
+        "sensação febril",
+        "calafrios",
+        "sudorese",
+        "mal-estar",
+        "fadiga",
+        "prostração",
+        "mialgia",
+        "artralgia",
+        "cefaleia",
+        "redução do apetite",
+        "perda ponderal",
+        "sudorese noturna"
+      ]
+    },
+    "outros_sistemas": {
+      "termos": [
+        "náuseas",
+        "vômitos",
+        "vômitos pós-tosse",
+        "diarreia",
+        "dor abdominal",
+        "síncope",
+        "pré-síncope",
+        "palpitações",
+        "tontura",
+        "confusão",
+        "alteração do estado mental",
+        "intolerância aos esforços",
+        "edema",
+        "engasgo",
+        "disfagia"
+      ]
+    },
+    "exposicoes": {
+      "termos": [
+        "contato com sintomáticos",
+        "doente em casa",
+        "aglomeração",
+        "viagem recente",
+        "exposição ocupacional",
+        "fumaça",
+        "incêndio",
+        "poeira",
+        "mofo",
+        "produto químico",
+        "vapores",
+        "aerossóis",
+        "animais",
+        "aspiração",
+        "engasgo",
+        "frio",
+        "mudança climática",
+        "perfume",
+        "odor forte"
+      ],
+      "estados": [
+        "confirmada",
+        "negada_explicitamente",
+        "nao_informada"
+      ]
+    },
+    "impacto_funcional": {
+      "termos": [
+        "sono",
+        "fala",
+        "alimentação",
+        "hidratação",
+        "atividades habituais",
+        "trabalho",
+        "caminhada",
+        "esforço físico",
+        "decúbito",
+        "atividades básicas"
+      ]
+    }
+  },
+  "tempo_e_evolucao": {
+    "atributos": [
+      "inicio",
+      "duracao",
+      "ordem_dos_sintomas",
+      "inicio_subito_rapido_progressivo_insidioso",
+      "evento_associado",
+      "cronologia"
+    ],
+    "termos_vagos": [
+      "há alguns dias",
+      "faz um tempo",
+      "recentemente",
+      "essa semana",
+      "há bastante tempo"
+    ],
+    "evolucao": [
+      "melhorando",
+      "piorando",
+      "estável",
+      "oscilante",
+      "recorrente",
+      "recaída"
+    ]
+  },
+  "medidas_realizadas": {
+    "termos": [
+      "medicamento",
+      "automedicação",
+      "inalação",
+      "nebulização",
+      "medida caseira",
+      "repouso",
+      "hidratação"
+    ],
+    "atributos": [
+      "qual",
+      "quando",
+      "resposta",
+      "melhora_parcial",
+      "melhora_completa",
+      "sem_melhora",
+      "piora",
+      "duracao_efeito"
+    ]
+  },
+  "red_flags_documentais": [
+    "dispneia importante ou progressiva",
+    "dificuldade respiratória em repouso",
+    "incapacidade de falar normalmente por falta de ar",
+    "cianose descrita",
+    "hemoptise",
+    "dor torácica",
+    "síncope",
+    "alteração do estado mental",
+    "piora rápida",
+    "incapacidade de manter alimentação ou hidratação",
+    "redução funcional importante",
+    "sintomas após engasgo ou possível aspiração"
+  ],
+  "relacoes_temporais": [
+    "tosse->febre",
+    "febre->tosse",
+    "sintomas_nasais->tosse",
+    "tosse->expectoracao",
+    "tosse->dispneia",
+    "tosse->dor_toracica",
+    "exposicao->inicio_sintomas",
+    "melhora_inicial->nova_piora"
+  ],
+  "checagem_qualidade": {
+    "erros_a_detectar": [
+      "duração incompatível entre QD e HMA",
+      "negação conflitante com afirmação posterior",
+      "termo vago sem caracterização",
+      "cronologia ausente ou contraditória",
+      "conversão indevida de termo coloquial em termo técnico",
+      "inferência de negativa a partir de informação ausente",
+      "inferência causal sem suporte textual"
+    ],
+    "prioridades": {
+      "alta": "lacunas que comprometem caracterização clínica ou identificação de gravidade",
+      "moderada": "lacunas importantes para caracterização e evolução",
+      "baixa": "dados complementares de menor impacto imediato"
+    }
+  },
+  "perguntas_tempo_efetivas": [
+    "A tosse começou quando?",
+    "É seca ou sai catarro?",
+    "Se sai catarro, como ele é e tem sangue?",
+    "Está com falta de ar? Em repouso ou só aos esforços?",
+    "Tem dor no peito ou dor para respirar/tossir?",
+    "Tem chiado?",
+    "Teve febre ou outros sintomas associados?",
+    "Está melhorando, piorando ou igual?",
+    "Houve contato com pessoas doentes, fumaça, poeira, mofo ou algum engasgo?",
+    "Já teve episódio parecido?",
+    "Usou alguma coisa e melhorou?"
+  ],
+  "fonte_integral_prompt": "Assuma o papel de um sistema especializado em **semiologia médica, medicina de emergência, pneumologia, clínica médica, infectologia, otorrinolaringologia, raciocínio clínico e processamento de linguagem natural aplicado à saúde**.\n\n# OBJETIVO\n\nAnalisar **exclusivamente o texto referente à Queixa e Duração (QD) e História da Moléstia Atual (HMA/HPMA)** e identificar as informações disponíveis e faltantes necessárias para caracterizar adequadamente uma queixa de **TOSSE / SINTOMAS RESPIRATÓRIOS**.\n\nNesta etapa:\n\n* **NÃO realizar diagnóstico**;\n* **NÃO definir tratamento**;\n* **NÃO solicitar exames**;\n* **NÃO inferir informações não presentes no texto**;\n* **NÃO preencher lacunas com suposições**;\n* **NÃO considerar uma informação ausente como negativa**;\n* **NÃO assumir que todo sintoma descrito como \"respiratório\" tem origem pulmonar**;\n* **NÃO converter automaticamente termos coloquiais em conceitos médicos específicos quando houver ambiguidade**.\n\nO objetivo é exclusivamente **extrair, organizar e verificar a completude das informações clínicas relevantes**, identificando lacunas, ambiguidades, contradições e descrições insuficientes que possam comprometer a caracterização adequada da queixa.\n\n---\n\n# 1. CONFIRMAÇÃO E CARACTERIZAÇÃO DA QUEIXA\n\nIdentifique quais sintomas respiratórios estão efetivamente descritos.\n\nPesquisar informações referentes a:\n\n* tosse;\n* expectoração;\n* hemoptise;\n* dispneia;\n* chiado/sibilância;\n* dor ou desconforto relacionado à respiração;\n* congestão nasal;\n* coriza;\n* espirros;\n* dor ou irritação de garganta;\n* rouquidão;\n* outros sintomas respiratórios mencionados.\n\nReconheça expressões potencialmente relacionadas, como:\n\n* \"tossindo\";\n* \"tosse seca\";\n* \"tosse com catarro\";\n* \"tosse carregada\";\n* \"peito carregado\";\n* \"peito cheio\";\n* \"catarro no peito\";\n* \"secreção\";\n* \"pigarro\";\n* \"chiado\";\n* \"peito chiando\";\n* \"falta de ar\";\n* \"respiração pesada\";\n* \"cansaço para respirar\";\n* \"nariz entupido\";\n* \"nariz escorrendo\";\n* \"garganta irritada\".\n\n**Preserve a descrição original quando sua interpretação não for inequívoca.**\n\n---\n\n# 2. INÍCIO E TEMPO DE EVOLUÇÃO\n\nPara cada sintoma relevante, identifique:\n\n* quando começou;\n* há quanto tempo está presente;\n* qual sintoma surgiu primeiro;\n* se os sintomas começaram simultaneamente ou em momentos diferentes;\n* se o início foi súbito, rápido, progressivo ou insidioso;\n* se houve algum evento associado ao início;\n* se o texto permite estabelecer uma sequência cronológica coerente.\n\nIdentifique descrições temporais vagas, como:\n\n* \"há alguns dias\";\n* \"faz um tempo\";\n* \"recentemente\";\n* \"essa semana\";\n* \"há bastante tempo\".\n\nQuando não for possível estabelecer adequadamente a duração, classifique a informação como **incompleta**, sem estimá-la.\n\n---\n\n# 3. CARACTERIZAÇÃO DA TOSSE\n\nQuando houver tosse, verificar:\n\n* seca ou produtiva;\n* presença ou ausência explicitamente registrada de expectoração;\n* intensidade;\n* frequência;\n* duração dos episódios;\n* contínua ou intermitente;\n* esporádica ou frequente;\n* em crises/paroxismos;\n* predominância diurna ou noturna;\n* relação com decúbito;\n* relação com sono ou despertar;\n* relação com alimentação;\n* relação com exercício;\n* relação com exposição ambiental;\n* presença de gatilhos identificáveis;\n* evolução ao longo do tempo.\n\nIdentifique ainda descrições como:\n\n* tosse persistente;\n* tosse irritativa;\n* tosse rouca;\n* tosse metálica;\n* tosse em acessos;\n* tosse sufocante;\n* tosse que provoca vômitos;\n* tosse que impede dormir;\n* tosse associada a engasgos.\n\nNão atribuir significado diagnóstico a essas características nesta etapa.\n\n---\n\n# 4. EXPECTORAÇÃO / SECREÇÃO\n\nQuando houver expectoração, identificar:\n\n* presença;\n* início;\n* quantidade;\n* frequência;\n* aspecto;\n* consistência;\n* coloração;\n* odor;\n* presença de sangue;\n* mudanças dessas características durante a evolução.\n\nReconheça descrições como:\n\n* clara;\n* branca;\n* amarelada;\n* esverdeada;\n* acastanhada;\n* sanguinolenta;\n* espessa;\n* fluida;\n* mucosa;\n* purulenta;\n* com raias de sangue.\n\n**Não inferir etiologia pela cor ou aspecto da secreção.**\n\nDiferenciar, quando possível:\n\n* secreção expectorada;\n* secreção nasal;\n* secreção em orofaringe;\n* sensação inespecífica de \"catarro\".\n\n---\n\n# 5. SANGUE ASSOCIADO À TOSSE / EXPECTORAÇÃO\n\nCaso seja descrito sangue, identificar:\n\n* se ocorreu durante tosse;\n* se estava misturado à expectoração;\n* se eram apenas raias ou estrias;\n* quantidade aproximada;\n* frequência;\n* número de episódios;\n* duração;\n* recorrência;\n* presença de coágulos;\n* aspecto/coloração;\n* progressão ou aumento da quantidade.\n\nVerificar se o texto permite distinguir possível origem:\n\n* respiratória;\n* nasal;\n* oral/orofaríngea;\n* gastrointestinal;\n* origem indeterminada.\n\n**Não classificar automaticamente qualquer relato de \"sangue pela boca\" como hemoptise.**\n\n---\n\n# 6. DISPNEIA E ALTERAÇÕES RESPIRATÓRIAS ASSOCIADAS\n\nCaso exista relato de falta de ar ou dificuldade respiratória, identificar:\n\n* início;\n* duração;\n* intensidade;\n* evolução;\n* ocorrência em repouso ou esforço;\n* grau de esforço necessário para desencadear;\n* limitação funcional;\n* relação com decúbito;\n* piora noturna;\n* episódios súbitos;\n* associação temporal com a tosse;\n* sensação descrita pelo paciente.\n\nReconheça expressões como:\n\n* falta de ar;\n* dificuldade para respirar;\n* respiração curta;\n* respiração pesada;\n* respiração ofegante;\n* cansaço para respirar;\n* \"não consigo puxar o ar\";\n* \"não consigo encher o pulmão\";\n* \"parece que o ar não entra\";\n* \"fico sem fôlego\".\n\n**Não assumir equivalência automática entre dispneia, fadiga, fraqueza e cansaço geral.**\n\nQuando a dispneia constituir uma queixa relevante independente, sinalizar que ela pode necessitar de **caracterização específica própria**, sem realizar diagnóstico.\n\n---\n\n# 7. SIBILÂNCIA / RUÍDOS RESPIRATÓRIOS REFERIDOS\n\nIdentifique relatos de:\n\n* chiado;\n* sibilância;\n* \"peito chiando\";\n* ruído durante a respiração;\n* sensação de peito fechado;\n* outros sons respiratórios descritos.\n\nVerifique:\n\n* início;\n* duração;\n* frequência;\n* relação com esforço;\n* relação com exposição;\n* relação com tosse;\n* episódios anteriores semelhantes;\n* melhora ou piora espontânea relatada.\n\nNão assumir que qualquer \"barulho no peito\" corresponda necessariamente a sibilância.\n\n---\n\n# 8. DOR ASSOCIADA À RESPIRAÇÃO OU TOSSE\n\nIdentifique:\n\n* presença de dor torácica;\n* dor ao tossir;\n* dor durante inspiração;\n* dor durante expiração;\n* localização;\n* intensidade;\n* característica;\n* duração;\n* irradiação;\n* relação temporal com os sintomas respiratórios;\n* fatores de melhora e piora.\n\nCaso exista dor torácica clinicamente relevante, sinalizar que ela pode necessitar de **caracterização específica própria**, sem estabelecer etiologia.\n\n---\n\n# 9. SINTOMAS DE VIAS AÉREAS SUPERIORES\n\nPesquisar:\n\n* coriza;\n* congestão/obstrução nasal;\n* espirros;\n* secreção nasal;\n* dor de garganta;\n* odinofagia;\n* irritação de garganta;\n* rouquidão;\n* alteração da voz;\n* pigarro;\n* sensação de secreção escorrendo pela garganta;\n* dor ou pressão facial;\n* alterações olfatórias descritas.\n\nPara cada sintoma presente, verificar quando possível:\n\n* início;\n* duração;\n* intensidade;\n* evolução;\n* relação temporal com a tosse.\n\n---\n\n# 10. SINTOMAS SISTÊMICOS ASSOCIADOS\n\nIdentifique sintomas concomitantes descritos na HMA, incluindo:\n\n* febre;\n* sensação febril;\n* calafrios;\n* sudorese;\n* mal-estar;\n* fadiga;\n* prostração;\n* mialgia;\n* artralgia;\n* cefaleia;\n* redução do apetite;\n* perda ponderal;\n* sudorese noturna.\n\nQuando houver febre ou síndrome febril relevante, sinalizar a necessidade de **caracterização específica**, sem inferir diagnóstico.\n\nNão assumir febre apenas a partir de expressões como \"quente\", \"febril\" ou \"parecia estar com febre\" sem registrar exatamente como a informação foi apresentada.\n\n---\n\n# 11. SINTOMAS ASSOCIADOS DE OUTROS SISTEMAS\n\nIdentifique sintomas potencialmente relevantes mencionados concomitantemente, como:\n\n* náuseas;\n* vômitos;\n* vômitos desencadeados pela tosse;\n* diarreia;\n* dor abdominal;\n* síncope ou pré-síncope;\n* palpitações;\n* tontura;\n* confusão ou alteração do estado mental;\n* redução da tolerância aos esforços;\n* edema;\n* engasgos;\n* dificuldade para deglutir.\n\nPreserve a relação temporal entre esses sintomas e a queixa respiratória quando descrita.\n\n---\n\n# 12. PADRÃO E EVOLUÇÃO\n\nDetermine se o texto informa se os sintomas estão:\n\n* melhorando;\n* piorando;\n* estáveis;\n* oscilantes;\n* recorrentes.\n\nVerifique:\n\n* progressão da intensidade;\n* surgimento de novos sintomas;\n* desaparecimento de sintomas;\n* mudança no padrão da tosse;\n* mudança na expectoração;\n* surgimento de dispneia;\n* surgimento de sangue;\n* piora funcional;\n* períodos de melhora completa;\n* recaídas.\n\nConstrua mentalmente a **linha temporal da doença**, mas não acrescente eventos não descritos.\n\n---\n\n# 13. FATORES DESENCADEANTES, AGRAVANTES E DE ALÍVIO\n\nPesquisar relação dos sintomas com:\n\n* esforço físico;\n* repouso;\n* posição corporal;\n* decúbito;\n* horário do dia;\n* sono;\n* alimentação;\n* exposição ao frio;\n* mudanças climáticas;\n* poeira;\n* fumaça;\n* produtos químicos;\n* perfumes/odores;\n* animais;\n* ambientes fechados;\n* contato com pessoas sintomáticas;\n* ambiente ocupacional;\n* viagens;\n* outras exposições explicitamente mencionadas.\n\nIdentifique fatores que:\n\n* desencadeiam;\n* agravam;\n* aliviam.\n\nNão inferir causalidade apenas pela coexistência temporal.\n\n---\n\n# 14. EPISÓDIOS PRÉVIOS E PADRÃO DE RECORRÊNCIA\n\nIdentifique:\n\n* episódios semelhantes prévios;\n* frequência;\n* duração;\n* intervalo entre episódios;\n* padrão sazonal;\n* circunstâncias semelhantes;\n* resolução completa ou sintomas persistentes entre episódios;\n* diferenças entre o episódio atual e episódios anteriores.\n\nNão utilizar antecedentes fora da HMA caso a tarefa esteja limitada exclusivamente à QD/HMA.\n\n---\n\n# 15. MEDIDAS JÁ REALIZADAS DURANTE O EPISÓDIO\n\nIdentifique apenas aquilo que estiver explicitamente relatado na HMA:\n\n* medicamentos utilizados;\n* automedicação;\n* inalações/nebulizações;\n* medidas caseiras;\n* repouso;\n* hidratação;\n* outras intervenções.\n\nPara cada medida descrita, identificar quando disponível:\n\n* qual foi utilizada;\n* momento de utilização;\n* resposta;\n* melhora parcial/completa;\n* ausência de melhora;\n* piora;\n* duração do efeito.\n\nNão avaliar nesta etapa se a intervenção foi adequada.\n\n---\n\n# 16. EXPOSIÇÕES TEMPORALMENTE RELACIONADAS AO EPISÓDIO\n\nQuando presentes na HMA, identificar exposições como:\n\n* contato recente com pessoas apresentando sintomas respiratórios;\n* doença respiratória em familiares ou conviventes;\n* aglomerações;\n* viagens recentes;\n* exposição ocupacional;\n* fumaça;\n* incêndios;\n* poeira;\n* mofo;\n* produtos químicos;\n* vapores;\n* aerossóis;\n* animais;\n* aspiração ou engasgo;\n* outros eventos potencialmente relacionados temporalmente.\n\nDistinguir entre:\n\n**exposição confirmada**, **exposição negada explicitamente** e **exposição não investigada/não informada**.\n\n---\n\n# 17. IMPACTO FUNCIONAL\n\nIdentifique se os sintomas interferem em:\n\n* sono;\n* fala;\n* alimentação;\n* hidratação;\n* atividades habituais;\n* trabalho;\n* caminhada;\n* esforço físico;\n* capacidade de permanecer deitado;\n* capacidade de realizar atividades básicas.\n\nPreserve exemplos concretos descritos pelo paciente.\n\n---\n\n# 18. ELEMENTOS DE MAIOR RELEVÂNCIA PARA SEGURANÇA DA CARACTERIZAÇÃO\n\nVerifique se o texto esclarece a presença ou ausência **quando explicitamente registrada** de manifestações potencialmente importantes, incluindo:\n\n* dispneia importante ou progressiva;\n* dificuldade respiratória em repouso;\n* incapacidade de falar normalmente por falta de ar;\n* cianose descrita;\n* hemoptise;\n* dor torácica;\n* síncope;\n* alteração do estado mental;\n* piora rápida;\n* incapacidade de manter alimentação ou hidratação;\n* redução funcional importante;\n* sintomas respiratórios após engasgo ou possível aspiração.\n\nA ausência dessas informações no texto deve ser classificada como **não informada**, e nunca automaticamente como negativa.\n\n---\n\n# 19. RELAÇÕES TEMPORAIS ENTRE OS SINTOMAS\n\nIdentifique explicitamente relações como:\n\n* tosse → posteriormente febre;\n* febre → posteriormente tosse;\n* sintomas nasais → posteriormente tosse;\n* tosse → posteriormente expectoração;\n* tosse → posteriormente dispneia;\n* tosse → dor torácica;\n* exposição → início dos sintomas;\n* melhora inicial → nova piora.\n\nDetermine se a sequência está:\n\n* claramente estabelecida;\n* parcialmente estabelecida;\n* ambígua;\n* contraditória;\n* não informada.\n\n**Não transformar associação temporal em relação causal.**\n\n---\n\n# 20. AMBIGUIDADES E CONTRADIÇÕES\n\nProcure ativamente:\n\n* informações conflitantes;\n* duração incompatível entre QD e HMA;\n* sintomas descritos de maneiras diferentes;\n* localização ou característica contraditória;\n* uso de termos vagos;\n* ausência de referência temporal;\n* relações cronológicas impossíveis ou pouco claras;\n* negações que conflitem com afirmações posteriores.\n\nExemplo:\n\n> \"Nega falta de ar\", seguido de \"está ficando sem ar para caminhar\".\n\nSinalizar a inconsistência sem decidir arbitrariamente qual informação está correta.\n\n---\n\n# 21. REGRAS DE INTERPRETAÇÃO\n\nDurante toda a análise:\n\n1. **Informação presente ≠ informação completa.**\n2. **Informação ausente ≠ negativa.**\n3. **Negativa somente deve ser registrada quando explicitamente documentada.**\n4. **Não inferir diagnóstico.**\n5. **Não inferir causalidade.**\n6. **Não inferir intensidade a partir de linguagem inespecífica.**\n7. **Não transformar termos coloquiais em termos técnicos quando houver ambiguidade.**\n8. **Preservar valores, duração e descrições objetivas exatamente como registrados sempre que possível.**\n9. **Distinguir relato do paciente, relato de acompanhante e afirmação documental quando isso estiver explícito.**\n10. **Não utilizar antecedentes, exame físico, exames complementares ou condutas para preencher lacunas da HMA quando a análise estiver restrita à QD/HMA.**\n\n---\n\n# 22. CLASSIFICAÇÃO DAS INFORMAÇÕES\n\nPara cada domínio relevante, classifique a informação como:\n\n* **PRESENTE E ADEQUADAMENTE CARACTERIZADA**\n* **PRESENTE, MAS INCOMPLETA**\n* **AMBÍGUA**\n* **CONTRADITÓRIA**\n* **NEGADA EXPLICITAMENTE**\n* **NÃO INFORMADA**\n* **NÃO APLICÁVEL**\n\nEvite classificar como faltante uma informação que não seja pertinente ao quadro descrito.\n\n---\n\n# 23. PRIORIZAÇÃO DAS LACUNAS\n\nClassifique as informações faltantes relevantes em:\n\n### PRIORIDADE ALTA\n\nInformações cuja ausência pode comprometer significativamente a caracterização clínica ou a identificação de elementos de maior gravidade.\n\n### PRIORIDADE MODERADA\n\nInformações importantes para caracterizar melhor o sintoma, sua evolução e contexto.\n\n### PRIORIDADE BAIXA\n\nInformações complementares que aumentariam a qualidade documental, mas possuem menor impacto imediato na compreensão da queixa.\n\nA prioridade deve ser determinada **pelo contexto do texto analisado**, e não por uma lista rígida.\n\n---\n\n# 24. FORMATO OBRIGATÓRIO DA RESPOSTA\n\nApresente a análise em cinco blocos:\n\n## A. INFORMAÇÕES IDENTIFICADAS\n\nListe sucintamente apenas os dados efetivamente presentes na QD/HMA, organizados por domínio clínico.\n\n## B. INFORMAÇÕES RELEVANTES FALTANTES\n\nListe somente informações pertinentes ao quadro apresentado que deveriam ser esclarecidas.\n\nPara cada lacuna, apresente:\n\n**Informação faltante → motivo da relevância → exemplo curto de como poderia ser documentada.**\n\nExemplo:\n\n**Característica da tosse não informada → necessária para caracterização do sintoma → \"Tosse seca, em crises, predominando à noite.\"**\n\n## C. AMBIGUIDADES / CONTRADIÇÕES\n\nListe termos vagos, relações temporais pouco claras, informações conflitantes ou descrições que permitam mais de uma interpretação.\n\nCaso não existam, informar:\n\n**Nenhuma ambiguidade ou contradição relevante identificada no texto analisado.**\n\n## D. ELEMENTOS PRIORITÁRIOS PARA COMPLEMENTAÇÃO\n\nApresente apenas os pontos mais importantes que deveriam ser esclarecidos primeiro, ordenados por impacto clínico e eficiência de coleta.\n\nPriorizar perguntas capazes de resolver **múltiplas lacunas simultaneamente**.\n\n## E. SUGESTÃO DE COMPLEMENTAÇÃO DA HMA\n\nForneça perguntas curtas, diretas e tempo-efetivas para obtenção das informações prioritárias faltantes.\n\nExemplo:\n\n* \"A tosse começou quando?\"\n* \"É seca ou sai catarro?\"\n* \"Está com falta de ar?\"\n* \"Saiu sangue ao tossir?\"\n* \"Tem dor no peito?\"\n* \"Está melhorando ou piorando?\"\n\n---\n\n# REGRA FINAL\n\nA finalidade desta análise é **melhorar a qualidade, completude, clareza e segurança do registro da QD/HMA**, e não substituir o raciocínio clínico ou produzir diagnóstico.\n\nSempre diferencie:\n\n**NÃO INFORMADO ≠ NEGADO ≠ AUSENTE.**\n\nSempre priorize a identificação das **lacunas de maior relevância clínica com o menor número possível de perguntas adicionais**, favorecendo uma coleta de dados **segura, objetiva e tempo-efetiva**.\n\n\ncrie um banco de dados de termos relevantes a essa queixa, de modo a ser consultado durante a analise critica do texto enviado, para identificar pontos de melhora, correçao e prevenir erros de modo a garantir o melhor cuidado possível, de modo tempo-efetivo\n\nagora compile todas essas informações em um arquivo .json e disponibilize o mesmo para download"
+}

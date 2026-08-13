@@ -1,9 +1,10 @@
 {
-  "v": "1.0.0",
+  "v": "2.0.0",
   "mode": "S1",
-  "law": "Interpretação Lógica da Dor na Queixa Principal (QP + HPMA)",
-  "database": "s1pain_history_qp_hpma_database.json",
-  "module": "pain_history",
-  "version": 1,
-  "exclusive": true
+  "law": "Análise textual clínica contextual de QD/QP/HMA com routing entre BCs",
+  "pack": "s1_bc_pack.json",
+  "banks_dir": "bc",
+  "bank_count": 26,
+  "exclusive": true,
+  "compiler": "scripts/compile-s1-bc-pack.mjs"
 }

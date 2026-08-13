@@ -1,0 +1,808 @@
+{
+  "metadata": {
+    "domain": "chest_pain",
+    "language": "pt-BR",
+    "purpose": "Auditoria crítica de QP/HMA/HPMA em dor torácica, com foco em completude, coerência, segurança e identificação de lacunas.",
+    "scope": "Extração e análise de informações clínicas da queixa principal e história da moléstia atual. Não realiza diagnóstico, tratamento ou solicitação de exames.",
+    "version": "1.0"
+  },
+  "concepts": {
+    "chief_complaint": {
+      "chest_pain": {
+        "id": "CP01",
+        "terms": [
+          "dor torácica",
+          "dor no peito",
+          "dor no tórax",
+          "toracalgia",
+          "precordialgia"
+        ]
+      },
+      "chest_discomfort": {
+        "id": "CP02",
+        "terms": [
+          "desconforto torácico",
+          "desconforto no peito",
+          "incômodo no peito",
+          "sensação estranha no peito"
+        ]
+      }
+    },
+    "quality": {
+      "pressure": {
+        "id": "Q01",
+        "terms": [
+          "pressão",
+          "pressão no peito"
+        ]
+      },
+      "tightness": {
+        "id": "Q02",
+        "terms": [
+          "aperto",
+          "apertando"
+        ]
+      },
+      "oppression": {
+        "id": "Q03",
+        "terms": [
+          "opressão",
+          "opressiva"
+        ]
+      },
+      "heaviness": {
+        "id": "Q04",
+        "terms": [
+          "peso",
+          "peso no peito"
+        ]
+      },
+      "burning": {
+        "id": "Q05",
+        "terms": [
+          "queimação",
+          "ardência",
+          "ardor"
+        ]
+      },
+      "stabbing": {
+        "id": "Q06",
+        "terms": [
+          "pontada",
+          "fincada"
+        ]
+      },
+      "lancinating": {
+        "id": "Q07",
+        "terms": [
+          "lancinante"
+        ]
+      },
+      "tearing": {
+        "id": "Q08",
+        "terms": [
+          "rasgando",
+          "rasgamento"
+        ]
+      },
+      "pleuritic": {
+        "id": "Q09",
+        "terms": [
+          "pleurítica",
+          "piora ao respirar",
+          "ventilatório-dependente"
+        ]
+      }
+    },
+    "location": {
+      "retrosternal": {
+        "id": "L01",
+        "terms": [
+          "retroesternal",
+          "atrás do esterno"
+        ]
+      },
+      "precordial": {
+        "id": "L02",
+        "terms": [
+          "precordial",
+          "precórdio"
+        ]
+      },
+      "right_hemithorax": {
+        "id": "L03",
+        "terms": [
+          "HTD",
+          "hemitórax direito",
+          "lado direito do peito"
+        ]
+      },
+      "left_hemithorax": {
+        "id": "L04",
+        "terms": [
+          "HTE",
+          "hemitórax esquerdo",
+          "lado esquerdo do peito"
+        ]
+      },
+      "diffuse": {
+        "id": "L05",
+        "terms": [
+          "difusa",
+          "peito todo",
+          "tórax todo"
+        ]
+      }
+    },
+    "radiation": {
+      "left_arm": {
+        "id": "R01",
+        "terms": [
+          "MSE",
+          "braço esquerdo"
+        ]
+      },
+      "right_arm": {
+        "id": "R02",
+        "terms": [
+          "MSD",
+          "braço direito"
+        ]
+      },
+      "both_arms": {
+        "id": "R03",
+        "terms": [
+          "MMSS",
+          "ambos os braços"
+        ]
+      },
+      "shoulder": {
+        "id": "R04",
+        "terms": [
+          "ombro",
+          "ombros"
+        ]
+      },
+      "jaw": {
+        "id": "R05",
+        "terms": [
+          "mandíbula",
+          "maxilar"
+        ]
+      },
+      "neck": {
+        "id": "R06",
+        "terms": [
+          "pescoço",
+          "cervical"
+        ]
+      },
+      "back": {
+        "id": "R07",
+        "terms": [
+          "costas",
+          "dorso",
+          "região dorsal"
+        ]
+      },
+      "interscapular": {
+        "id": "R08",
+        "terms": [
+          "interescapular",
+          "entre as escápulas"
+        ]
+      },
+      "epigastrium": {
+        "id": "R09",
+        "terms": [
+          "epigástrio",
+          "boca do estômago"
+        ]
+      }
+    },
+    "temporality": {
+      "sudden_onset": {
+        "id": "T01",
+        "terms": [
+          "súbito",
+          "abrupto",
+          "de repente",
+          "subitamente"
+        ]
+      },
+      "insidious_onset": {
+        "id": "T02",
+        "terms": [
+          "insidioso",
+          "gradual",
+          "aos poucos"
+        ]
+      },
+      "maximal_at_onset": {
+        "id": "T03",
+        "terms": [
+          "máxima desde o início",
+          "intensidade máxima imediatamente"
+        ]
+      },
+      "progressive": {
+        "id": "T04",
+        "terms": [
+          "progressiva",
+          "piorando",
+          "aumentando"
+        ]
+      },
+      "continuous": {
+        "id": "T05",
+        "terms": [
+          "contínua",
+          "constante",
+          "não passa"
+        ]
+      },
+      "intermittent": {
+        "id": "T06",
+        "terms": [
+          "intermitente",
+          "vai e volta",
+          "episódios"
+        ]
+      },
+      "recurrent": {
+        "id": "T07",
+        "terms": [
+          "recorrente",
+          "repetitiva",
+          "episódios prévios"
+        ]
+      }
+    },
+    "provocation_palliation": {
+      "exertion": {
+        "id": "P01",
+        "terms": [
+          "esforço",
+          "exercício",
+          "caminhada",
+          "subir escada"
+        ]
+      },
+      "rest": {
+        "id": "P02",
+        "terms": [
+          "repouso",
+          "parado",
+          "descansando"
+        ]
+      },
+      "inspiration": {
+        "id": "P03",
+        "terms": [
+          "inspiração",
+          "respirar fundo",
+          "respiração"
+        ]
+      },
+      "cough": {
+        "id": "P04",
+        "terms": [
+          "tosse",
+          "tossir"
+        ]
+      },
+      "movement": {
+        "id": "P05",
+        "terms": [
+          "movimento",
+          "movimentação do tronco"
+        ]
+      },
+      "position": {
+        "id": "P06",
+        "terms": [
+          "posição",
+          "postura",
+          "decúbito"
+        ]
+      },
+      "palpation": {
+        "id": "P07",
+        "terms": [
+          "palpação",
+          "compressão",
+          "apertar o local"
+        ]
+      },
+      "food": {
+        "id": "P08",
+        "terms": [
+          "alimentação",
+          "refeição",
+          "após comer"
+        ]
+      },
+      "swallowing": {
+        "id": "P09",
+        "terms": [
+          "deglutição",
+          "engolir"
+        ]
+      },
+      "analgesic": {
+        "id": "P10",
+        "terms": [
+          "analgésico",
+          "analgesia"
+        ]
+      },
+      "antacid": {
+        "id": "P11",
+        "terms": [
+          "antiácido"
+        ]
+      },
+      "nitrate": {
+        "id": "P12",
+        "terms": [
+          "nitrato",
+          "nitroglicerina",
+          "isossorbida"
+        ]
+      }
+    },
+    "severity": {
+      "pain_intensity": {
+        "id": "S01",
+        "terms": [
+          "EVA",
+          "EVN",
+          "escala de dor",
+          "0-10",
+          "/10"
+        ]
+      },
+      "functional_impact": {
+        "id": "S02",
+        "terms": [
+          "limita",
+          "interrompe atividade",
+          "incapacitante"
+        ]
+      }
+    },
+    "associated_symptoms": {
+      "dyspnea": {
+        "id": "A01",
+        "terms": [
+          "dispneia",
+          "falta de ar",
+          "dificuldade para respirar",
+          "cansaço"
+        ]
+      },
+      "diaphoresis": {
+        "id": "A02",
+        "terms": [
+          "sudorese",
+          "sudorese fria",
+          "suor frio",
+          "diaforese"
+        ]
+      },
+      "nausea": {
+        "id": "A03",
+        "terms": [
+          "náusea",
+          "enjoo"
+        ]
+      },
+      "vomiting": {
+        "id": "A04",
+        "terms": [
+          "vômito",
+          "êmese"
+        ]
+      },
+      "palpitations": {
+        "id": "A05",
+        "terms": [
+          "palpitação",
+          "coração acelerado",
+          "coração disparado"
+        ]
+      },
+      "syncope": {
+        "id": "A06",
+        "terms": [
+          "síncope",
+          "desmaio",
+          "perda de consciência"
+        ]
+      },
+      "presyncope": {
+        "id": "A07",
+        "terms": [
+          "pré-síncope",
+          "quase desmaiou",
+          "sensação de desmaio"
+        ]
+      },
+      "dizziness": {
+        "id": "A08",
+        "terms": [
+          "tontura"
+        ]
+      },
+      "malaise": {
+        "id": "A09",
+        "terms": [
+          "mal-estar",
+          "fraqueza",
+          "prostração"
+        ]
+      },
+      "fever": {
+        "id": "A10",
+        "terms": [
+          "febre",
+          "febril"
+        ]
+      },
+      "cough": {
+        "id": "A11",
+        "terms": [
+          "tosse"
+        ]
+      },
+      "hemoptysis": {
+        "id": "A12",
+        "terms": [
+          "hemoptise",
+          "sangue ao tossir",
+          "escarro com sangue"
+        ]
+      },
+      "dysphagia": {
+        "id": "A13",
+        "terms": [
+          "disfagia",
+          "dificuldade para engolir"
+        ]
+      },
+      "odynophagia": {
+        "id": "A14",
+        "terms": [
+          "odinofagia",
+          "dor ao engolir"
+        ]
+      },
+      "heartburn": {
+        "id": "A15",
+        "terms": [
+          "pirose",
+          "azia"
+        ]
+      },
+      "regurgitation": {
+        "id": "A16",
+        "terms": [
+          "regurgitação",
+          "refluxo"
+        ]
+      },
+      "epigastric_pain": {
+        "id": "A17",
+        "terms": [
+          "epigastralgia",
+          "dor epigástrica",
+          "dor na boca do estômago"
+        ]
+      },
+      "neurologic_deficit": {
+        "id": "A18",
+        "terms": [
+          "paresia",
+          "plegia",
+          "parestesia",
+          "disartria",
+          "alteração neurológica"
+        ]
+      }
+    },
+    "context": {
+      "trauma": {
+        "id": "C01",
+        "terms": [
+          "trauma",
+          "queda",
+          "colisão",
+          "pancada no tórax"
+        ]
+      },
+      "recent_infection": {
+        "id": "C02",
+        "terms": [
+          "infecção recente",
+          "gripe",
+          "quadro viral"
+        ]
+      },
+      "immobilization": {
+        "id": "C03",
+        "terms": [
+          "imobilizado",
+          "acamado",
+          "repouso prolongado"
+        ]
+      },
+      "recent_surgery": {
+        "id": "C04",
+        "terms": [
+          "cirurgia recente",
+          "pós-operatório"
+        ]
+      },
+      "recent_hospitalization": {
+        "id": "C05",
+        "terms": [
+          "internação recente",
+          "alta hospitalar recente"
+        ]
+      },
+      "prolonged_travel": {
+        "id": "C06",
+        "terms": [
+          "viagem longa",
+          "voo prolongado",
+          "muitas horas sentado"
+        ]
+      },
+      "unusual_exertion": {
+        "id": "C07",
+        "terms": [
+          "esforço intenso",
+          "exercício incomum",
+          "carregou peso"
+        ]
+      },
+      "substance_use": {
+        "id": "C08",
+        "terms": [
+          "cocaína",
+          "estimulante",
+          "droga recreativa"
+        ]
+      },
+      "medication_related": {
+        "id": "C09",
+        "terms": [
+          "medicamento novo",
+          "após medicação",
+          "mudança recente de medicamento"
+        ]
+      }
+    }
+  },
+  "linguistic_markers": {
+    "negation": [
+      "nega",
+      "negou",
+      "sem",
+      "não apresenta",
+      "não refere",
+      "não relata",
+      "ausência de",
+      "nega presença de"
+    ],
+    "uncertainty": [
+      "talvez",
+      "possivelmente",
+      "parece",
+      "não sabe informar",
+      "não soube precisar",
+      "incerto",
+      "duvidoso"
+    ],
+    "temporal": [
+      "atualmente",
+      "agora",
+      "hoje",
+      "ontem",
+      "há",
+      "previamente",
+      "anteriormente",
+      "no passado"
+    ]
+  },
+  "status_model": {
+    "allowed": [
+      "PRESENTE",
+      "NEGADA",
+      "AUSENTE",
+      "VAGA",
+      "CONTRADITORIA",
+      "NAO_APLICAVEL"
+    ],
+    "rule": "Informação não mencionada nunca deve ser classificada automaticamente como NEGADA."
+  },
+  "priority_model": {
+    "allowed": [
+      "CRITICA",
+      "IMPORTANTE",
+      "COMPLEMENTAR"
+    ]
+  },
+  "safety_features": [
+    "sudden_onset",
+    "maximal_at_onset",
+    "exertional_pain",
+    "oppressive_quality",
+    "syncope",
+    "significant_dyspnea",
+    "diaphoresis",
+    "hemoptysis",
+    "neurologic_symptoms",
+    "radiation_to_back",
+    "hemodynamic_instability"
+  ],
+  "audit_rules": [
+    {
+      "id": "R001",
+      "if": [
+        "chest_pain=true",
+        "onset=missing"
+      ],
+      "then": [
+        "flag=CRITICAL_MISSING"
+      ]
+    },
+    {
+      "id": "R002",
+      "if": [
+        "chest_pain=true",
+        "location=missing"
+      ],
+      "then": [
+        "flag=CRITICAL_MISSING"
+      ]
+    },
+    {
+      "id": "R003",
+      "if": [
+        "chest_pain=true",
+        "current_status=missing"
+      ],
+      "then": [
+        "flag=CRITICAL_MISSING"
+      ]
+    },
+    {
+      "id": "R004",
+      "if": [
+        "sudden_onset=true",
+        "maximal_at_onset=missing"
+      ],
+      "then": [
+        "ask=A dor atingiu intensidade máxima imediatamente?"
+      ]
+    },
+    {
+      "id": "R005",
+      "if": [
+        "exertional_relation=missing"
+      ],
+      "then": [
+        "flag=IMPORTANT_MISSING"
+      ]
+    },
+    {
+      "id": "R006",
+      "if": [
+        "symptom=mentioned",
+        "negation_scope(symptom)=true"
+      ],
+      "then": [
+        "status=NEGADA"
+      ]
+    },
+    {
+      "id": "R007",
+      "if": [
+        "symptom=not_mentioned"
+      ],
+      "then": [
+        "status=AUSENTE"
+      ],
+      "prohibited": [
+        "status=NEGADA"
+      ]
+    },
+    {
+      "id": "R008",
+      "if": [
+        "pain_quality=pleuritic"
+      ],
+      "then": [
+        "normalize=relation_with_breathing"
+      ]
+    },
+    {
+      "id": "R009",
+      "if": [
+        "pattern=dor N/10"
+      ],
+      "then": [
+        "extract=severity",
+        "scale=10"
+      ]
+    },
+    {
+      "id": "R010",
+      "if": [
+        "duration_expression=present"
+      ],
+      "then": [
+        "extract=value",
+        "extract=unit"
+      ]
+    },
+    {
+      "id": "R011",
+      "if": [
+        "conflicting_statements=true"
+      ],
+      "then": [
+        "status=CONTRADITORIA",
+        "preserve_both_statements=true"
+      ]
+    }
+  ],
+  "analysis_pipeline": [
+    "normalizacao_textual",
+    "identificacao_de_conceitos",
+    "deteccao_de_negacao",
+    "resolucao_de_temporalidade",
+    "deteccao_de_relacoes",
+    "mapeamento_OPQRST",
+    "mapeamento_de_sintomas_associados",
+    "identificacao_de_lacunas",
+    "deteccao_de_contradicoes",
+    "safety_flags",
+    "priorizacao_de_perguntas",
+    "avaliacao_de_completude"
+  ],
+  "output_contract": {
+    "chief_complaint": "SIM|NAO|INCERTO",
+    "characterization_fields": [
+      "inicio",
+      "contexto_de_inicio",
+      "localizacao",
+      "irradiacao",
+      "qualidade",
+      "intensidade",
+      "duracao",
+      "padrao_temporal",
+      "fatores_de_piora",
+      "fatores_de_melhora",
+      "episodios_previos"
+    ],
+    "associated_symptoms": [
+      "presentes",
+      "negados",
+      "nao_pesquisados"
+    ],
+    "quality_findings": [
+      "elementos_de_alerta",
+      "informacoes_vagas",
+      "contradicoes",
+      "lacunas_priorizadas"
+    ],
+    "completeness": [
+      "INSUFICIENTE",
+      "PARCIAL",
+      "ADEQUADA",
+      "COMPLETA"
+    ]
+  }
+}

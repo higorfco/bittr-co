@@ -1,0 +1,543 @@
+{
+  "metadata": {
+    "nome": "Banco terminológico — Alterações metabólicas ou sistêmicas inespecíficas",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "fonte": "Prompt fornecido pelo usuário",
+    "escopo": "Queixa e Duração (QD) e História da Moléstia Atual (HMA/HPMA)",
+    "finalidade": "Consulta rápida durante análise crítica do texto clínico para extração, normalização, avaliação de completude, identificação de ambiguidades, prevenção de erros e roteamento.",
+    "restricoes": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informações ausentes",
+      "não preencher lacunas com suposições",
+      "não considerar informação ausente como negativa"
+    ],
+    "estados_informacao": [
+      "PRESENTE",
+      "NEGADO",
+      "NÃO INFORMADO",
+      "INCOMPLETO",
+      "AMBÍGUO",
+      "CONTRADITÓRIO",
+      "NÃO APLICÁVEL"
+    ]
+  },
+  "manifestacoes_principais": {
+    "mal_estar_estado_geral": [
+      "mal-estar",
+      "indisposição",
+      "alteração inespecífica do estado geral",
+      "abatido",
+      "mole",
+      "corpo ruim",
+      "corpo pesado",
+      "não está bem",
+      "está estranho",
+      "não consegue fazer nada"
+    ],
+    "astenia_adinamia_fraqueza": [
+      "fraqueza",
+      "fraqueza generalizada",
+      "astenia",
+      "adinamia",
+      "prostração",
+      "sem forças",
+      "falta de energia"
+    ],
+    "fadiga_capacidade_funcional": [
+      "cansaço",
+      "fadiga",
+      "intolerância ao esforço",
+      "redução da capacidade funcional"
+    ],
+    "sonolencia": [
+      "sonolência",
+      "sonolência excessiva",
+      "mais sonolento que o habitual"
+    ],
+    "apetite": [
+      "perda de apetite",
+      "inapetência",
+      "anorexia",
+      "fome excessiva",
+      "polifagia"
+    ],
+    "sede": [
+      "sede excessiva",
+      "polidipsia",
+      "aumento da sede"
+    ],
+    "peso": [
+      "perda de peso",
+      "emagrecimento",
+      "ganho de peso"
+    ],
+    "termorregulacao": [
+      "sudorese",
+      "sudorese excessiva",
+      "calafrios",
+      "intolerância ao frio",
+      "intolerância ao calor",
+      "sensação de frio",
+      "sensação de calor"
+    ],
+    "neuromusculares_difusas": [
+      "tremores",
+      "câimbras",
+      "espasmos",
+      "parestesias",
+      "parestesias difusas",
+      "fraqueza muscular"
+    ]
+  },
+  "desambiguacao_essencial": {
+    "fraqueza": {
+      "diferenciar_de": [
+        "falta subjetiva de energia",
+        "redução objetiva de força",
+        "dificuldade para caminhar",
+        "dificuldade para levantar-se",
+        "fraqueza generalizada",
+        "fraqueza localizada"
+      ],
+      "alerta": "déficit motor focal não deve ser tratado apenas como manifestação sistêmica inespecífica"
+    },
+    "cansaco_fadiga": {
+      "diferenciar_de": [
+        "fadiga",
+        "sonolência",
+        "dispneia",
+        "intolerância ao esforço",
+        "fraqueza muscular",
+        "desmotivação",
+        "redução global do estado funcional"
+      ]
+    },
+    "prostracao_moleza": {
+      "verificar": [
+        "manutenção da consciência",
+        "responsividade",
+        "capacidade de permanecer em pé",
+        "capacidade de caminhar",
+        "capacidade de realizar atividades habituais"
+      ]
+    }
+  },
+  "caracterizacao_temporal": {
+    "campos": [
+      "quando começou",
+      "tempo de evolução",
+      "início súbito",
+      "início rápido",
+      "início progressivo",
+      "início insidioso",
+      "contínuo",
+      "intermitente",
+      "episódico",
+      "duração dos episódios",
+      "frequência",
+      "primeiro episódio",
+      "recorrência",
+      "piora",
+      "melhora",
+      "estabilidade",
+      "relação temporal com evento específico"
+    ],
+    "expressoes_temporais_vagas": [
+      "há algum tempo",
+      "esses dias",
+      "ultimamente",
+      "faz um tempo",
+      "recentemente"
+    ]
+  },
+  "gravidade_impacto_funcional": [
+    "leve",
+    "moderada",
+    "intensa",
+    "limita atividades habituais",
+    "impede trabalhar",
+    "impede caminhar",
+    "dificulta permanecer em pé",
+    "dificulta alimentação",
+    "dificulta hidratação",
+    "dificulta autocuidado",
+    "restrito ao leito",
+    "queda",
+    "redução importante da mobilidade",
+    "piora funcional progressiva"
+  ],
+  "fatores_modificadores": [
+    "jejum",
+    "alimentação",
+    "ingestão de líquidos",
+    "esforço",
+    "repouso",
+    "mudança de posição",
+    "calor",
+    "frio",
+    "exposição ambiental",
+    "exercício",
+    "privação de sono",
+    "doença recente",
+    "início de medicamento",
+    "suspensão de medicamento",
+    "alteração de medicamento",
+    "fator de melhora",
+    "fator de piora"
+  ],
+  "ingesta_hidratacao": {
+    "ingesta": [
+      "redução da ingestão alimentar",
+      "inapetência",
+      "dificuldade para alimentar-se",
+      "redução da ingestão hídrica",
+      "aumento da ingestão hídrica",
+      "sede excessiva",
+      "incapacidade de manter líquidos",
+      "jejum prolongado",
+      "mudança recente na dieta"
+    ],
+    "perdas": [
+      "vômitos",
+      "diarreia",
+      "febre",
+      "sudorese",
+      "poliúria",
+      "outras perdas"
+    ]
+  },
+  "peso_estado_nutricional": [
+    "perda de peso",
+    "ganho de peso",
+    "quantidade aproximada",
+    "intervalo de tempo",
+    "intencionalidade",
+    "mudança do apetite",
+    "redução significativa da ingestão",
+    "aumento importante da ingestão"
+  ],
+  "sede_apetite_diurese": [
+    "polidipsia",
+    "aumento da sede",
+    "polifagia",
+    "inapetência",
+    "aumento da diurese",
+    "redução da diurese",
+    "poliúria",
+    "noctúria",
+    "oligúria percebida",
+    "mudança do padrão urinário"
+  ],
+  "manifestacoes_associadas": {
+    "neurologicas_neuromusculares": [
+      "alteração do nível de consciência",
+      "confusão",
+      "desorientação",
+      "sonolência excessiva",
+      "agitação",
+      "síncope",
+      "pré-síncope",
+      "tontura",
+      "cefaleia",
+      "convulsão",
+      "tremores",
+      "câimbras",
+      "espasmos",
+      "parestesias",
+      "fraqueza muscular",
+      "dificuldade para caminhar",
+      "alteração focal de força",
+      "alteração da fala",
+      "alteração visual"
+    ],
+    "cardiovasculares": [
+      "dor torácica",
+      "desconforto torácico",
+      "palpitações",
+      "percepção de alteração do ritmo cardíaco",
+      "dispneia",
+      "intolerância ao esforço",
+      "síncope",
+      "pré-síncope",
+      "edema",
+      "sudorese associada",
+      "piora postural"
+    ],
+    "respiratorias": [
+      "dispneia",
+      "tosse",
+      "expectoração",
+      "dor torácica relacionada à respiração",
+      "chiado",
+      "sensação de sufocamento",
+      "redução da tolerância ao esforço"
+    ],
+    "gastrointestinais": [
+      "náuseas",
+      "vômitos",
+      "dor abdominal",
+      "diarreia",
+      "constipação",
+      "alteração do hábito intestinal",
+      "distensão",
+      "redução do apetite",
+      "incapacidade de ingerir alimentos",
+      "incapacidade de manter líquidos",
+      "sangramento digestivo"
+    ],
+    "urinarias": [
+      "disúria",
+      "polaciúria",
+      "urgência",
+      "alteração da frequência urinária",
+      "aumento do volume urinário",
+      "redução do volume urinário",
+      "noctúria",
+      "hematúria",
+      "retenção urinária",
+      "dor lombar",
+      "dor em flanco"
+    ],
+    "infecciosas_constitucionais": [
+      "febre",
+      "sensação febril",
+      "calafrios",
+      "sudorese",
+      "sudorese noturna",
+      "mialgia",
+      "artralgia",
+      "prostração",
+      "perda de peso",
+      "redução do apetite",
+      "sintoma infeccioso localizatório"
+    ],
+    "endocrino_metabolicas": [
+      "intolerância ao calor",
+      "intolerância ao frio",
+      "sudorese excessiva",
+      "tremores",
+      "alteração do apetite",
+      "alteração de peso",
+      "polidipsia",
+      "poliúria",
+      "polifagia",
+      "câimbras",
+      "parestesias",
+      "fraqueza muscular",
+      "alteração do trânsito intestinal",
+      "alteração recente de energia",
+      "alteração recente de disposição"
+    ]
+  },
+  "exposicoes_medicamentos_desencadeantes": [
+    "início de medicamento",
+    "mudança de dose",
+    "suspensão abrupta de medicamento",
+    "uso incorreto",
+    "ingestão excessiva",
+    "álcool",
+    "drogas",
+    "outras substâncias",
+    "suplementos",
+    "exposição ocupacional",
+    "produtos químicos",
+    "calor excessivo",
+    "esforço intenso",
+    "exercício prolongado",
+    "jejum",
+    "mudança dietética",
+    "doença recente",
+    "procedimento recente",
+    "cirurgia recente"
+  ],
+  "alteracao_global_estado_clinico": [
+    "incapacidade de levantar-se",
+    "dificuldade nova para caminhar",
+    "redução importante da interação",
+    "redução importante da ingestão",
+    "sonolência incomum",
+    "comportamento diferente do habitual",
+    "declínio funcional agudo",
+    "piora progressiva do estado geral",
+    "não está como normalmente é",
+    "parou de comer",
+    "ficou muito parado",
+    "não consegue mais levantar",
+    "está mais sonolento que o habitual"
+  ],
+  "sinais_alerta_textuais": [
+    "alteração aguda da consciência",
+    "confusão importante",
+    "convulsão",
+    "síncope",
+    "déficit neurológico focal",
+    "incapacidade súbita de caminhar",
+    "fraqueza rapidamente progressiva",
+    "dor torácica",
+    "dispneia importante",
+    "deterioração clínica rápida",
+    "vômitos persistentes",
+    "incapacidade de manter hidratação",
+    "redução acentuada da diurese",
+    "sangramento",
+    "hipertermia",
+    "hipotermia",
+    "exposição relevante",
+    "intoxicação relevante",
+    "comprometimento funcional importante"
+  ],
+  "roteamento_para_algoritmo_especifico": {
+    "dor_toracica": [
+      "dor torácica",
+      "desconforto torácico"
+    ],
+    "dor_abdominal": [
+      "dor abdominal"
+    ],
+    "cefaleia": [
+      "cefaleia",
+      "dor de cabeça"
+    ],
+    "dispneia": [
+      "dispneia",
+      "falta de ar",
+      "dificuldade respiratória"
+    ],
+    "sintomas_respiratorios": [
+      "tosse",
+      "expectoração",
+      "chiado"
+    ],
+    "sincope": [
+      "síncope",
+      "desmaio",
+      "perda transitória da consciência"
+    ],
+    "alteracao_estado_mental": [
+      "confusão",
+      "desorientação",
+      "alteração da consciência",
+      "sonolência incomum"
+    ],
+    "deficit_neurologico_focal": [
+      "fraqueza focal",
+      "déficit focal",
+      "alteração focal de força",
+      "alteração da fala"
+    ],
+    "convulsao": [
+      "convulsão",
+      "crise convulsiva"
+    ],
+    "tontura_vertigem": [
+      "tontura",
+      "vertigem",
+      "desequilíbrio"
+    ],
+    "nauseas_vomitos": [
+      "náusea",
+      "náuseas",
+      "vômito",
+      "vômitos"
+    ],
+    "diarreia": [
+      "diarreia"
+    ],
+    "sintomas_urinarios": [
+      "disúria",
+      "polaciúria",
+      "urgência",
+      "hematúria",
+      "retenção urinária"
+    ],
+    "dor_lombar_flanco": [
+      "dor lombar",
+      "dor em flanco"
+    ],
+    "hemorragico": [
+      "sangramento",
+      "hemorragia"
+    ],
+    "febre": [
+      "febre",
+      "síndrome febril"
+    ],
+    "edema": [
+      "edema",
+      "inchaço"
+    ],
+    "cutaneo": [
+      "rash",
+      "prurido",
+      "lesão cutânea",
+      "lesões cutâneas"
+    ],
+    "palpitacoes": [
+      "palpitação",
+      "palpitações",
+      "alteração do ritmo cardíaco"
+    ],
+    "alergico": [
+      "reação alérgica",
+      "anafilaxia"
+    ],
+    "toxicologico": [
+      "intoxicação",
+      "exposição",
+      "overdose"
+    ]
+  },
+  "controle_qualidade": {
+    "erros_a_evitar": [
+      "converter NÃO INFORMADO em NEGADO",
+      "inferir diagnóstico a partir de sintomas inespecíficos",
+      "equiparar fadiga, sonolência, fraqueza, dispneia, intolerância ao esforço, prostração ou alteração da consciência",
+      "tratar déficit motor focal como fraqueza sistêmica",
+      "inferir gravidade apenas por termos vagos",
+      "forçar permanência neste grupo quando houver manifestação dominante específica",
+      "exigir indiscriminadamente todos os campos",
+      "resolver contradições por suposição",
+      "transformar manifestações clínicas em hipóteses diagnósticas"
+    ],
+    "qualidade_textual": [
+      "contradição",
+      "cronologia inconsistente",
+      "termo vago",
+      "informação ambígua",
+      "mudança de descrição sem esclarecimento",
+      "sintoma sem caracterização mínima",
+      "expressão com múltiplas interpretações",
+      "informação quantitativa incompleta",
+      "relação temporal não esclarecida"
+    ]
+  },
+  "priorizacao_lacunas": {
+    "alta": [
+      "natureza da manifestação",
+      "gravidade",
+      "deterioração clínica",
+      "manifestação potencialmente tempo-dependente",
+      "roteamento adequado"
+    ],
+    "moderada": [
+      "caracterização clínica",
+      "direcionamento do raciocínio"
+    ],
+    "baixa": [
+      "refinamento complementar"
+    ]
+  },
+  "saida_esperada": [
+    "manifestação principal identificada",
+    "informações relevantes presentes",
+    "informações relevantes negadas",
+    "informações importantes faltantes",
+    "informações incompletas ou vagas",
+    "ambiguidades ou contradições",
+    "necessidade de esclarecimento",
+    "possível roteamento para algoritmo específico"
+  ]
+}

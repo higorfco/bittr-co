@@ -1,0 +1,449 @@
+{
+  "metadata": {
+    "nome": "sintomas_genitais_pelvicos",
+    "versao": "1.0",
+    "idioma": "pt-BR",
+    "escopo": "QD/HMA",
+    "finalidade": [
+      "extração de informações clínicas",
+      "controle de qualidade documental",
+      "identificação de lacunas, ambiguidades e contradições",
+      "priorização de informações relevantes à segurança clínica"
+    ],
+    "restricoes": [
+      "não realizar diagnóstico",
+      "não definir tratamento",
+      "não solicitar exames",
+      "não inferir informação ausente",
+      "não considerar ausência de documentação como negativa"
+    ]
+  },
+  "queixas_alvo": {
+    "corrimento_secrecao": {
+      "termos": [
+        "corrimento",
+        "secreção",
+        "secreção genital",
+        "corrimento vaginal",
+        "corrimento uretral",
+        "secreção peniana",
+        "saída de líquido",
+        "sujeira na roupa íntima"
+      ],
+      "atributos": [
+        "origem",
+        "início",
+        "duração",
+        "quantidade",
+        "cor",
+        "consistência",
+        "aspecto",
+        "odor",
+        "sangue",
+        "pus",
+        "evolução"
+      ],
+      "descritores": [
+        "branco",
+        "transparente",
+        "amarelado",
+        "amarelo-esverdeado",
+        "esverdeado",
+        "acinzentado",
+        "sanguinolento",
+        "espesso",
+        "grumoso",
+        "aquoso",
+        "mucoso",
+        "purulento",
+        "odor forte",
+        "odor desagradável"
+      ],
+      "associados": [
+        "prurido genital",
+        "ardência",
+        "irritação",
+        "eritema",
+        "edema",
+        "lesões genitais",
+        "dor genital",
+        "disúria",
+        "dor pélvica",
+        "dor abdominal inferior",
+        "sangramento",
+        "febre"
+      ]
+    },
+    "sangramento_genital": {
+      "termos": [
+        "sangramento genital",
+        "sangramento vaginal",
+        "sangramento uretral",
+        "sangramento peniano",
+        "sangramento por baixo",
+        "escape",
+        "spotting",
+        "sangramento fora da menstruação",
+        "sangramento pós-coital"
+      ],
+      "atributos": [
+        "origem",
+        "início",
+        "duração",
+        "quantidade",
+        "intensidade",
+        "padrão contínuo/intermitente",
+        "coágulos",
+        "cor/aspecto",
+        "progressão",
+        "episódios anteriores"
+      ],
+      "quantificadores": [
+        "discreto",
+        "moderado",
+        "intenso",
+        "pequeno escape",
+        "troca frequente de absorventes",
+        "atravessa roupas",
+        "atravessa absorventes"
+      ],
+      "contextos": [
+        "ciclo menstrual",
+        "intermenstrual",
+        "relação sexual",
+        "pós-coital",
+        "atraso menstrual",
+        "amenorreia",
+        "possibilidade de gestação",
+        "gestação conhecida",
+        "puerpério",
+        "menopausa",
+        "procedimento",
+        "trauma"
+      ]
+    },
+    "dor_pelvica": {
+      "termos": [
+        "dor pélvica",
+        "dor na pelve",
+        "dor suprapúbica",
+        "dor no baixo ventre",
+        "dor no pé da barriga",
+        "dor em hipogástrio",
+        "dor perineal",
+        "dor inguinal"
+      ],
+      "localizacoes": [
+        "hipogástrio",
+        "suprapúbica",
+        "pelve",
+        "fossa ilíaca direita",
+        "fossa ilíaca esquerda",
+        "bilateral",
+        "unilateral",
+        "difusa",
+        "perineal",
+        "inguinal"
+      ],
+      "qualidades": [
+        "cólica",
+        "pontada",
+        "pressão",
+        "peso",
+        "queimação",
+        "ardência",
+        "dor surda",
+        "facada"
+      ],
+      "atributos": [
+        "início",
+        "duração",
+        "intensidade",
+        "padrão",
+        "evolução",
+        "localização",
+        "lateralidade",
+        "irradiação",
+        "migração",
+        "fatores de melhora",
+        "fatores de piora"
+      ],
+      "irradiacao": [
+        "região lombar",
+        "flancos",
+        "abdome",
+        "região inguinal",
+        "períneo",
+        "genitais",
+        "membros inferiores"
+      ],
+      "modificadores": [
+        "movimento",
+        "esforço",
+        "micção",
+        "evacuação",
+        "alimentação",
+        "ciclo menstrual",
+        "relação sexual",
+        "posição corporal",
+        "analgésicos",
+        "repouso"
+      ]
+    },
+    "dor_testicular_escrotal": {
+      "termos": [
+        "dor testicular",
+        "dor escrotal",
+        "dor nos testículos",
+        "dor no saco",
+        "dor no escroto"
+      ],
+      "localizacoes": [
+        "testículo direito",
+        "testículo esquerdo",
+        "bilateral",
+        "escroto",
+        "região inguinal",
+        "períneo"
+      ],
+      "atributos": [
+        "início súbito/gradual",
+        "horário do início",
+        "duração",
+        "padrão",
+        "progressão",
+        "recorrência",
+        "intensidade",
+        "qualidade",
+        "irradiação",
+        "relação com movimento",
+        "posição",
+        "esforço",
+        "atividade sexual",
+        "trauma"
+      ],
+      "alteracoes_locais": [
+        "aumento de volume",
+        "edema",
+        "vermelhidão",
+        "calor",
+        "assimetria",
+        "alteração da posição do testículo",
+        "massa",
+        "nódulo",
+        "endurecimento",
+        "trauma",
+        "lesões cutâneas"
+      ],
+      "associados": [
+        "náuseas",
+        "vômitos",
+        "febre",
+        "sintomas urinários",
+        "corrimento uretral",
+        "dor abdominal",
+        "dor inguinal",
+        "sintomas sistêmicos"
+      ]
+    },
+    "dispareunia": {
+      "termos": [
+        "dispareunia",
+        "dor durante a relação",
+        "dor na relação",
+        "dor na penetração",
+        "dor após a relação"
+      ],
+      "atributos": [
+        "durante/após relação",
+        "relação com penetração",
+        "superficial/profunda",
+        "momento durante o ato",
+        "constante/ocasional",
+        "localização/lateralidade",
+        "intensidade",
+        "início",
+        "recorrência",
+        "persistência após relação",
+        "duração pós-relação"
+      ],
+      "associados": [
+        "sangramento pós-coital",
+        "corrimento",
+        "prurido",
+        "ardência",
+        "dor pélvica fora da relação",
+        "sintomas urinários"
+      ]
+    }
+  },
+  "eixos_transversais": {
+    "temporalidade": [
+      "quando começou",
+      "há quanto tempo",
+      "súbito",
+      "rápido",
+      "progressivo",
+      "insidioso",
+      "contínuo",
+      "intermitente",
+      "episódico",
+      "duração dos episódios",
+      "frequência",
+      "melhorando",
+      "piorando",
+      "estável",
+      "recorrente"
+    ],
+    "urinarios": [
+      "disúria",
+      "polaciúria",
+      "urgência urinária",
+      "dificuldade para urinar",
+      "retenção",
+      "hesitação",
+      "alteração do jato",
+      "hematúria",
+      "incontinência",
+      "alteração da cor da urina",
+      "alteração do odor da urina",
+      "dor lombar",
+      "dor em flanco"
+    ],
+    "gastrointestinais": [
+      "náuseas",
+      "vômitos",
+      "diarreia",
+      "constipação",
+      "alteração do hábito intestinal",
+      "dor à evacuação",
+      "distensão abdominal",
+      "sangramento gastrointestinal"
+    ],
+    "sistemicos": [
+      "febre",
+      "calafrios",
+      "sudorese",
+      "mal-estar",
+      "fraqueza",
+      "tontura",
+      "síncope",
+      "pré-síncope",
+      "prostração"
+    ],
+    "menstrual_reprodutivo": [
+      "DUM",
+      "data da última menstruação",
+      "regularidade menstrual",
+      "alteração do ciclo",
+      "atraso menstrual",
+      "amenorreia",
+      "padrão menstrual habitual",
+      "possibilidade de gestação",
+      "gestação conhecida",
+      "idade gestacional",
+      "puerpério",
+      "menopausa",
+      "método contraceptivo",
+      "DIU"
+    ],
+    "sexual": [
+      "atividade sexual recente",
+      "sintomas após relação",
+      "novo parceiro",
+      "múltiplos parceiros",
+      "uso de preservativo",
+      "exposição sexual",
+      "sintomas no parceiro",
+      "antecedente recente de IST"
+    ],
+    "precipitantes": [
+      "trauma genital",
+      "atividade física",
+      "esforço",
+      "relação sexual",
+      "procedimento ginecológico",
+      "procedimento urológico",
+      "instrumentação",
+      "cirurgia recente",
+      "corpo estranho",
+      "dispositivo"
+    ]
+  },
+  "seguranca_clinica": {
+    "alta_prioridade": [
+      "dor testicular/escrotal de início súbito",
+      "dor pélvica intensa ou de início súbito",
+      "dor pélvica associada a sangramento genital",
+      "dor ou sangramento com possibilidade de gestação",
+      "sangramento genital intenso",
+      "síncope ou pré-síncope associada ao sangramento",
+      "instabilidade associada ao sangramento",
+      "febre ou comprometimento sistêmico com dor pélvica/genital",
+      "trauma genital significativo",
+      "aumento súbito do volume escrotal",
+      "dor genital/pélvica intensa com vômitos persistentes"
+    ],
+    "regra": "priorizar lacunas capazes de modificar urgência ou segurança clínica"
+  },
+  "qualidade_documental": {
+    "status_permitidos": [
+      "PRESENTE_DOCUMENTADO",
+      "NEGADO_EXPLICITAMENTE",
+      "PARCIAL_INCOMPLETO",
+      "AMBIGUO",
+      "CONTRADITORIO",
+      "NAO_INFORMADO",
+      "NAO_APLICAVEL"
+    ],
+    "ambiguidades_procurar": [
+      "localização imprecisa",
+      "origem incerta de corrimento ou sangramento",
+      "cronologia inconsistente",
+      "lateralidade divergente",
+      "intensidade contraditória",
+      "descrições incompatíveis",
+      "termos ambíguos",
+      "insuficiência para diferenciar sintomas"
+    ],
+    "prioridades_lacunas": {
+      "ALTA": "impacta gravidade, urgência, segurança ou caracterização fundamental",
+      "MEDIA": "importante para caracterização clínica",
+      "BAIXA": "informação complementar"
+    }
+  },
+  "regras_de_processamento": [
+    "preservar a descrição original quando possível",
+    "não converter automaticamente linguagem coloquial em termo técnico",
+    "não atribuir etiologia por aparência do corrimento",
+    "não assumir que sangramento genital seja menstrual",
+    "não confundir dor testicular, escrotal, inguinal e perineal",
+    "não inferir mecanismo ou etiologia da dispareunia",
+    "não transformar associação temporal em causalidade",
+    "não resolver contradições por inferência",
+    "não presumir comportamento sexual, orientação sexual, identidade de gênero ou práticas",
+    "não expandir sintomas associados para outro algoritmo quando houver módulo específico",
+    "não transformar ausência de documentação em ausência clínica"
+  ],
+  "ordem_de_prioridade": [
+    "segurança clínica",
+    "informações que modificam urgência",
+    "caracterização do sintoma principal",
+    "sintomas associados relevantes",
+    "contexto temporal",
+    "informações complementares"
+  ],
+  "saida_esperada": [
+    "queixas identificadas",
+    "informações disponíveis",
+    "informações faltantes relevantes",
+    "ambiguidades/contradições",
+    "pontos críticos de segurança não caracterizados",
+    "síntese de completude"
+  ],
+  "classificacao_completude": [
+    "ADEQUADA",
+    "PARCIALMENTE_ADEQUADA",
+    "INSUFICIENTE"
+  ]
+}
