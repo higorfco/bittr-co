@@ -14,11 +14,6 @@ export default function Home() {
     <div className="app-shell">
       <header className="site-header">
         <ModeSwitch mode={mode} onChange={setMode} />
-        <div className="brand">
-          <span className="brand-mark">BITTR</span>
-          <span className="brand-co">CO.</span>
-        </div>
-        <p className="tagline">Prezando pela melhor assistência</p>
         <div className="ornament" aria-hidden="true">
           ✦
         </div>

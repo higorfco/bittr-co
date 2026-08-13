@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
 import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
@@ -318,11 +319,19 @@ export function ModeSwitch({
           <button
             key={item}
             type="button"
+            aria-label="S1"
             aria-pressed={mode === item}
-            className={`mode-btn ${mode === item ? "active" : ""}`}
+            className={`mode-btn mode-btn-s1 ${mode === item ? "active" : ""}`}
             onClick={() => onChange(item)}
           >
-            {item}
+            <Image
+              src="/s1-hipocrates.png"
+              alt=""
+              className="mode-s1-icon"
+              width={56}
+              height={56}
+              priority
+            />
           </button>
         ))}
       </nav>

@@ -135,6 +135,31 @@ body::after {
   grid-template-columns: 1fr;
 }
 
+.mode-btn-s1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.2rem;
+  padding: 0.35rem;
+}
+
+.mode-btn-s1.active {
+  background: #0a0604;
+  border-color: #ffb060;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 200, 120, 0.35),
+    0 0 16px rgba(224, 112, 24, 0.35);
+}
+
+.mode-s1-icon {
+  display: block;
+  width: 3.35rem;
+  height: 3.35rem;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  pointer-events: none;
+}
+
 .mode-switch-h {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
