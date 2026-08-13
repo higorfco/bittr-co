@@ -5,7 +5,7 @@ import { useState, useTransition, type ReactNode } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
 import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
 import { evaluateChestPainH3, type H3Result } from "@/lib/h3-evaluate";
-import { evaluatePainS1, type S1Result } from "@/lib/s1-evaluate";
+import { evaluatePainS1, listS1Banks, type S1Result } from "@/lib/s1-evaluate";
 import { PANDA93_MAX } from "@/lib/panda93";
 import type { H1Result, TopicScore } from "@/lib/types";
 
@@ -190,9 +190,18 @@ function ListBlock({
   );
 }
 
-function S1ResultView({ result }: { result: S1Result }) {
+function S1ResultView({
+  result,
+  selectedBank,
+  onBankChange,
+}: {
+  result: S1Result;
+  selectedBank: string;
+  onBankChange: (file: string) => void;
+}) {
   const a = result.avaliacao;
   const r = result.routing;
+  const banks = listS1Banks();
 
   return (
     <section className="panel result-panel" aria-live="polite">
@@ -243,6 +252,7 @@ function S1ResultView({ result }: { result: S1Result }) {
             >
               {r.confianca.toFixed(2)}
               {r.classificacao_insegura ? " · INSEGURA" : ""}
+              {r.override_manual ? " · MANUAL" : ""}
             </span>
           </div>
         </li>
@@ -253,6 +263,37 @@ function S1ResultView({ result }: { result: S1Result }) {
           Secundários: {r.json_secundarios.join(", ")}
         </p>
       ) : null}
+      {!r.override_manual && r.json_sugerido_auto ? (
+        <p className="scope-note">Sugestão automática: {r.json_sugerido_auto}</p>
+      ) : null}
+      {r.override_manual && r.json_sugerido_auto ? (
+        <p className="scope-note">
+          Router sugeria: {r.json_sugerido_auto}
+        </p>
+      ) : null}
+
+      <label className="field-label" htmlFor="s1-bank-override">
+        Bancos JSON disponíveis (consulta / override)
+      </label>
+      <select
+        id="s1-bank-override"
+        className="bank-select"
+        size={Math.min(10, banks.length + 1)}
+        value={selectedBank}
+        onChange={(event) => onBankChange(event.target.value)}
+      >
+        <option value="">Automático (router clínico)</option>
+        {banks.map((bank) => (
+          <option key={bank.file} value={bank.file}>
+            {bank.file}
+            {bank.fallback ? " · fallback" : ""}
+            {bank.generic ? " · genérico" : ""}
+          </option>
+        ))}
+      </select>
+      <p className="scope-note">
+        Selecione outro BC para reaplicar a análise com aquele domínio.
+      </p>
 
       <h3>Avaliação</h3>
       <ul className="topic-list">
@@ -392,11 +433,23 @@ export function ModeSwitch({
 
 export function ReviewWorkspace({ mode }: { mode: AppMode }) {
   const [content, setContent] = useState("");
+  const [s1BankOverride, setS1BankOverride] = useState("");
   const [s1Result, setS1Result] = useState<S1Result | null>(null);
   const [h1Result, setH1Result] = useState<H1Result | null>(null);
   const [h2Result, setH2Result] = useState<H2Result | null>(null);
   const [h3Result, setH3Result] = useState<H3Result | null>(null);
   const [isPending, startTransition] = useTransition();
+  const s1Banks = listS1Banks();
+
+  function runS1(primaryFile?: string | null) {
+    const override =
+      primaryFile === undefined ? s1BankOverride || null : primaryFile || null;
+    setS1Result(
+      evaluatePainS1(content, {
+        primaryFile: override,
+      }),
+    );
+  }
 
   function runReview() {
     startTransition(() => {
@@ -404,7 +457,7 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
       setH1Result(null);
       setH2Result(null);
       setH3Result(null);
-      if (mode === "S1") setS1Result(evaluatePainS1(content));
+      if (mode === "S1") runS1();
       if (mode === "H1") setH1Result(evaluateAnamnesisH1(content));
       if (mode === "H2") setH2Result(evaluateStrokeH2(content));
       if (mode === "H3") setH3Result(evaluateChestPainH3(content));
@@ -413,10 +466,19 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
 
   function clearReview() {
     setContent("");
+    setS1BankOverride("");
     setS1Result(null);
     setH1Result(null);
     setH2Result(null);
     setH3Result(null);
+  }
+
+  function handleS1BankChange(file: string) {
+    setS1BankOverride(file);
+    if (!content.trim()) return;
+    startTransition(() => {
+      runS1(file);
+    });
   }
 
   const labels: Record<AppMode, { field: string; placeholder: string }> = {
@@ -452,6 +514,33 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
           placeholder={labels[mode].placeholder}
           rows={14}
         />
+
+        {mode === "S1" ? (
+          <>
+            <label className="field-label" htmlFor="s1-bank-catalog">
+              JSONs disponíveis para consulta
+            </label>
+            <select
+              id="s1-bank-catalog"
+              className="bank-select"
+              size={Math.min(12, s1Banks.length + 1)}
+              value={s1BankOverride}
+              onChange={(event) => setS1BankOverride(event.target.value)}
+            >
+              <option value="">Automático (router clínico)</option>
+              {s1Banks.map((bank) => (
+                <option key={bank.file} value={bank.file}>
+                  {bank.file}
+                </option>
+              ))}
+            </select>
+            <p className="scope-note">
+              {s1Banks.length} bancos BC carregados. Deixe em automático ou
+              force um domínio antes de calcular.
+            </p>
+          </>
+        ) : null}
+
         <div className="actions">
           <button
             type="button"
@@ -467,7 +556,13 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
         </div>
       </section>
 
-      {mode === "S1" && s1Result ? <S1ResultView result={s1Result} /> : null}
+      {mode === "S1" && s1Result ? (
+        <S1ResultView
+          result={s1Result}
+          selectedBank={s1BankOverride}
+          onBankChange={handleS1BankChange}
+        />
+      ) : null}
       {mode === "H1" && h1Result ? <H1ResultView result={h1Result} /> : null}
       {mode === "H2" && h2Result ? (
         <ChecklistResultView

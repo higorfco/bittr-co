@@ -447,6 +447,33 @@ textarea::placeholder {
   color: color-mix(in srgb, var(--ink-soft) 65%, transparent);
 }
 
+.bank-select {
+  display: block;
+  width: 100%;
+  min-height: 12rem;
+  margin-top: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: 0.15rem;
+  padding: 0.45rem 0.55rem;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(12, 6, 3, 0.85));
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.45;
+}
+
+.bank-select:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  outline-offset: 1px;
+  border-color: var(--accent-2);
+}
+
+.bank-select option {
+  padding: 0.35rem 0.4rem;
+  background: #120805;
+  color: var(--ink);
+}
+
 .actions {
   display: flex;
   gap: 0.6rem;

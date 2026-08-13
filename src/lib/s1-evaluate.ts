@@ -185,6 +185,8 @@ export type S1Result = {
     conceitos_secundarios: string[];
     json_primario: string;
     json_secundarios: string[];
+    json_sugerido_auto: string;
+    override_manual: boolean;
     arquivos_descartados_relevantes: string[];
     confianca: number;
     classificacao_insegura: boolean;
@@ -475,8 +477,37 @@ function improvementLevel(
   return "BAIXO";
 }
 
+export type S1BankOption = {
+  id: string;
+  file: string;
+  label: string;
+  fallback: boolean;
+  generic: boolean;
+};
+
+/** Catálogo dinâmico dos BCs disponíveis para consulta/override manual. */
+export function listS1Banks(): S1BankOption[] {
+  return PACK.banks
+    .map((b) => ({
+      id: b.id,
+      file: b.file,
+      label: b.label,
+      fallback: b.fallback,
+      generic: b.generic,
+    }))
+    .sort((a, b) => a.file.localeCompare(b.file, "pt"));
+}
+
+export type S1EvaluateOptions = {
+  /** Força o JSON primário (nome do arquivo BC_*.json). */
+  primaryFile?: string | null;
+};
+
 /** S1 — análise crítica contextual QD/QP/HMA com routing entre BCs. */
-export function evaluatePainS1(content: string): S1Result {
+export function evaluatePainS1(
+  content: string,
+  options: S1EvaluateOptions = {},
+): S1Result {
   const { sanitized, changes } = blurPersonalData(content.trim());
   const { scope, note } = extractScope(sanitized);
   const haystack = normalize(scope);
@@ -494,29 +525,50 @@ export function evaluatePainS1(content: string): S1Result {
   let primary = top?.bank;
   let confidence = primaryScore;
   let classificacaoInsegura = false;
+  let autoSuggested = primary?.file ?? "";
 
   if (!primary || primaryScore < 0.22) {
     primary = fallback ?? top?.bank;
     confidence = Math.min(primaryScore, 0.35);
     classificacaoInsegura = true;
+    autoSuggested = primary?.file ?? "";
   } else if (primary.generic && primaryScore < 0.45) {
-    // Prefer a more specific bank if close
     const specific = scored.find((s) => !s.bank.generic && s.score >= 0.22);
     if (specific) {
       primary = specific.bank;
       confidence = specific.score;
+      autoSuggested = primary.file;
+    }
+  } else {
+    autoSuggested = primary.file;
+  }
+
+  const overrideFile = options.primaryFile?.trim() || null;
+  let manualOverride = false;
+  if (overrideFile) {
+    const forced = PACK.banks.find(
+      (b) => b.file === overrideFile || b.id === overrideFile,
+    );
+    if (forced) {
+      primary = forced;
+      manualOverride = true;
+      const forcedScore = scored.find((s) => s.bank.file === forced.file)?.score ?? 0;
+      confidence = Math.max(forcedScore, 0.55);
+      classificacaoInsegura = false;
     }
   }
 
-  // Near-tie primary candidates → lower confidence
-  const near = scored.filter(
-    (s) =>
-      !s.bank.generic &&
-      s.score >= primaryScore - 0.08 &&
-      s.score >= 0.22 &&
-      s.bank.file !== primary?.file,
-  );
-  if (near.length > 0) confidence = Math.min(confidence, 0.62);
+  // Near-tie primary candidates → lower confidence (só no modo automático)
+  if (!manualOverride) {
+    const near = scored.filter(
+      (s) =>
+        !s.bank.generic &&
+        s.score >= primaryScore - 0.08 &&
+        s.score >= 0.22 &&
+        s.bank.file !== primary?.file,
+    );
+    if (near.length > 0) confidence = Math.min(confidence, 0.62);
+  }
 
   const secondary = scored
     .filter(
@@ -544,9 +596,11 @@ export function evaluatePainS1(content: string): S1Result {
         `${s.bank.file} (${clsLabel(classifyApplicability(s.score, s.bank, primaryScore))}; score=${s.score.toFixed(2)})`,
     );
 
-  const motivo = classificacaoInsegura
-    ? `CLASSIFICACAO_INSEGURA — correspondência insuficiente; fallback ${primary?.file ?? "n/a"}.`
-    : `JSON selecionado: ${primary?.file}. Motivo: maior SCORE_DE_APLICABILIDADE (${confidence.toFixed(2)}) para a queixa dominante inferida do texto.`;
+  const motivo = manualOverride
+    ? `JSON aplicado manualmente: ${primary?.file}. Sugestão automática do router: ${autoSuggested || "n/a"}.`
+    : classificacaoInsegura
+      ? `CLASSIFICACAO_INSEGURA — correspondência insuficiente; fallback ${primary?.file ?? "n/a"}.`
+      : `JSON selecionado: ${primary?.file}. Motivo: maior SCORE_DE_APLICABILIDADE (${confidence.toFixed(2)}) para a queixa dominante inferida do texto.`;
 
   // Build contextual schema from primary + secondaries
   const rawCriteria: S1CriterionResult[] = [];
@@ -687,6 +741,8 @@ export function evaluatePainS1(content: string): S1Result {
       conceitos_secundarios: conceitosSecundarios,
       json_primario: primary?.file ?? "",
       json_secundarios: secondary.map((b) => b.file),
+      json_sugerido_auto: autoSuggested,
+      override_manual: manualOverride,
       arquivos_descartados_relevantes: discarded,
       confianca: Number(confidence.toFixed(2)),
       classificacao_insegura: classificacaoInsegura,
