@@ -17,16 +17,18 @@ export default function Home() {
         <div className="ornament" aria-hidden="true">
           ✦
         </div>
-        <p className="acronym-note">
-          PANDA93 — Plataforma de Análise e Normalização de Dados em Anamnese
-        </p>
       </header>
 
       <main>
         <ReviewWorkspace key={mode} mode={mode} />
       </main>
 
-      <footer className="site-footer">BITTR CO. · PANDA93 · {mode}</footer>
+      <footer className="site-footer">
+        <p className="acronym-note footer-acronym">
+          PANDA93 — Plataforma de Análise e Normalização de Dados em Anamnese
+        </p>
+        <p className="footer-brand">BITTR CO.</p>
+      </footer>
     </div>
   );
 }

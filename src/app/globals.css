@@ -694,8 +694,22 @@ textarea::placeholder {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-align: center;
-  text-transform: uppercase;
   animation: rise 0.7s ease both;
+}
+
+.footer-acronym {
+  margin: 0 0 0.55rem;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.footer-brand {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
 }
 
 @keyframes rise {

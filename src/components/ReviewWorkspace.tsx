@@ -43,15 +43,13 @@ function CollapsePanel({
   badge,
   badgeClass = "band-partial",
   children,
-  defaultOpen = false,
 }: {
   title: string;
   badge?: string | number;
   badgeClass?: string;
   children: ReactNode;
-  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const [open, setOpen] = useState(false);
   return (
     <details
       className="missing-panel"
@@ -113,7 +111,7 @@ function H1ResultView({ result }: { result: H1Result }) {
         </p>
       ) : null}
 
-      <CollapsePanel title="Escores" badge={result.topics.length} defaultOpen>
+      <CollapsePanel title="Escores" badge={result.topics.length}>
         <ul className="topic-list">
           {result.topics.map((topic) => (
             <TopicRow key={topic.topicId} topic={topic} />
@@ -176,7 +174,6 @@ function ChecklistResultView({
         title="Presentes"
         badge={presentEssential.length + presentOptional.length}
         badgeClass="band-good"
-        defaultOpen
       >
         <ul className="topic-list">
           {[...presentEssential, ...presentOptional].map((item) => (
@@ -309,7 +306,6 @@ function S1ResultView({
         title="Roteamento clínico"
         badge={r.confianca_label}
         badgeClass={coefPill(r.confianca)}
-        defaultOpen
       >
         <ul className="topic-list">
           <li className="topic-row">
@@ -362,7 +358,6 @@ function S1ResultView({
       <CollapsePanel
         title="Atração semântica dos BCs"
         badge={result.atracoes.length}
-        defaultOpen
       >
         <AttractionList items={result.atracoes} />
       </CollapsePanel>
@@ -370,7 +365,6 @@ function S1ResultView({
       <CollapsePanel
         title="Seleção P / S / T (opcional)"
         badge="override"
-        defaultOpen
       >
         <label className="field-label" htmlFor="s1-primary">
           Primário
@@ -439,7 +433,7 @@ function S1ResultView({
         </select>
       </CollapsePanel>
 
-      <CollapsePanel title="Avaliação" badge={a.score_global} defaultOpen>
+      <CollapsePanel title="Avaliação" badge={a.score_global}>
         <ul className="topic-list">
           {(
             [
@@ -674,49 +668,28 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
     });
   }
 
-  const labels: Record<AppMode, { field: string; placeholder: string }> = {
-    S1: {
-      field: "QD / QP / HMA (HPMA)",
-      placeholder:
-        "Cole a Queixa e Duração, Queixa Principal e/ou História da Moléstia Atual…",
-    },
-    H1: {
-      field: "Anamnese",
-      placeholder: "Cole o texto da anamnese…",
-    },
-    H2: {
-      field: "Initial assessment · AVC",
-      placeholder: "Cole a avaliação inicial de AVC…",
-    },
-    H3: {
-      field: "Chest pain / chest wall trauma",
-      placeholder: "Cole o texto de dor torácica ou trauma de parede torácica…",
-    },
-  };
+  const INPUT_PLACEHOLDER = "Ἄγε, λέγε μοι· τί ἔμαθες";
 
   return (
     <div className="workspace">
       <section className="panel">
-        <label className="field-label" htmlFor="content">
-          {labels[mode].field}
-        </label>
         <textarea
           id="content"
+          aria-label="Texto clínico"
           value={content}
           onChange={(event) => {
             const value = event.target.value;
             setContent(value);
             if (mode === "S1") refreshPreview(value);
           }}
-          placeholder={labels[mode].placeholder}
+          placeholder={INPUT_PLACEHOLDER}
           rows={14}
         />
 
         {mode === "S1" ? (
           <CollapsePanel
-            title="JSONs disponíveis · atração semântica"
+            title="CARAPUÇA A SERVIR"
             badge={s1Banks.length}
-            defaultOpen
           >
             <AttractionList
               items={
