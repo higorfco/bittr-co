@@ -474,6 +474,20 @@ textarea::placeholder {
   color: var(--ink);
 }
 
+.bank-select-compact {
+  min-height: 2.6rem;
+  height: 2.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.attraction-list .topic-head strong {
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-family: var(--font-body), Georgia, serif;
+  font-weight: 600;
+}
+
 .actions {
   display: flex;
   gap: 0.6rem;

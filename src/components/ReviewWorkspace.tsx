@@ -5,7 +5,13 @@ import { useState, useTransition, type ReactNode } from "react";
 import { evaluateAnamnesisH1 } from "@/lib/h1-evaluate";
 import { evaluateStrokeH2, type H2Result } from "@/lib/h2-evaluate";
 import { evaluateChestPainH3, type H3Result } from "@/lib/h3-evaluate";
-import { evaluatePainS1, listS1Banks, type S1Result } from "@/lib/s1-evaluate";
+import {
+  computeBankAttractions,
+  evaluatePainS1,
+  listS1Banks,
+  type S1BankAttraction,
+  type S1Result,
+} from "@/lib/s1-evaluate";
 import { PANDA93_MAX } from "@/lib/panda93";
 import type { H1Result, TopicScore } from "@/lib/types";
 
@@ -32,6 +38,40 @@ function TopicRow({ topic }: { topic: TopicScore }) {
   );
 }
 
+function CollapsePanel({
+  title,
+  badge,
+  badgeClass = "band-partial",
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  badge?: string | number;
+  badgeClass?: string;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <details
+      className="missing-panel"
+      open={open}
+      onToggle={(event) => setOpen(event.currentTarget.open)}
+    >
+      <summary className="missing-panel-toggle">
+        <span className="missing-panel-title">{title}</span>
+        {badge !== undefined ? (
+          <span className={`ciq-pill ${badgeClass}`}>{badge}</span>
+        ) : null}
+        <span className="missing-panel-hint" aria-hidden="true">
+          ▾
+        </span>
+      </summary>
+      <div className="missing-panel-body">{children}</div>
+    </details>
+  );
+}
+
 function MissingPanel({
   title = "Informações faltantes",
   count,
@@ -42,16 +82,9 @@ function MissingPanel({
   children: ReactNode;
 }) {
   return (
-    <details className="missing-panel">
-      <summary className="missing-panel-toggle">
-        <span className="missing-panel-title">{title}</span>
-        <span className="ciq-pill band-poor">{count}</span>
-        <span className="missing-panel-hint" aria-hidden="true">
-          ▾
-        </span>
-      </summary>
-      <div className="missing-panel-body">{children}</div>
-    </details>
+    <CollapsePanel title={title} badge={count} badgeClass="band-poor">
+      {children}
+    </CollapsePanel>
   );
 }
 
@@ -80,12 +113,13 @@ function H1ResultView({ result }: { result: H1Result }) {
         </p>
       ) : null}
 
-      <h3>Escores</h3>
-      <ul className="topic-list">
-        {result.topics.map((topic) => (
-          <TopicRow key={topic.topicId} topic={topic} />
-        ))}
-      </ul>
+      <CollapsePanel title="Escores" badge={result.topics.length} defaultOpen>
+        <ul className="topic-list">
+          {result.topics.map((topic) => (
+            <TopicRow key={topic.topicId} topic={topic} />
+          ))}
+        </ul>
+      </CollapsePanel>
 
       <MissingPanel count={result.missing.length}>
         {result.missing.length ? (
@@ -138,17 +172,23 @@ function ChecklistResultView({
         </p>
       ) : null}
 
-      <h3>Presentes</h3>
-      <ul className="topic-list">
-        {[...presentEssential, ...presentOptional].map((item) => (
-          <li key={item.id} className="topic-row">
-            <div className="topic-head">
-              <strong>{item.label}</strong>
-              <span className="ciq-pill band-good">OK</span>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <CollapsePanel
+        title="Presentes"
+        badge={presentEssential.length + presentOptional.length}
+        badgeClass="band-good"
+        defaultOpen
+      >
+        <ul className="topic-list">
+          {[...presentEssential, ...presentOptional].map((item) => (
+            <li key={item.id} className="topic-row">
+              <div className="topic-head">
+                <strong>{item.label}</strong>
+                <span className="ciq-pill band-good">OK</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </CollapsePanel>
 
       <MissingPanel count={result.missing.length}>
         {result.missing.length ? (
@@ -176,7 +216,7 @@ function ListBlock({
 }) {
   return (
     <>
-      <h3>{title}</h3>
+      {title ? <h3>{title}</h3> : null}
       {items.length ? (
         <ul className="finding-list">
           {items.map((item) => (
@@ -190,14 +230,51 @@ function ListBlock({
   );
 }
 
+function coefPill(coef: number): string {
+  if (coef >= 0.7) return "band-good";
+  if (coef >= 0.45) return "band-partial";
+  if (coef >= 0.22) return "band-poor";
+  return "band-critical";
+}
+
+function AttractionList({ items }: { items: S1BankAttraction[] }) {
+  return (
+    <ul className="topic-list attraction-list">
+      {items.map((item) => (
+        <li key={item.file} className="topic-row">
+          <div className="topic-head">
+            <strong>
+              {item.role !== "INCIDENTAL" && item.role !== "INCOMPATÍVEL"
+                ? `[${item.role}] `
+                : ""}
+              {item.file}
+            </strong>
+            <span className={`ciq-pill ${coefPill(item.coeficiente)}`}>
+              {item.coeficiente.toFixed(2)}
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function S1ResultView({
   result,
-  selectedBank,
-  onBankChange,
+  primaryFile,
+  secondaryFile,
+  tertiaryFile,
+  onRolesChange,
 }: {
   result: S1Result;
-  selectedBank: string;
-  onBankChange: (file: string) => void;
+  primaryFile: string;
+  secondaryFile: string;
+  tertiaryFile: string;
+  onRolesChange: (next: {
+    primary?: string;
+    secondary?: string;
+    tertiary?: string;
+  }) => void;
 }) {
   const a = result.avaliacao;
   const r = result.routing;
@@ -228,103 +305,187 @@ function S1ResultView({
 
       <p className="scope-note">{result.scopeNote}</p>
 
-      <h3>Roteamento clínico</h3>
-      <ul className="topic-list">
-        <li className="topic-row">
-          <div className="topic-head">
-            <strong>Queixa dominante</strong>
-            <span className="ciq-pill band-good">
-              {r.queixa_principal_identificada || "—"}
-            </span>
-          </div>
-        </li>
-        <li className="topic-row">
-          <div className="topic-head">
-            <strong>JSON primário</strong>
-            <span className="ciq-pill band-partial">{r.json_primario || "—"}</span>
-          </div>
-        </li>
-        <li className="topic-row">
-          <div className="topic-head">
-            <strong>Confiança</strong>
-            <span
-              className={`ciq-pill ${r.confianca >= 0.7 ? "band-good" : r.confianca >= 0.5 ? "band-partial" : "band-poor"}`}
-            >
-              {r.confianca.toFixed(2)}
-              {r.classificacao_insegura ? " · INSEGURA" : ""}
-              {r.override_manual ? " · MANUAL" : ""}
-            </span>
-          </div>
-        </li>
-      </ul>
-      <p className="scope-note">{r.motivo_selecao}</p>
-      {r.json_secundarios.length ? (
-        <p className="scope-note">
-          Secundários: {r.json_secundarios.join(", ")}
-        </p>
-      ) : null}
-      {!r.override_manual && r.json_sugerido_auto ? (
-        <p className="scope-note">Sugestão automática: {r.json_sugerido_auto}</p>
-      ) : null}
-      {r.override_manual && r.json_sugerido_auto ? (
-        <p className="scope-note">
-          Router sugeria: {r.json_sugerido_auto}
-        </p>
-      ) : null}
-
-      <label className="field-label" htmlFor="s1-bank-override">
-        Bancos JSON disponíveis (consulta / override)
-      </label>
-      <select
-        id="s1-bank-override"
-        className="bank-select"
-        size={Math.min(10, banks.length + 1)}
-        value={selectedBank}
-        onChange={(event) => onBankChange(event.target.value)}
+      <CollapsePanel
+        title="Roteamento clínico"
+        badge={r.confianca_label}
+        badgeClass={coefPill(r.confianca)}
+        defaultOpen
       >
-        <option value="">Automático (router clínico)</option>
-        {banks.map((bank) => (
-          <option key={bank.file} value={bank.file}>
-            {bank.file}
-            {bank.fallback ? " · fallback" : ""}
-            {bank.generic ? " · genérico" : ""}
-          </option>
-        ))}
-      </select>
-      <p className="scope-note">
-        Selecione outro BC para reaplicar a análise com aquele domínio.
-      </p>
-
-      <h3>Avaliação</h3>
-      <ul className="topic-list">
-        {(
-          [
-            ["Completude", a.completude],
-            ["Clareza", a.clareza],
-            ["Relevância", a.relevancia],
-            ["Coerência", a.coerencia],
-            ["Segurança documental", a.seguranca_documental],
-            ["Score global", a.score_global],
-          ] as const
-        ).map(([label, value]) => (
-          <li key={label} className="topic-row">
+        <ul className="topic-list">
+          <li className="topic-row">
             <div className="topic-head">
-              <strong>{label}</strong>
-              <span className={`ciq-pill ${bandClass(toPanda93Like(value))}`}>
-                {value}
+              <strong>Queixa nuclear</strong>
+              <span className="ciq-pill band-good">
+                {r.queixa_nuclear || "—"}
               </span>
             </div>
           </li>
-        ))}
-      </ul>
+          <li className="topic-row">
+            <div className="topic-head">
+              <strong>Primário</strong>
+              <span className="ciq-pill band-partial">
+                {r.json_primario || "—"}
+              </span>
+            </div>
+          </li>
+          <li className="topic-row">
+            <div className="topic-head">
+              <strong>Secundário</strong>
+              <span className="ciq-pill band-partial">
+                {r.json_secundario || "—"}
+              </span>
+            </div>
+          </li>
+          <li className="topic-row">
+            <div className="topic-head">
+              <strong>Terciário</strong>
+              <span className="ciq-pill band-partial">
+                {r.json_terciario || "—"}
+              </span>
+            </div>
+          </li>
+          <li className="topic-row">
+            <div className="topic-head">
+              <strong>Confiança / margem</strong>
+              <span className={`ciq-pill ${coefPill(r.confianca)}`}>
+                {r.confianca.toFixed(2)} · {r.confianca_label} · Δ
+                {r.margem_dominancia.toFixed(2)}
+                {r.classificacao_insegura ? " · INSEGURA" : ""}
+                {r.override_manual ? " · MANUAL" : ""}
+              </span>
+            </div>
+          </li>
+        </ul>
+        <p className="scope-note">{r.motivo_selecao}</p>
+      </CollapsePanel>
 
-      <ListBlock title="Informações presentes" items={result.informacoes_presentes} />
-      <ListBlock title="Ambiguidades" items={result.ambiguidades} />
-      <ListBlock title="Contradições" items={result.contradicoes} />
-      <ListBlock
+      <CollapsePanel
+        title="Atração semântica dos BCs"
+        badge={result.atracoes.length}
+        defaultOpen
+      >
+        <AttractionList items={result.atracoes} />
+      </CollapsePanel>
+
+      <CollapsePanel
+        title="Seleção P / S / T (opcional)"
+        badge="override"
+        defaultOpen
+      >
+        <label className="field-label" htmlFor="s1-primary">
+          Primário
+        </label>
+        <select
+          id="s1-primary"
+          className="bank-select bank-select-compact"
+          value={primaryFile}
+          onChange={(e) => onRolesChange({ primary: e.target.value })}
+        >
+          <option value="">Automático</option>
+          {banks.map((bank) => {
+            const coef =
+              result.atracoes.find((a) => a.file === bank.file)?.coeficiente ??
+              0;
+            return (
+              <option key={bank.file} value={bank.file}>
+                {coef.toFixed(2)} · {bank.file}
+              </option>
+            );
+          })}
+        </select>
+
+        <label className="field-label" htmlFor="s1-secondary">
+          Secundário
+        </label>
+        <select
+          id="s1-secondary"
+          className="bank-select bank-select-compact"
+          value={secondaryFile}
+          onChange={(e) => onRolesChange({ secondary: e.target.value })}
+        >
+          <option value="">Nenhum / automático</option>
+          {banks.map((bank) => {
+            const coef =
+              result.atracoes.find((a) => a.file === bank.file)?.coeficiente ??
+              0;
+            return (
+              <option key={bank.file} value={bank.file}>
+                {coef.toFixed(2)} · {bank.file}
+              </option>
+            );
+          })}
+        </select>
+
+        <label className="field-label" htmlFor="s1-tertiary">
+          Terciário
+        </label>
+        <select
+          id="s1-tertiary"
+          className="bank-select bank-select-compact"
+          value={tertiaryFile}
+          onChange={(e) => onRolesChange({ tertiary: e.target.value })}
+        >
+          <option value="">Nenhum / automático</option>
+          {banks.map((bank) => {
+            const coef =
+              result.atracoes.find((a) => a.file === bank.file)?.coeficiente ??
+              0;
+            return (
+              <option key={bank.file} value={bank.file}>
+                {coef.toFixed(2)} · {bank.file}
+              </option>
+            );
+          })}
+        </select>
+      </CollapsePanel>
+
+      <CollapsePanel title="Avaliação" badge={a.score_global} defaultOpen>
+        <ul className="topic-list">
+          {(
+            [
+              ["Completude", a.completude],
+              ["Clareza", a.clareza],
+              ["Relevância", a.relevancia],
+              ["Coerência", a.coerencia],
+              ["Segurança documental", a.seguranca_documental],
+              ["Score global", a.score_global],
+            ] as const
+          ).map(([label, value]) => (
+            <li key={label} className="topic-row">
+              <div className="topic-head">
+                <strong>{label}</strong>
+                <span className={`ciq-pill ${bandClass(toPanda93Like(value))}`}>
+                  {value}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </CollapsePanel>
+
+      <CollapsePanel
+        title="Informações presentes"
+        badge={result.informacoes_presentes.length}
+        badgeClass="band-good"
+      >
+        <ListBlock title="" items={result.informacoes_presentes} />
+      </CollapsePanel>
+      <CollapsePanel title="Ambiguidades" badge={result.ambiguidades.length}>
+        <ListBlock title="" items={result.ambiguidades} />
+      </CollapsePanel>
+      <CollapsePanel title="Contradições" badge={result.contradicoes.length}>
+        <ListBlock title="" items={result.contradicoes} />
+      </CollapsePanel>
+      <CollapsePanel
         title="Negativas pertinentes"
-        items={result.negativas_pertinentes_documentadas}
-      />
+        badge={result.negativas_pertinentes_documentadas.length}
+        badgeClass="band-good"
+      >
+        <ListBlock
+          title=""
+          items={result.negativas_pertinentes_documentadas}
+        />
+      </CollapsePanel>
 
       <MissingPanel
         count={
@@ -362,16 +523,20 @@ function S1ResultView({
         )}
       </MissingPanel>
 
-      <ListBlock
+      <CollapsePanel
         title="Não aplicáveis"
-        items={result.campos_nao_aplicaveis}
-      />
+        badge={result.campos_nao_aplicaveis.length}
+      >
+        <ListBlock title="" items={result.campos_nao_aplicaveis} />
+      </CollapsePanel>
 
       {r.arquivos_descartados_relevantes.length ? (
-        <ListBlock
+        <CollapsePanel
           title="Arquivos descartados (auditoria)"
-          items={r.arquivos_descartados_relevantes}
-        />
+          badge={r.arquivos_descartados_relevantes.length}
+        >
+          <ListBlock title="" items={r.arquivos_descartados_relevantes} />
+        </CollapsePanel>
       ) : null}
     </section>
   );
@@ -433,7 +598,10 @@ export function ModeSwitch({
 
 export function ReviewWorkspace({ mode }: { mode: AppMode }) {
   const [content, setContent] = useState("");
-  const [s1BankOverride, setS1BankOverride] = useState("");
+  const [s1Primary, setS1Primary] = useState("");
+  const [s1Secondary, setS1Secondary] = useState("");
+  const [s1Tertiary, setS1Tertiary] = useState("");
+  const [s1Preview, setS1Preview] = useState<S1BankAttraction[]>([]);
   const [s1Result, setS1Result] = useState<S1Result | null>(null);
   const [h1Result, setH1Result] = useState<H1Result | null>(null);
   const [h2Result, setH2Result] = useState<H2Result | null>(null);
@@ -441,12 +609,28 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
   const [isPending, startTransition] = useTransition();
   const s1Banks = listS1Banks();
 
-  function runS1(primaryFile?: string | null) {
-    const override =
-      primaryFile === undefined ? s1BankOverride || null : primaryFile || null;
+  function refreshPreview(text: string) {
+    if (!text.trim()) {
+      setS1Preview([]);
+      return;
+    }
+    setS1Preview(computeBankAttractions(text));
+  }
+
+  function runS1(next?: {
+    primary?: string;
+    secondary?: string;
+    tertiary?: string;
+  }) {
+    const primary = next?.primary !== undefined ? next.primary : s1Primary;
+    const secondary =
+      next?.secondary !== undefined ? next.secondary : s1Secondary;
+    const tertiary = next?.tertiary !== undefined ? next.tertiary : s1Tertiary;
     setS1Result(
       evaluatePainS1(content, {
-        primaryFile: override,
+        primaryFile: primary || null,
+        secondaryFile: secondary || null,
+        tertiaryFile: tertiary || null,
       }),
     );
   }
@@ -466,18 +650,27 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
 
   function clearReview() {
     setContent("");
-    setS1BankOverride("");
+    setS1Primary("");
+    setS1Secondary("");
+    setS1Tertiary("");
+    setS1Preview([]);
     setS1Result(null);
     setH1Result(null);
     setH2Result(null);
     setH3Result(null);
   }
 
-  function handleS1BankChange(file: string) {
-    setS1BankOverride(file);
+  function handleRolesChange(next: {
+    primary?: string;
+    secondary?: string;
+    tertiary?: string;
+  }) {
+    if (next.primary !== undefined) setS1Primary(next.primary);
+    if (next.secondary !== undefined) setS1Secondary(next.secondary);
+    if (next.tertiary !== undefined) setS1Tertiary(next.tertiary);
     if (!content.trim()) return;
     startTransition(() => {
-      runS1(file);
+      runS1(next);
     });
   }
 
@@ -510,35 +703,97 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
         <textarea
           id="content"
           value={content}
-          onChange={(event) => setContent(event.target.value)}
+          onChange={(event) => {
+            const value = event.target.value;
+            setContent(value);
+            if (mode === "S1") refreshPreview(value);
+          }}
           placeholder={labels[mode].placeholder}
           rows={14}
         />
 
         {mode === "S1" ? (
-          <>
-            <label className="field-label" htmlFor="s1-bank-catalog">
-              JSONs disponíveis para consulta
+          <CollapsePanel
+            title="JSONs disponíveis · atração semântica"
+            badge={s1Banks.length}
+            defaultOpen
+          >
+            <AttractionList
+              items={
+                s1Preview.length
+                  ? s1Preview
+                  : s1Banks.map((b) => ({
+                      id: b.id,
+                      file: b.file,
+                      label: b.label,
+                      coeficiente: 0,
+                      role: "INCIDENTAL" as const,
+                      evidencias_favoraveis: [],
+                      evidencias_conflitantes: [],
+                    }))
+              }
+            />
+            <label className="field-label" htmlFor="s1-primary-pre">
+              Primário (opcional)
             </label>
             <select
-              id="s1-bank-catalog"
-              className="bank-select"
-              size={Math.min(12, s1Banks.length + 1)}
-              value={s1BankOverride}
-              onChange={(event) => setS1BankOverride(event.target.value)}
+              id="s1-primary-pre"
+              className="bank-select bank-select-compact"
+              value={s1Primary}
+              onChange={(e) => setS1Primary(e.target.value)}
             >
-              <option value="">Automático (router clínico)</option>
-              {s1Banks.map((bank) => (
-                <option key={bank.file} value={bank.file}>
-                  {bank.file}
-                </option>
-              ))}
+              <option value="">Automático</option>
+              {s1Banks.map((bank) => {
+                const coef =
+                  s1Preview.find((a) => a.file === bank.file)?.coeficiente ?? 0;
+                return (
+                  <option key={bank.file} value={bank.file}>
+                    {coef.toFixed(2)} · {bank.file}
+                  </option>
+                );
+              })}
             </select>
-            <p className="scope-note">
-              {s1Banks.length} bancos BC carregados. Deixe em automático ou
-              force um domínio antes de calcular.
-            </p>
-          </>
+            <label className="field-label" htmlFor="s1-secondary-pre">
+              Secundário (opcional)
+            </label>
+            <select
+              id="s1-secondary-pre"
+              className="bank-select bank-select-compact"
+              value={s1Secondary}
+              onChange={(e) => setS1Secondary(e.target.value)}
+            >
+              <option value="">Nenhum / automático</option>
+              {s1Banks.map((bank) => {
+                const coef =
+                  s1Preview.find((a) => a.file === bank.file)?.coeficiente ?? 0;
+                return (
+                  <option key={bank.file} value={bank.file}>
+                    {coef.toFixed(2)} · {bank.file}
+                  </option>
+                );
+              })}
+            </select>
+            <label className="field-label" htmlFor="s1-tertiary-pre">
+              Terciário (opcional)
+            </label>
+            <select
+              id="s1-tertiary-pre"
+              className="bank-select bank-select-compact"
+              value={s1Tertiary}
+              onChange={(e) => setS1Tertiary(e.target.value)}
+            >
+              <option value="">Nenhum / automático</option>
+              {s1Banks.map((bank) => {
+                const coef =
+                  s1Preview.find((a) => a.file === bank.file)?.coeficiente ?? 0;
+                return (
+                  <option key={bank.file} value={bank.file}>
+                    {coef.toFixed(2)} · {bank.file}
+                  </option>
+                );
+              })}
+            </select>
+          </CollapsePanel>
         ) : null}
 
         <div className="actions">
@@ -559,8 +814,10 @@ export function ReviewWorkspace({ mode }: { mode: AppMode }) {
       {mode === "S1" && s1Result ? (
         <S1ResultView
           result={s1Result}
-          selectedBank={s1BankOverride}
-          onBankChange={handleS1BankChange}
+          primaryFile={s1Primary}
+          secondaryFile={s1Secondary}
+          tertiaryFile={s1Tertiary}
+          onRolesChange={handleRolesChange}
         />
       ) : null}
       {mode === "H1" && h1Result ? <H1ResultView result={h1Result} /> : null}

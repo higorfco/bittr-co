@@ -37,6 +37,10 @@ type S1Pack = {
 
 const PACK = s1Pack as S1Pack;
 
+/** Lei de funcionamento: atração semântica contextual + análise crítica. */
+PACK.law =
+  "Seleção de BC por atração semântica e coerência clínica (QD/QP/HMA) → análise crítica contextual";
+
 /** Sinônimos de roteamento complementares por id de BC (sem inventar diagnóstico). */
 const ROUTING_ALIASES: Record<string, string[]> = {
   dor_toracica: [
@@ -172,6 +176,25 @@ export type S1CriterionResult = {
   evidence?: string;
 };
 
+export type AttractionRole =
+  | "DOMINANTE"
+  | "SECUNDÁRIO"
+  | "TERCIÁRIO"
+  | "FRACO"
+  | "INCIDENTAL"
+  | "INCOMPATÍVEL";
+
+export type S1BankAttraction = {
+  id: string;
+  file: string;
+  label: string;
+  /** Coeficiente de atração semântica 0–1 */
+  coeficiente: number;
+  role: AttractionRole;
+  evidencias_favoraveis: string[];
+  evidencias_conflitantes: string[];
+};
+
 export type S1Result = {
   panda93: number;
   band: CiqBand;
@@ -181,17 +204,24 @@ export type S1Result = {
   sourcePack: string;
   scopeNote: string;
   routing: {
+    queixa_nuclear: string;
     queixa_principal_identificada: string;
     conceitos_secundarios: string[];
     json_primario: string;
+    json_secundario: string;
+    json_terciario: string;
     json_secundarios: string[];
     json_sugerido_auto: string;
     override_manual: boolean;
     arquivos_descartados_relevantes: string[];
     confianca: number;
+    confianca_label: "MUITO ALTA" | "ALTA" | "MODERADA" | "BAIXA" | "INSUFICIENTE";
+    margem_dominancia: number;
     classificacao_insegura: boolean;
     motivo_selecao: string;
+    atracoes: S1BankAttraction[];
   };
+  atracoes: S1BankAttraction[];
   informacoes_presentes: string[];
   informacoes_parciais: string[];
   informacoes_vagas: string[];
@@ -284,63 +314,174 @@ function nearNegation(haystack: string, term: string, markers: string[]): boolea
   return markers.some((m) => termMatches(window, m));
 }
 
-function scoreBank(haystack: string, bank: Bank): number {
+function scoreBankAttraction(
+  haystack: string,
+  bank: Bank,
+): {
+  score: number;
+  favoraveis: string[];
+  conflitantes: string[];
+} {
   const alias = ROUTING_ALIASES[bank.id] ?? [];
   const routing = [...bank.routing_terms, ...alias];
-  const { count, hits } = countMatches(haystack, routing);
-  if (count === 0) return 0;
+  const criterionTerms = bank.criteria.flatMap((c) => c.terms).slice(0, 80);
+  const allTerms = [...routing, ...criterionTerms];
 
-  // Prefer longer / more specific hits
-  const specificity =
-    hits.reduce((acc, h) => acc + Math.min(1, normalize(h).length / 18), 0) /
-    Math.max(1, hits.length);
+  const favoraveis: string[] = [];
+  const conflitantes: string[] = [];
+  let L = 0;
+  let S = 0;
+  let C = 0;
+  let D = 0;
+  let A = 0;
+  let P = 0;
+  let N = 0;
+  let I = 0;
 
-  let score = Math.min(1, count / 4) * 0.55 + specificity * 0.25;
+  const { hits: routingHits } = countMatches(haystack, routing);
+  for (const hit of routingHits) {
+    if (nearNegation(haystack, hit, bank.negation_markers)) {
+      conflitantes.push(`negado: ${hit}`);
+      N += 0.22;
+      continue;
+    }
+    favoraveis.push(hit);
+    const spec = Math.min(1, normalize(hit).length / 16);
+    L += 0.12 + spec * 0.1;
+    S += 0.14 + spec * 0.08;
+    const idx = haystack.indexOf(normalize(hit));
+    const early = 1 - Math.min(1, Math.max(0, idx) / Math.max(90, haystack.length));
+    C += early * 0.18;
+  }
 
-  // Centrality: early mention boost
-  const firstIdx = Math.min(
-    ...hits.map((h) => {
-      const i = haystack.indexOf(normalize(h));
-      return i < 0 ? haystack.length : i;
-    }),
+  const { hits: densHits } = countMatches(haystack, criterionTerms);
+  const positiveDens = densHits.filter(
+    (h) => !nearNegation(haystack, h, bank.negation_markers),
   );
-  const early = 1 - Math.min(1, firstIdx / Math.max(80, haystack.length));
-  score += early * 0.15;
+  D += Math.min(0.35, positiveDens.length * 0.045);
+  for (const h of positiveDens.slice(0, 6)) {
+    if (!favoraveis.includes(h)) favoraveis.push(h);
+  }
 
-  if (bank.generic) score *= 0.55;
-  if (bank.fallback) score *= 0.35;
+  // Anatomical / semiologic coherence via overlapping location-like terms
+  const anatHints = [
+    "tórax",
+    "torax",
+    "peito",
+    "abdome",
+    "abdomen",
+    "cabeça",
+    "cabeca",
+    "lombar",
+    "flanco",
+    "pelve",
+    "urin",
+    "dispne",
+    "falta de ar",
+  ];
+  const anatInText = anatHints.filter((t) => termMatches(haystack, t));
+  const anatInBank = anatHints.filter((t) =>
+    allTerms.some((bt) => normalize(bt).includes(normalize(t))),
+  );
+  const anatOverlap = anatInText.filter((t) =>
+    anatInBank.some((b) => normalize(b) === normalize(t)),
+  ).length;
+  A += Math.min(0.18, anatOverlap * 0.06);
 
-  // Mild penalty if only very generic single token
-  if (count === 1 && normalize(hits[0] || "").length < 6) score *= 0.7;
+  // Context pertinence: QD/QP markers near hits
+  if (
+    termMatches(haystack, "queixa") ||
+    termMatches(haystack, "hpma") ||
+    termMatches(haystack, "hma") ||
+    termMatches(haystack, "qd")
+  ) {
+    P += routingHits.length > 0 ? 0.12 : 0.02;
+  } else {
+    P += routingHits.length > 0 ? 0.08 : 0;
+  }
 
-  return Math.max(0, Math.min(1, score));
+  // Incidental single weak token
+  if (routingHits.length === 1 && normalize(routingHits[0] || "").length < 6) {
+    I += 0.18;
+  }
+  if (bank.generic) I += 0.12;
+  if (bank.fallback) I += 0.2;
+
+  // No positive evidence
+  if (favoraveis.length === 0 && conflitantes.length === 0) {
+    return { score: 0, favoraveis, conflitantes };
+  }
+
+  // SCORE = L + S + C + D + A + P − N − I  (normalized)
+  const raw = L + S + C + D + A + P - N - I;
+  const score = Math.max(0, Math.min(1, raw));
+  return {
+    score,
+    favoraveis: favoraveis.slice(0, 8),
+    conflitantes: conflitantes.slice(0, 6),
+  };
 }
 
-function classifyApplicability(
+function confidenceLabel(
   score: number,
-  bank: Bank,
-  primaryScore: number,
-): "PRIMÁRIO" | "SECUNDÁRIO" | "CONDICIONAL" | "NÃO APLICÁVEL" {
-  if (bank.fallback) return "NÃO APLICÁVEL";
-  if (score < 0.18) return "NÃO APLICÁVEL";
-  if (score >= primaryScore - 0.02 && score >= 0.34) return "PRIMÁRIO";
-  if (score >= 0.28) return "SECUNDÁRIO";
-  if (score >= 0.18) return "CONDICIONAL";
-  return "NÃO APLICÁVEL";
+  margem: number,
+): "MUITO ALTA" | "ALTA" | "MODERADA" | "BAIXA" | "INSUFICIENTE" {
+  if (score < 0.22) return "INSUFICIENTE";
+  if (score >= 0.85 && margem >= 0.12) return "MUITO ALTA";
+  if (score >= 0.7 && margem >= 0.08) return "ALTA";
+  if (score >= 0.5) return "MODERADA";
+  if (score >= 0.22) return "BAIXA";
+  return "INSUFICIENTE";
+}
+
+function roleForRank(
+  index: number,
+  score: number,
+  dominante: number,
+): AttractionRole {
+  if (score < 0.08) return "INCOMPATÍVEL";
+  if (score < 0.18) return "INCIDENTAL";
+  if (index === 0 && score >= 0.22) return "DOMINANTE";
+  if (index === 1 && score >= 0.22 && score >= dominante * 0.45) return "SECUNDÁRIO";
+  if (index === 2 && score >= 0.2 && score >= dominante * 0.35) return "TERCIÁRIO";
+  if (score >= 0.18) return "FRACO";
+  return "INCIDENTAL";
+}
+
+/** Calcula atração semântica de todos os BCs para o texto. */
+export function computeBankAttractions(content: string): S1BankAttraction[] {
+  const haystack = normalize(extractScope(blurPersonalData(content.trim()).sanitized).scope);
+  const scored = PACK.banks.map((bank) => {
+    const { score, favoraveis, conflitantes } = scoreBankAttraction(haystack, bank);
+    return { bank, score, favoraveis, conflitantes };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  const top = scored[0]?.score ?? 0;
+  return scored.map((s, idx) => ({
+    id: s.bank.id,
+    file: s.bank.file,
+    label: s.bank.label,
+    coeficiente: Number(s.score.toFixed(3)),
+    role: roleForRank(idx, s.score, top),
+    evidencias_favoraveis: s.favoraveis,
+    evidencias_conflitantes: s.conflitantes,
+  }));
 }
 
 function evaluateCriterion(
   haystack: string,
   criterion: BankCriterion,
   bank: Bank,
-  isPrimary: boolean,
+  bankRole: "primary" | "secondary" | "tertiary",
 ): S1CriterionResult {
   let tier = String(criterion.tier || "EXPECTED");
-  // Secondary banks: demote CORE→EXPECTED to avoid checklist blindness across domains
-  if (!isPrimary && tier === "CORE") tier = "EXPECTED";
-  if (!isPrimary && tier === "EXPECTED") tier = "OPTIONAL";
+  if (bankRole === "secondary" && tier === "CORE") tier = "EXPECTED";
+  if (bankRole === "secondary" && tier === "EXPECTED") tier = "OPTIONAL";
+  if (bankRole === "tertiary") {
+    if (tier === "CORE") tier = "OPTIONAL";
+    else if (tier === "EXPECTED") tier = "OPTIONAL";
+  }
 
-  // Conditional fields require a trigger term family present
   if (tier === "CONDITIONAL") {
     const trigger = countMatches(haystack, criterion.terms).count > 0;
     if (!trigger) {
@@ -361,7 +502,9 @@ function evaluateCriterion(
       : [criterion.label, criterion.id.replace(/_/g, " ")];
   const { count, hits } = countMatches(haystack, seeds);
   const vagueHit = bank.vague_markers.some((v) => termMatches(haystack, v));
-  const negated = hits.some((h) => nearNegation(haystack, h, bank.negation_markers));
+  const negated = hits.some((h) =>
+    nearNegation(haystack, h, bank.negation_markers),
+  );
 
   if (negated) {
     return {
@@ -376,8 +519,7 @@ function evaluateCriterion(
   }
 
   if (count === 0) {
-    // Optional absence is not a relevant gap
-    if (tier === "OPTIONAL") {
+    if (tier === "OPTIONAL" || bankRole !== "primary") {
       return {
         id: criterion.id,
         label: criterion.label,
@@ -499,11 +641,18 @@ export function listS1Banks(): S1BankOption[] {
 }
 
 export type S1EvaluateOptions = {
-  /** Força o JSON primário (nome do arquivo BC_*.json). */
   primaryFile?: string | null;
+  secondaryFile?: string | null;
+  tertiaryFile?: string | null;
 };
 
-/** S1 — análise crítica contextual QD/QP/HMA com routing entre BCs. */
+function findBank(fileOrId: string | null | undefined): Bank | undefined {
+  if (!fileOrId?.trim()) return undefined;
+  const key = fileOrId.trim();
+  return PACK.banks.find((b) => b.file === key || b.id === key);
+}
+
+/** S1 — análise crítica contextual QD/QP/HMA com atração semântica entre BCs. */
 export function evaluatePainS1(
   content: string,
   options: S1EvaluateOptions = {},
@@ -512,106 +661,152 @@ export function evaluatePainS1(
   const { scope, note } = extractScope(sanitized);
   const haystack = normalize(scope);
 
-  const scored = PACK.banks
-    .map((bank) => ({ bank, score: scoreBank(haystack, bank) }))
-    .sort((a, b) => b.score - a.score);
+  const atracoes = computeBankAttractions(content);
+  const scored = atracoes
+    .map((a) => ({
+      attraction: a,
+      bank: PACK.banks.find((b) => b.file === a.file)!,
+    }))
+    .filter((s) => Boolean(s.bank));
 
   const top = scored[0];
-  const primaryScore = top?.score ?? 0;
+  const second = scored[1];
+  const third = scored[2];
+  const primaryScore = top?.attraction.coeficiente ?? 0;
+  const margem = Number(
+    Math.max(0, primaryScore - (second?.attraction.coeficiente ?? 0)).toFixed(3),
+  );
+
   const fallback =
     PACK.banks.find((b) => b.fallback) ??
     PACK.banks.find((b) => b.id.includes("informacao_insuficiente"));
+  const genericFallback = PACK.banks.find((b) =>
+    b.id.includes("queixa_inespecifica"),
+  );
 
   let primary = top?.bank;
+  let secondaryBank: Bank | undefined =
+    second && second.attraction.role === "SECUNDÁRIO" ? second.bank : undefined;
+  let tertiaryBank: Bank | undefined =
+    third && third.attraction.role === "TERCIÁRIO" ? third.bank : undefined;
   let confidence = primaryScore;
   let classificacaoInsegura = false;
   let autoSuggested = primary?.file ?? "";
 
   if (!primary || primaryScore < 0.22) {
-    primary = fallback ?? top?.bank;
+    primary = fallback ?? genericFallback ?? top?.bank;
     confidence = Math.min(primaryScore, 0.35);
     classificacaoInsegura = true;
+    secondaryBank = undefined;
+    tertiaryBank = undefined;
     autoSuggested = primary?.file ?? "";
   } else if (primary.generic && primaryScore < 0.45) {
-    const specific = scored.find((s) => !s.bank.generic && s.score >= 0.22);
+    const specific = scored.find(
+      (s) => !s.bank.generic && !s.bank.fallback && s.attraction.coeficiente >= 0.22,
+    );
     if (specific) {
       primary = specific.bank;
-      confidence = specific.score;
+      confidence = specific.attraction.coeficiente;
       autoSuggested = primary.file;
     }
   } else {
     autoSuggested = primary.file;
   }
 
-  const overrideFile = options.primaryFile?.trim() || null;
-  let manualOverride = false;
-  if (overrideFile) {
-    const forced = PACK.banks.find(
-      (b) => b.file === overrideFile || b.id === overrideFile,
+  const manualPrimary = findBank(options.primaryFile);
+  const manualSecondary = findBank(options.secondaryFile);
+  const manualTertiary = findBank(options.tertiaryFile);
+  const manualOverride = Boolean(
+    manualPrimary || manualSecondary || manualTertiary,
+  );
+
+  if (manualPrimary) {
+    primary = manualPrimary;
+    confidence = Math.max(
+      atracoes.find((a) => a.file === manualPrimary.file)?.coeficiente ?? 0,
+      0.55,
     );
-    if (forced) {
-      primary = forced;
-      manualOverride = true;
-      const forcedScore = scored.find((s) => s.bank.file === forced.file)?.score ?? 0;
-      confidence = Math.max(forcedScore, 0.55);
-      classificacaoInsegura = false;
-    }
+    classificacaoInsegura = false;
+  }
+  if (manualSecondary && manualSecondary.file !== primary?.file) {
+    secondaryBank = manualSecondary;
+  } else if (manualPrimary && !options.secondaryFile) {
+    // keep auto secondary if distinct
+    secondaryBank =
+      secondaryBank && secondaryBank.file !== primary?.file
+        ? secondaryBank
+        : undefined;
+  }
+  if (
+    manualTertiary &&
+    manualTertiary.file !== primary?.file &&
+    manualTertiary.file !== secondaryBank?.file
+  ) {
+    tertiaryBank = manualTertiary;
+  } else if (manualPrimary && !options.tertiaryFile) {
+    tertiaryBank =
+      tertiaryBank &&
+      tertiaryBank.file !== primary?.file &&
+      tertiaryBank.file !== secondaryBank?.file
+        ? tertiaryBank
+        : undefined;
   }
 
-  // Near-tie primary candidates → lower confidence (só no modo automático)
-  if (!manualOverride) {
-    const near = scored.filter(
-      (s) =>
-        !s.bank.generic &&
-        s.score >= primaryScore - 0.08 &&
-        s.score >= 0.22 &&
-        s.bank.file !== primary?.file,
-    );
-    if (near.length > 0) confidence = Math.min(confidence, 0.62);
+  // Deduplicate roles
+  if (secondaryBank?.file === primary?.file) secondaryBank = undefined;
+  if (
+    tertiaryBank?.file === primary?.file ||
+    tertiaryBank?.file === secondaryBank?.file
+  ) {
+    tertiaryBank = undefined;
   }
 
-  const secondary = scored
+  const confLabel = confidenceLabel(confidence, margem);
+
+  const discarded = atracoes
     .filter(
-      (s) =>
-        s.bank.file !== primary?.file &&
-        !s.bank.fallback &&
-        classifyApplicability(s.score, s.bank, primaryScore) === "SECUNDÁRIO",
+      (a) =>
+        a.file !== primary?.file &&
+        a.file !== secondaryBank?.file &&
+        a.file !== tertiaryBank?.file &&
+        (a.role === "FRACO" ||
+          a.role === "INCIDENTAL" ||
+          a.role === "INCOMPATÍVEL") &&
+        a.coeficiente >= 0.08,
     )
-    .slice(0, 2)
-    .map((s) => s.bank);
-
-  const discarded = scored
-    .filter((s) => {
-      const cls = classifyApplicability(s.score, s.bank, primaryScore);
-      return (
-        s.score >= 0.12 &&
-        s.bank.file !== primary?.file &&
-        !secondary.some((x) => x.file === s.bank.file) &&
-        (cls === "NÃO APLICÁVEL" || cls === "CONDICIONAL")
-      );
-    })
-    .slice(0, 6)
-    .map(
-      (s) =>
-        `${s.bank.file} (${clsLabel(classifyApplicability(s.score, s.bank, primaryScore))}; score=${s.score.toFixed(2)})`,
-    );
+    .slice(0, 8)
+    .map((a) => `${a.file} (${a.role}; coef=${a.coeficiente.toFixed(2)})`);
 
   const motivo = manualOverride
-    ? `JSON aplicado manualmente: ${primary?.file}. Sugestão automática do router: ${autoSuggested || "n/a"}.`
+    ? `Aplicação manual P/S/T. Sugestão automática (atração): ${autoSuggested || "n/a"} (coef ${primaryScore.toFixed(2)}, margem ${margem.toFixed(2)}).`
     : classificacaoInsegura
-      ? `CLASSIFICACAO_INSEGURA — correspondência insuficiente; fallback ${primary?.file ?? "n/a"}.`
-      : `JSON selecionado: ${primary?.file}. Motivo: maior SCORE_DE_APLICABILIDADE (${confidence.toFixed(2)}) para a queixa dominante inferida do texto.`;
+      ? `INFORMAÇÃO INSUFICIENTE PARA CLASSIFICAÇÃO — fallback ${primary?.file ?? "n/a"}.`
+      : `BANCO DOMINANTE por atração semântica: ${primary?.file} (coef ${confidence.toFixed(2)}, margem ${margem.toFixed(2)}, confiança ${confLabel}).`;
 
-  // Build contextual schema from primary + secondaries
+  const queixaNuclear =
+    top?.attraction.evidencias_favoraveis.slice(0, 4).join(" · ") ||
+    primary?.label ||
+    "";
+
+  // Build contextual schema from primary + secondary + tertiary
   const rawCriteria: S1CriterionResult[] = [];
   if (primary) {
     for (const c of primary.criteria) {
-      rawCriteria.push(evaluateCriterion(haystack, c, primary, true));
+      rawCriteria.push(evaluateCriterion(haystack, c, primary, "primary"));
     }
   }
-  for (const bank of secondary) {
-    for (const c of bank.criteria.slice(0, 8)) {
-      rawCriteria.push(evaluateCriterion(haystack, c, bank, false));
+  if (secondaryBank) {
+    for (const c of secondaryBank.criteria.slice(0, 10)) {
+      rawCriteria.push(
+        evaluateCriterion(haystack, c, secondaryBank, "secondary"),
+      );
+    }
+  }
+  if (tertiaryBank) {
+    for (const c of tertiaryBank.criteria.slice(0, 6)) {
+      rawCriteria.push(
+        evaluateCriterion(haystack, c, tertiaryBank, "tertiary"),
+      );
     }
   }
 
@@ -619,9 +814,12 @@ export function evaluatePainS1(
   const contradictions = detectContradictions(haystack);
 
   // Safety documentation dimension
+  const appliedSecondary = [secondaryBank, tertiaryBank].filter(
+    Boolean,
+  ) as Bank[];
   const safetyTerms = [
     ...(primary?.safety_terms ?? []),
-    ...secondary.flatMap((b) => b.safety_terms),
+    ...appliedSecondary.flatMap((b) => b.safety_terms),
   ];
   const safetyHits = countMatches(haystack, safetyTerms).count;
   const safetyGap =
@@ -726,7 +924,20 @@ export function evaluatePainS1(
     });
   }
 
-  const conceitosSecundarios = secondary.map((b) => b.label);
+  const conceitosSecundarios = [
+    secondaryBank?.label,
+    tertiaryBank?.label,
+  ].filter(Boolean) as string[];
+
+  // Annotate applied roles on attractions copy
+  const atracoesOut = atracoes.map((a) => {
+    if (a.file === primary?.file) return { ...a, role: "DOMINANTE" as const };
+    if (a.file === secondaryBank?.file)
+      return { ...a, role: "SECUNDÁRIO" as const };
+    if (a.file === tertiaryBank?.file)
+      return { ...a, role: "TERCIÁRIO" as const };
+    return a;
+  });
 
   return {
     panda93,
@@ -737,17 +948,26 @@ export function evaluatePainS1(
     sourcePack: `S1 BC pack v${PACK.v} (${PACK.bank_count} bancos)`,
     scopeNote: note,
     routing: {
+      queixa_nuclear: queixaNuclear,
       queixa_principal_identificada: primary?.label ?? "",
       conceitos_secundarios: conceitosSecundarios,
       json_primario: primary?.file ?? "",
-      json_secundarios: secondary.map((b) => b.file),
+      json_secundario: secondaryBank?.file ?? "",
+      json_terciario: tertiaryBank?.file ?? "",
+      json_secundarios: [secondaryBank?.file, tertiaryBank?.file].filter(
+        Boolean,
+      ) as string[],
       json_sugerido_auto: autoSuggested,
       override_manual: manualOverride,
       arquivos_descartados_relevantes: discarded,
       confianca: Number(confidence.toFixed(2)),
+      confianca_label: confLabel,
+      margem_dominancia: margem,
       classificacao_insegura: classificacaoInsegura,
       motivo_selecao: motivo,
+      atracoes: atracoesOut,
     },
+    atracoes: atracoesOut,
     informacoes_presentes,
     informacoes_parciais,
     informacoes_vagas,
@@ -768,12 +988,6 @@ export function evaluatePainS1(
     },
     criteria,
   };
-}
-
-function clsLabel(
-  c: "PRIMÁRIO" | "SECUNDÁRIO" | "CONDICIONAL" | "NÃO APLICÁVEL",
-): string {
-  return c;
 }
 
 function rankNivel(n: "CRÍTICO" | "ALTO" | "MODERADO" | "BAIXO"): number {
